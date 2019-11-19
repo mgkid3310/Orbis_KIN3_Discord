@@ -2,7 +2,7 @@ import asyncio
 import discord
 import KIN3_waitlist as KIN3
 
-token_file = open('C:/Users/PowerUser/Documents/GitHub/Orbis_KIN3_Discord/bot_token.txt', 'r')
+token_file = open('./bot_token.txt', 'r')
 lines = token_file.readlines()
 token = lines[0].strip()
 
@@ -16,7 +16,7 @@ server_list = KIN3.server_list()
 
 @bot.event
 async def on_ready():
-	print('logging in as')
+	print('Bot logged in as')
 	print(f'name : {bot.user.name}')
 	print(f'id : {bot.user.id}')
 
