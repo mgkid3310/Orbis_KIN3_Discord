@@ -81,13 +81,13 @@ class  server_list:
 				dps_name, snp_name, logi_name = '', '', ''
 				dps_white, snp_space = ' ' * 20, ' ' * 20
 				if index < self.waitcount_dps:
-					dps_name = self.waitlist_dps[index].name
+					dps_name = self.waitlist_dps[index].display_name
 					dps_white = ' ' * (20 - len(dps_name))
 				if index < self.waitcount_snp:
-					snp_name = self.waitlist_snp[index].name
+					snp_name = self.waitlist_snp[index].display_name
 					snp_space = ' ' * (20 - len(snp_name))
 				if index < self.waitcount_logi:
-					logi_name = self.waitlist_logi[index].name
+					logi_name = self.waitlist_logi[index].display_name
 				text += '\n' + dps_name + dps_white + snp_name + snp_space + logi_name
 			text += '```'
 			self.billboard_text = text
