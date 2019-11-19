@@ -96,7 +96,7 @@ async def on_message(message):
 
 				if role in keywords_cancel:
 					waitlist.remove_user(message.author)
-					await waitlist.xup_channel.send('대기열에서 퇴갤')
+					await waitlist.xup_channel.send('대기열에서 퇴장')
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
@@ -140,12 +140,12 @@ async def on_message(message):
 				waitlist.add_request(message.author, request_dps, request_snp, request_logi)
 				await waitlist.xup_channel.send(f'{message.author}가 DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명 모집')
 				if not waitlist.is_ready(request_dps, request_snp, request_logi):
-					await waitlist.xup_channel.send('대기중인 인원 부족, 인원 차면 알림이 갑니다')
+					await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 	# check request list
 	request_return = waitlist.check_requests()
 	if request_return is not None:
-		notice_text = f'{request_return[0].mention}, 모집이 완료되었습니다:'
+		notice_text = f'{request_return[0].mention}의 모집이 완료되었습니다:'
 		for user in request_return[1]:
 			notice_text += f' {user.mention}(DPS),'
 		for user in request_return[2]:
