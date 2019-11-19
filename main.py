@@ -30,6 +30,9 @@ async def on_message(message):
 	global server_list
 	waitlist = server_list.get_waitlist(message.guild.id)
 
+	if message.content == '':
+		return None
+
 	if message.author.bot:
 		if message.content == 'init_billboard':
 			waitlist.billboard_message = message
