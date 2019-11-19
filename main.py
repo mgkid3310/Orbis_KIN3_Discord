@@ -136,11 +136,11 @@ async def on_message(message):
 					if pure_command in keywords_logi:
 						request_logi += request_number
 
-		if request_dps + request_snp + request_logi > 0:
-			waitlist.add_request(message.author, request_dps, request_snp, request_logi)
-			await waitlist.xup_channel.send(f'{message.author}가 DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명 모집')
-			if not waitlist.is_ready(request_dps, request_snp, request_logi):
-				await waitlist.xup_channel.send('대기중인 인원 부족, 인원 차면 알림이 갑니다')
+			if request_dps + request_snp + request_logi > 0:
+				waitlist.add_request(message.author, request_dps, request_snp, request_logi)
+				await waitlist.xup_channel.send(f'{message.author}가 DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명 모집')
+				if not waitlist.is_ready(request_dps, request_snp, request_logi):
+					await waitlist.xup_channel.send('대기중인 인원 부족, 인원 차면 알림이 갑니다')
 
 	# check request list
 	request_return = waitlist.check_requests()
