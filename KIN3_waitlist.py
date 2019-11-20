@@ -72,20 +72,33 @@ class  server_list:
 					return request[0], return_users[0], return_users[1], return_users[2]
 
 		def update_billboard(self):
+			width_dps = 5 + len(str(self.waitcount_dps))
+			width_snp = 5 + len(str(self.waitcount_snp))
+			if self.waitcount_dps > 0:
+				width_dps_list = [len(x.display_name) for x in self.waitlist_dps]
+				width_dps_list.append(width_dps)
+				width_dps = max(width_dps_list)
+			if self.waitcount_snp > 0:
+				width_snp_list = [len(x.display_name) for x in self.waitlist_snp]
+				width_snp_list.append(width_snp)
+				width_snp = max(width_snp_list)
+			width_dps += 4
+			width_snp += 4
+
 			text = '```markdown'
 			text += '\n# KIN3 Waitlist'
-			text += f'\nDPS({self.waitcount_dps})' + ' ' * (15 - len(str(self.waitcount_dps)))
-			text += f'SNP({self.waitcount_snp})' + ' ' * (15 - len(str(self.waitcount_snp)))
+			text += f'\nDPS({self.waitcount_dps})' + ' ' * (width_dps - len(str(self.waitcount_dps)) - 5)
+			text += f'SNP({self.waitcount_snp})' + ' ' * (width_snp - len(str(self.waitcount_snp)) - 5)
 			text += f'LOGI({self.waitcount_logi})'
 			for index in range(max((self.waitcount_dps, self.waitcount_snp, self.waitcount_logi))):
 				dps_name, snp_name, logi_name = '', '', ''
-				dps_white, snp_space = ' ' * 20, ' ' * 20
+				dps_white, snp_space = ' ' * width_dps, ' ' * width_snp
 				if index < self.waitcount_dps:
 					dps_name = self.waitlist_dps[index].display_name
-					dps_white = ' ' * (20 - len(dps_name))
+					dps_white = ' ' * (width_dps - len(dps_name))
 				if index < self.waitcount_snp:
 					snp_name = self.waitlist_snp[index].display_name
-					snp_space = ' ' * (20 - len(snp_name))
+					snp_space = ' ' * (width_snp - len(snp_name))
 				if index < self.waitcount_logi:
 					logi_name = self.waitlist_logi[index].display_name
 				text += '\n' + dps_name + dps_white + snp_name + snp_space + logi_name
