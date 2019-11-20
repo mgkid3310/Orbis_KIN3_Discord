@@ -113,15 +113,15 @@ async def on_message(message):
 			for index in range(len(items)):
 				item = items[index]
 				request_number = -1
-				pure_command = ''.join([i for i in item if not i.isdigit()])
-				command_number = ''.join([i for i in item if i.isdigit()])
+				pure_command = ''.join([x for x in item if not x.isdigit()])
+				command_number = ''.join([x for x in item if x.isdigit()])
 
 				if pure_command != '':
 					if command_number != '':
 						request_number = int(command_number)
 					else:
 						if index < len(items) - 1:
-							command_number_next = ''.join([i for i in items[index + 1] if i.isdigit()])
+							command_number_next = ''.join([x for x in items[index + 1] if i.isdigit()])
 							if command_number_next == items[index + 1]:
 								request_number = int(command_number_next)
 							else:
