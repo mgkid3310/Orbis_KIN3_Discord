@@ -1,4 +1,4 @@
-call activate Discord
+call activate EsiPy
 python main.py
 
 pause>nul
