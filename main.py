@@ -6,8 +6,8 @@ token_file = open('./bot_token.txt', 'r')
 lines = token_file.readlines()
 token = lines[0].strip()
 
-keywords_dps = ['dps', 'vindi', 'vindicator', '디피', '빈디']
-keywords_snp = ['snp', 'sniper', 'nightmare', '스나', '나메']
+keywords_dps = ['dps', 'vindi', 'vindicator', '디피', '빈디', '빈디케이터']
+keywords_snp = ['snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '나이트메어', '마차', '마차리엘']
 keywords_logi = ['logi', '로지']
 keywords_cancel = ['cancel', '취소']
 
