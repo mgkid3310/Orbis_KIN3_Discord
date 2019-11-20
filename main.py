@@ -77,6 +77,7 @@ async def on_message(message):
 
 		if command in ['reset', '리셋', '초기화']:
 			waitlist.reset_waitlist()
+			waitlist.reset_request()
 			await waitlist.xup_channel.send('대기열 초기화')
 
 	# x up
@@ -111,42 +112,47 @@ async def on_message(message):
 
 		if channel == waitlist.xup_channel:
 			items = command.split(' ')
-			request_dps, request_snp, request_logi = 0, 0, 0
 
-			for index in range(len(items)):
-				item = items[index]
-				request_number = -1
-				pure_command = ''.join([x for x in item if not x.isdigit()])
-				command_number = ''.join([x for x in item if x.isdigit()])
+			if len(set(keywords_cancel).intersection(items)) > 0:
+				waitlist.remove_request(message.author)
+				await waitlist.xup_channel.send('모집 취소')
+			else:
+				request_dps, request_snp, request_logi = 0, 0, 0
 
-				if pure_command != '':
-					if command_number != '':
-						request_number = int(command_number)
-					else:
-						if index < len(items) - 1:
-							command_number_next = ''.join([x for x in items[index + 1] if x.isdigit()])
-							if command_number_next == items[index + 1]:
-								request_number = int(command_number_next)
+				for index in range(len(items)):
+					item = items[index]
+					request_number = -1
+					pure_command = ''.join([x for x in item if not x.isdigit()])
+					command_number = ''.join([x for x in item if x.isdigit()])
+
+					if pure_command != '':
+						if command_number != '':
+							request_number = int(command_number)
+						else:
+							if index < len(items) - 1:
+								command_number_next = ''.join([x for x in items[index + 1] if x.isdigit()])
+								if command_number_next == items[index + 1]:
+									request_number = int(command_number_next)
+								else:
+									request_number = 1
 							else:
 								request_number = 1
-						else:
-							request_number = 1
 
-				if request_number > 0:
-					if pure_command in keywords_dps:
-						request_dps += request_number
+					if request_number > 0:
+						if pure_command in keywords_dps:
+							request_dps += request_number
 
-					if pure_command in keywords_snp:
-						request_snp += request_number
+						if pure_command in keywords_snp:
+							request_snp += request_number
 
-					if pure_command in keywords_logi:
-						request_logi += request_number
+						if pure_command in keywords_logi:
+							request_logi += request_number
 
-			if request_dps + request_snp + request_logi > 0:
-				waitlist.add_request(message.author, request_dps, request_snp, request_logi)
-				await waitlist.xup_channel.send(f'{message.author}가 DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명 모집')
-				if not waitlist.is_ready(request_dps, request_snp, request_logi):
-					await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
+				if request_dps + request_snp + request_logi > 0:
+					waitlist.add_request(message.author, request_dps, request_snp, request_logi)
+					await waitlist.xup_channel.send(f'{message.author}가 DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명 모집')
+					if not waitlist.is_ready(request_dps, request_snp, request_logi):
+						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 	# check request list
 	request_return = waitlist.check_requests()

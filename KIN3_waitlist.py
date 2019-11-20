@@ -25,11 +25,11 @@ class  server_list:
 			self.waitcount_logi += 1
 
 		def remove_user(self, user):
-			self.waitlist_dps = [i for i in self.waitlist_dps if not i == user]
+			self.waitlist_dps = [x for x in self.waitlist_dps if not x == user]
 			self.waitcount_dps = len(self.waitlist_dps)
-			self.waitlist_snp = [i for i in self.waitlist_snp if not i == user]
+			self.waitlist_snp = [x for x in self.waitlist_snp if not x == user]
 			self.waitcount_snp = len(self.waitlist_snp)
-			self.waitlist_logi = [i for i in self.waitlist_logi if not i == user]
+			self.waitlist_logi = [x for x in self.waitlist_logi if not x == user]
 			self.waitcount_logi = len(self.waitlist_logi)
 
 		def reset_waitlist(self):
@@ -61,6 +61,12 @@ class  server_list:
 
 		def add_request(self, fc, dps = 0, snp = 0, logi = 0):
 			self.request_list.append((fc, dps, snp, logi))
+
+		def remove_request(self, user):
+			self.request_list = [x for x in self.request_list if x[0] != user]
+
+		def reset_request(self):
+			self.request_list = []
 
 		def check_requests(self):
 			for index in range(len(self.request_list)):
