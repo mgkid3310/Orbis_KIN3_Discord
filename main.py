@@ -41,7 +41,10 @@ async def on_message(message):
 		return None
 
 	prefix = message.content[0].lower()
-	command = message.content[2:].lower()
+	if message.content[1] == ' ':
+		command = message.content[2:].lower()
+	else:
+		command = message.content[1:].lower()
 	channel = message.channel
 
 	# channel management
