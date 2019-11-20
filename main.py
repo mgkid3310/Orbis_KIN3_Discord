@@ -124,7 +124,7 @@ async def on_message(message):
 						request_number = int(command_number)
 					else:
 						if index < len(items) - 1:
-							command_number_next = ''.join([x for x in items[index + 1] if i.isdigit()])
+							command_number_next = ''.join([x for x in items[index + 1] if x.isdigit()])
 							if command_number_next == items[index + 1]:
 								request_number = int(command_number_next)
 							else:
