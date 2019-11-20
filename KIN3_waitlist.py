@@ -89,6 +89,17 @@ class  server_list:
 				if index < self.waitcount_logi:
 					logi_name = self.waitlist_logi[index].display_name
 				text += '\n' + dps_name + dps_white + snp_name + snp_space + logi_name
+			text += '\n\n----------------'
+			for request in self.request_list:
+				text += f'\n{request[0].display_name}이(가)'
+				if request[1] > 0:
+					text += f' {request[1]} DPS,'
+				if request[2] > 0:
+					text += f' {request[2]} SNP,'
+				if request[3] > 0:
+					text += f' {request[3]} LOGI,'
+				text = text[:-1]
+				text += ' 모집중'
 			text += '```'
 			self.billboard_text = text
 
