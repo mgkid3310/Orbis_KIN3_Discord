@@ -1,6 +1,6 @@
 import asyncio
 import discord
-import KIN3_waitlist as KIN3
+import KIN3_waitlist
 
 token_file = open('./bot_token.txt', 'r')
 lines = token_file.readlines()
@@ -12,7 +12,7 @@ keywords_logi = ['logi', '로지']
 keywords_cancel = ['cancel', '취소']
 
 bot = discord.Client()
-server_list = KIN3.server_list()
+server_list = KIN3_waitlist.server_list()
 
 @bot.event
 async def on_ready():
@@ -29,6 +29,7 @@ async def on_message(message):
 	global keywords_snp
 	global keywords_logi
 	global server_list
+
 	waitlist = server_list.get_waitlist(message.guild.id)
 
 	if message.content == '':
