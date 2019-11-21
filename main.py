@@ -263,4 +263,5 @@ auth_embed = discord.Embed(title = '계정등록', url = auth_url, description =
 
 server_list = KIN3_waitlist.server_list()
 
+print('starting bot')
 bot.run(bot_token)
