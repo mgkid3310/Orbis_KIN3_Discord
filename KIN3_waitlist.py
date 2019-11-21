@@ -77,6 +77,16 @@ class server_list:
 					del self.request_list[index]
 					return request[0], return_users[0], return_users[1], return_users[2]
 
+		def request_announcement(self, announce_list):
+			notice_text = f'{announce_list[0].mention}의 모집이 완료되었습니다:'
+			for user in announce_list[1]:
+				notice_text += f' {user.mention}(DPS),'
+			for user in announce_list[2]:
+				notice_text += f' {user.mention}(SNP),'
+			for user in announce_list[3]:
+				notice_text += f' {user.mention}(LOGI),'
+			return notice_text[:-1]
+
 		def update_billboard(self):
 			width_dps = 5 + len(str(self.waitcount_dps))
 			width_snp = 5 + len(str(self.waitcount_snp))

@@ -21,6 +21,7 @@ async def on_ready():
 	print(f'id : {bot.user.id}')
 
 	await bot.change_presence(activity = discord.Game(name = 'KIN3', type = 1))
+	bot.loop.create_task(event_periodic())
 
 @bot.event
 async def on_message(message):
@@ -41,6 +42,10 @@ async def on_message(message):
 		return None
 
 	prefix = message.content[0].lower()
+
+	if prefix not in ['c', 'x', 'z', 'ㅊ', 'ㅌ', 'ㅋ']:
+		return None
+
 	if len(message.content) > 1:
 		if message.content[1] == ' ':
 			command = message.content[2:].lower()
@@ -149,28 +154,29 @@ async def on_message(message):
 							request_logi += request_number
 
 				if request_dps + request_snp + request_logi > 0:
-					waitlist.add_request(message.author, request_dps, request_snp, request_logi)
 					await waitlist.xup_channel.send(f'{message.author.display_name}이(가) DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명을 모집')
-					if not waitlist.is_ready(request_dps, request_snp, request_logi):
+					request_return = waitlist.request_users(request_dps, request_snp, request_logi)
+					if request_return is not None:
+						notice_text = waitlist.request_announcement((message.author,) + request_return)
+						await waitlist.xup_channel.send(notice_text)
+					else:
+						waitlist.add_request(message.author, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
-	# check request list
-	request_return = waitlist.check_requests()
-	if request_return is not None:
-		notice_text = f'{request_return[0].mention}의 모집이 완료되었습니다:'
-		for user in request_return[1]:
-			notice_text += f' {user.mention}(DPS),'
-		for user in request_return[2]:
-			notice_text += f' {user.mention}(SNP),'
-		for user in request_return[3]:
-			notice_text += f' {user.mention}(LOGI),'
-		notice_text = notice_text[:-1]
+async def event_periodic():
+	while True:
+		for waitlist in server_list.waitlists:
+			# check request list
+			request_return = waitlist.check_requests()
+			if request_return is not None:
+				notice_text = waitlist.request_announcement(request_return)
+				await waitlist.xup_channel.send(notice_text)
 
-		await waitlist.xup_channel.send(notice_text)
+			# update billboard
+			waitlist.update_billboard()
+			if waitlist.billboard_message is not None:
+				await waitlist.billboard_message.edit(content = waitlist.billboard_text)
 
-	# update billboard
-	waitlist.update_billboard()
-	if waitlist.billboard_message is not None:
-		await waitlist.billboard_message.edit(content = waitlist.billboard_text)
+		await asyncio.sleep(1)
 
 bot.run(token)
