@@ -1,4 +1,4 @@
-class  server_list:
+class server_list:
 	class waitlist:
 		def __init__(self, server_id):
 			self.xup_channel = None
