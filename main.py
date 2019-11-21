@@ -18,6 +18,7 @@ keywords_logi = ['logi', '로지']
 keywords_cancel = ['cancel', '취소']
 
 auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 코드`'
+auth_embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description)
 
 bot = discord.Client()
 server_list = KIN3_waitlist.server_list()
@@ -38,7 +39,7 @@ async def on_message(message):
 	global keywords_snp
 	global keywords_logi
 	global keywords_cancel
-	global auth_description
+	global auth_embed
 	global server_list
 	global app
 	global security
@@ -73,7 +74,7 @@ async def on_message(message):
 				else:
 					await message.channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
 			else:
-				await message.channel.send(embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description))
+				await message.channel.send(embed = auth_embed)
 				return None
 
 		return None
@@ -130,14 +131,14 @@ async def on_message(message):
 				else:
 					await message.channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
 			else:
-				await message.channel.send(embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description))
+				await message.channel.send(embed = auth_embed)
 				return None
 
 	# x up
 	if prefix in ['x', 'ㅌ']:
 		if not KIN3_Esi.has_auth(message.author.id):
 			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 등록이 필요합니다')
-			await message.channel.send(embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description))
+			await message.channel.send(embed = auth_embed)
 			return None
 
 		if waitlist.xup_channel is None:
@@ -167,7 +168,7 @@ async def on_message(message):
 	if prefix in ['z', 'ㅋ']:
 		if not KIN3_Esi.has_auth(message.author.id):
 			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 등록이 필요합니다')
-			await message.channel.send(embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description))
+			await message.channel.send(embed = auth_embed)
 			return None
 
 		if waitlist.xup_channel is None:
