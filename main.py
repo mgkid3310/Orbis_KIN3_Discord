@@ -31,6 +31,8 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+	global auth_url
+
 	if message.guild is None:
 		global keywords_auth
 		global auth_url
@@ -128,6 +130,11 @@ async def on_message(message):
 
 	# x up
 	if prefix in ['x', 'ㅌ']:
+		if not KIN3_Esi.has_auth(message.author.id):
+			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 등록이 필요합니다')
+			await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="이브계정과 KIN3 대기열 봇을 연결"))
+			return None
+
 		if waitlist.xup_channel is None:
 			waitlist.xup_channel = channel
 
@@ -153,6 +160,11 @@ async def on_message(message):
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
+		if not KIN3_Esi.has_auth(message.author.id):
+			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 등록이 필요합니다')
+			await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="이브계정과 KIN3 대기열 봇을 연결"))
+			return None
+
 		if waitlist.xup_channel is None:
 			waitlist.xup_channel = channel
 

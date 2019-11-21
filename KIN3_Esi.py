@@ -24,3 +24,16 @@ def add_token(app, security, client, code, discord_id = -1, file_path = './esi_t
 		file.write(f'{name}:{refresh_token}:{discord_id}\n')
 
 	return ''
+
+def has_auth(discord_id, name = '', file_path = './esi_tokens.txt'):
+	with open(file_path, 'r') as file:
+		lines = file.readlines()
+
+	for line in lines:
+		read_name = line.strip().split(":")[0]
+		read_id = line.strip().split(":")[2]
+
+		if discord_id == int(read_id) and (name == '' or name == read_name):
+			return True
+
+	return False
