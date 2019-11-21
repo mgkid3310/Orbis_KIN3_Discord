@@ -243,9 +243,9 @@ client = EsiClient(
 )
 print('client loaded')
 
-token_file = open('./bot_token.txt', 'r')
-lines = token_file.readlines()
-token = lines[0].strip()
+bot_token_file = open('./bot_token.txt', 'r')
+bot_token_lines = bot_token_file.readlines()
+bot_token = bot_token_lines[0].strip()
 
 keywords_auth = ['auth', '인증', '등록']
 keywords_dps = ['dps', 'vindi', 'vindicator', '디피', '빈디', '빈디케이터']
@@ -261,4 +261,4 @@ auth_embed = discord.Embed(title = '계정등록', url = auth_url, description =
 bot = discord.Client()
 server_list = KIN3_waitlist.server_list()
 
-bot.run(token)
+bot.run(bot_token)
