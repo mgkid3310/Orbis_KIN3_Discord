@@ -7,6 +7,9 @@ from esipy import EsiClient
 from esipy import EsiSecurity
 import KIN3_Esi
 
+# load bot
+bot = discord.Client()
+
 # define event & functions
 @bot.event
 async def on_ready():
@@ -258,7 +261,6 @@ auth_url = security.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_scopes)
 auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 코드`'
 auth_embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description)
 
-bot = discord.Client()
 server_list = KIN3_waitlist.server_list()
 
 bot.run(bot_token)
