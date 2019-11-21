@@ -13,7 +13,7 @@ def add_token(app, security, client, code, discord_id = -1, file_path = './esi_t
 	operation = app.op['get_characters_character_id'](character_id = api_info['sub'].split(':')[-1])
 	name = client.request(operation).data['name']
 
-	with open(file_path, "r") as file:
+	with open(file_path, 'r') as file:
 		lines = file.readlines()
 	with open(file_path, 'w') as file:
 		for line in lines:
