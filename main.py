@@ -31,50 +31,50 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+	global keywords_auth
+	global keywords_dps
+	global keywords_snp
+	global keywords_logi
+	global server_list
+	global app
+	global security
+	global client
 	global auth_url
 
+	prefix = message.content[0].lower()
+	if len(message.content) > 1:
+		if message.content[1] == ' ':
+			command_cap = message.content[2:]
+		else:
+			command_cap = message.content[1:]
+	else:
+		command_cap = ''
+	command = command_cap.lower()
+
+	if prefix not in ['c', 'x', 'z', 'ㅊ', 'ㅌ', 'ㅋ']:
+		return None
+
+	if message.content == '':
+		return None
+
 	if message.guild is None:
-		global keywords_auth
-		global app
-		global security
-		global client
-
-		prefix = message.content[0].lower()
-		if prefix in ['c', 'ㅊ']:
-			if len(message.content) > 1:
-				if message.content[1] == ' ':
-					command = message.content[2:]
-				else:
-					command = message.content[1:]
-			else:
-				command = ''
-
-			if command == '':
-				await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="EVE계정과 KIN3 대기열 봇을 연결"))
-				return None
-
-			if len(set(keywords_auth).intersection(command.lower().split(' '))) > 0:
-				await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="EVE계정과 KIN3 대기열 봇을 연결"))
-			else:
-				code = command.split(' ')[0]
+		words = command.split(' ')
+		if words[0] in keywords_auth:
+			if len(words) > 1:
+				code = command_cap.split(' ')[1]
 				return_message = KIN3_Esi.add_token(app, security, client, code, message.author.id)
 
 				if return_message == '':
 					await message.channel.send('등록이 완료되었습니다')
 				else:
 					await message.channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
+			else:
+				await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="EVE계정과 KIN3 대기열 봇을 연결"))
+				return None
 
 		return None
-
-	global keywords_dps
-	global keywords_snp
-	global keywords_logi
-	global server_list
 
 	waitlist = server_list.get_waitlist(message.guild.id)
-
-	if message.content == '':
-		return None
 
 	if message.author.bot:
 		if message.content == 'init_billboard':
@@ -83,18 +83,6 @@ async def on_message(message):
 
 		return None
 
-	prefix = message.content[0].lower()
-
-	if prefix not in ['c', 'x', 'z', 'ㅊ', 'ㅌ', 'ㅋ']:
-		return None
-
-	if len(message.content) > 1:
-		if message.content[1] == ' ':
-			command = message.content[2:].lower()
-		else:
-			command = message.content[1:].lower()
-	else:
-		command = ''
 	channel = message.channel
 
 	# channel management
@@ -126,6 +114,20 @@ async def on_message(message):
 			waitlist.reset_waitlist()
 			waitlist.reset_request()
 			await waitlist.xup_channel.send('대기열 초기화')
+
+		words = command.split(' ')
+		if words[0] in keywords_auth:
+			if len(words) > 1:
+				code = command_cap.split(' ')[1]
+				return_message = KIN3_Esi.add_token(app, security, client, code, message.author.id)
+
+				if return_message == '':
+					await message.channel.send('등록이 완료되었습니다')
+				else:
+					await message.channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
+			else:
+				await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="EVE계정과 KIN3 대기열 봇을 연결"))
+				return None
 
 	# x up
 	if prefix in ['x', 'ㅌ']:
