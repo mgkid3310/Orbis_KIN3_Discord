@@ -228,7 +228,7 @@ async def event_periodic():
 
 # setup main
 app = EsiApp().get_latest_swagger
-print('app loaded')
+print('EsiApp loaded')
 
 security = EsiSecurity(
 	headers = {'User-Agent':'something'},
@@ -236,7 +236,7 @@ security = EsiSecurity(
 	client_id = 'f5681b8bf37b4454911f42c53af1f22b',
 	secret_key = 'CTJ5dPxofM2Q0uVuDB4Gy43hzsdloK5C3Eriw7wn'
 )
-print('security loaded')
+print('EsiSecurity loaded')
 
 client = EsiClient(
 	headers = {'User-Agent':'something'},
@@ -244,7 +244,7 @@ client = EsiClient(
 	header = {'User-Agent': 'Something CCP can use to contact you and that define your app'},
 	security = security
 )
-print('client loaded')
+print('EsiClient loaded')
 
 bot_token_file = open('./bot_token.txt', 'r')
 bot_token_lines = bot_token_file.readlines()
@@ -263,5 +263,5 @@ auth_embed = discord.Embed(title = '계정등록', url = auth_url, description =
 
 server_list = KIN3_waitlist.server_list()
 
-print('starting bot')
+print('Starting bot')
 bot.run(bot_token)
