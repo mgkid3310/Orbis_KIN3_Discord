@@ -56,7 +56,7 @@ async def on_message(message):
 				await message.channel.send(f'등록링크: {auth_url}')
 			else:
 				code = command.split(' ')[0]
-				return_message = KIN3_Esi.add_token(app, security, client, code)
+				return_message = KIN3_Esi.add_token(app, security, client, code, message.author.id)
 
 				if return_message == '':
 					await message.channel.send('등록완료')

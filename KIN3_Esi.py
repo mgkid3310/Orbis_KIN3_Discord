@@ -2,7 +2,7 @@ from esipy import EsiApp
 from esipy import EsiClient
 from esipy import EsiSecurity
 
-def add_token(app, security, client, code, file = './esi_tokens.txt'):
+def add_token(app, security, client, code, user_id = -1, file = './esi_tokens.txt'):
 	try:
 		token = security.auth(code)
 	except Exception as error:
@@ -14,6 +14,6 @@ def add_token(app, security, client, code, file = './esi_tokens.txt'):
 	name = client.request(operation).data['name']
 
 	with open(file, 'a') as file:
-		file.write(f'{name}:{refresh_token}\n')
+		file.write(f'{name}:{refresh_token}:{user_id}\n')
 
 	return ''
