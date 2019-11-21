@@ -35,7 +35,6 @@ async def on_message(message):
 
 	if message.guild is None:
 		global keywords_auth
-		global auth_url
 		global app
 		global security
 		global client
@@ -51,17 +50,17 @@ async def on_message(message):
 				command = ''
 
 			if command == '':
-				await message.channel.send(f'등록링크: {auth_url}')
+				await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="이브계정과 KIN3 대기열 봇을 연결"))
 				return None
 
 			if len(set(keywords_auth).intersection(command.lower().split(' '))) > 0:
-				await message.channel.send(f'등록링크: {auth_url}')
+				await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="이브계정과 KIN3 대기열 봇을 연결"))
 			else:
 				code = command.split(' ')[0]
 				return_message = KIN3_Esi.add_token(app, security, client, code, message.author.id)
 
 				if return_message == '':
-					await message.channel.send('등록완료')
+					await message.channel.send('등록이 완료되었습니다')
 				else:
 					await message.channel.send(f'에러발생: {return_message}')
 
