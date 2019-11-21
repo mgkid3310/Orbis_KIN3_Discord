@@ -243,9 +243,6 @@ client = EsiClient(
 )
 print('client loaded')
 
-esi_scopes = ['esi-fleets.read_fleet.v1', 'esi-fleets.write_fleet.v1', 'esi-characters.read_chat_channels.v1']
-auth_url = security.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_scopes)
-
 token_file = open('./bot_token.txt', 'r')
 lines = token_file.readlines()
 token = lines[0].strip()
@@ -256,6 +253,8 @@ keywords_snp = ['snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '
 keywords_logi = ['logi', '로지']
 keywords_cancel = ['cancel', '취소']
 
+esi_scopes = ['esi-fleets.read_fleet.v1', 'esi-fleets.write_fleet.v1', 'esi-characters.read_chat_channels.v1']
+auth_url = security.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_scopes)
 auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 코드`'
 auth_embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description)
 
