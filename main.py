@@ -11,7 +11,7 @@ token_file = open('./bot_token.txt', 'r')
 lines = token_file.readlines()
 token = lines[0].strip()
 
-keywords_auth = ['auth', '등록', '인증']
+keywords_auth = ['auth', '인증', '등록']
 keywords_dps = ['dps', 'vindi', 'vindicator', '디피', '빈디', '빈디케이터']
 keywords_snp = ['snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '나이트메어', '마차', '마차리엘']
 keywords_logi = ['logi', '로지']
