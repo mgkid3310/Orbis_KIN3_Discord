@@ -17,7 +17,7 @@ keywords_snp = ['snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '
 keywords_logi = ['logi', '로지']
 keywords_cancel = ['cancel', '취소']
 
-auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: ㅊ인증 코드'
+auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 코드`'
 
 bot = discord.Client()
 server_list = KIN3_waitlist.server_list()
