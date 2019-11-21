@@ -7,6 +7,7 @@ from esipy import EsiClient
 from esipy import EsiSecurity
 import KIN3_Esi
 
+# define event & functions
 @bot.event
 async def on_ready():
 	print('Bot logged in as')
@@ -222,6 +223,7 @@ async def event_periodic():
 
 		await asyncio.sleep(1)
 
+# setup main
 app = EsiApp().get_latest_swagger
 print('app loaded')
 
