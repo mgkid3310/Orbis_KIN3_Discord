@@ -10,7 +10,8 @@ def add_token(app, security, client, code, discord_id = -1, file_path = './esi_t
 	refresh_token = token['refresh_token']
 
 	api_info = security.verify()
-	operation = app.op['get_characters_character_id'](character_id = api_info['sub'].split(':')[-1])
+	eve_char_id = api_info['sub'].split(':')[-1]
+	operation = app.op['get_characters_character_id'](character_id = eve_char_id)
 	name = client.request(operation).data['name']
 
 	with open(file_path, 'r') as file:
@@ -21,7 +22,7 @@ def add_token(app, security, client, code, discord_id = -1, file_path = './esi_t
 			read_name = line.strip().split(":")[0]
 			if read_name != name:
 				file.write(line)
-		file.write(f'{name}:{refresh_token}:{discord_id}\n')
+		file.write(f'{name}:{eve_char_id}:{refresh_token}:{discord_id}\n')
 
 	return ''
 
@@ -31,7 +32,7 @@ def has_auth(discord_id, name = '', file_path = './esi_tokens.txt'):
 
 	for line in lines:
 		read_name = line.strip().split(":")[0]
-		read_id = line.strip().split(":")[2]
+		read_id = line.strip().split(":")[3]
 
 		if discord_id == int(read_id) and (name == '' or name == read_name):
 			return True
