@@ -7,22 +7,6 @@ from esipy import EsiClient
 from esipy import EsiSecurity
 import KIN3_Esi
 
-token_file = open('./bot_token.txt', 'r')
-lines = token_file.readlines()
-token = lines[0].strip()
-
-keywords_auth = ['auth', '인증', '등록']
-keywords_dps = ['dps', 'vindi', 'vindicator', '디피', '빈디', '빈디케이터']
-keywords_snp = ['snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '나이트메어', '마차', '마차리엘']
-keywords_logi = ['logi', '로지']
-keywords_cancel = ['cancel', '취소']
-
-auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 코드`'
-auth_embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description)
-
-bot = discord.Client()
-server_list = KIN3_waitlist.server_list()
-
 @bot.event
 async def on_ready():
 	print('Bot logged in as')
@@ -259,5 +243,21 @@ print('client loaded')
 
 esi_scopes = ['esi-fleets.read_fleet.v1', 'esi-fleets.write_fleet.v1', 'esi-characters.read_chat_channels.v1']
 auth_url = security.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_scopes)
+
+token_file = open('./bot_token.txt', 'r')
+lines = token_file.readlines()
+token = lines[0].strip()
+
+keywords_auth = ['auth', '인증', '등록']
+keywords_dps = ['dps', 'vindi', 'vindicator', '디피', '빈디', '빈디케이터']
+keywords_snp = ['snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '나이트메어', '마차', '마차리엘']
+keywords_logi = ['logi', '로지']
+keywords_cancel = ['cancel', '취소']
+
+auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 코드`'
+auth_embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description)
+
+bot = discord.Client()
+server_list = KIN3_waitlist.server_list()
 
 bot.run(token)
