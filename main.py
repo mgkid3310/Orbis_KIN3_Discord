@@ -2,10 +2,16 @@ import asyncio
 import discord
 import KIN3_waitlist
 
+from esipy import EsiApp
+from esipy import EsiClient
+from esipy import EsiSecurity
+import KIN3_Esi
+
 token_file = open('./bot_token.txt', 'r')
 lines = token_file.readlines()
 token = lines[0].strip()
 
+keywords_auth = ['auth', '등록', '인증']
 keywords_dps = ['dps', 'vindi', 'vindicator', '디피', '빈디', '빈디케이터']
 keywords_snp = ['snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '나이트메어', '마차', '마차리엘']
 keywords_logi = ['logi', '로지']
@@ -25,6 +31,40 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+	if message.guild is None:
+		global keywords_auth
+		global auth_url
+		global app
+		global security
+		global client
+
+		prefix = message.content[0].lower()
+		if prefix in ['c', 'ㅊ']:
+			if len(message.content) > 1:
+				if message.content[1] == ' ':
+					command = message.content[2:]
+				else:
+					command = message.content[1:]
+			else:
+				command = ''
+
+			if command == '':
+				await message.channel.send(f'등록링크: {auth_url}')
+				return None
+
+			if len(set(keywords_auth).intersection(command.lower().split(' '))) > 0:
+				await message.channel.send(f'등록링크: {auth_url}')
+			else:
+				code = command.split(' ')[0]
+				return_message = KIN3_Esi.add_token(app, security, client, code)
+
+				if return_message == '':
+					await message.channel.send('등록완료')
+				else:
+					await message.channel.send(f'에러발생: {return_message}')
+
+		return None
+
 	global keywords_dps
 	global keywords_snp
 	global keywords_logi
@@ -179,5 +219,27 @@ async def event_periodic():
 				await waitlist.billboard_message.edit(content = waitlist.billboard_text)
 
 		await asyncio.sleep(1)
+
+app = EsiApp().get_latest_swagger
+print('app loaded')
+
+security = EsiSecurity(
+	headers = {'User-Agent':'something'},
+	redirect_uri = 'http://localhost:65432/callback/',
+	client_id = 'f5681b8bf37b4454911f42c53af1f22b',
+	secret_key = 'CTJ5dPxofM2Q0uVuDB4Gy43hzsdloK5C3Eriw7wn'
+)
+print('security loaded')
+
+client = EsiClient(
+	headers = {'User-Agent':'something'},
+	retry_requests = True,
+	header = {'User-Agent': 'Something CCP can use to contact you and that define your app'},
+	security = security
+)
+print('client loaded')
+
+esi_scopes = ['esi-fleets.read_fleet.v1', 'esi-fleets.write_fleet.v1', 'esi-characters.read_chat_channels.v1']
+auth_url = security.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_scopes)
 
 bot.run(token)
