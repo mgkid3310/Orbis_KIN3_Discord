@@ -50,11 +50,11 @@ async def on_message(message):
 				command = ''
 
 			if command == '':
-				await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="이브계정과 KIN3 대기열 봇을 연결"))
+				await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="EVE계정과 KIN3 대기열 봇을 연결"))
 				return None
 
 			if len(set(keywords_auth).intersection(command.lower().split(' '))) > 0:
-				await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="이브계정과 KIN3 대기열 봇을 연결"))
+				await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="EVE계정과 KIN3 대기열 봇을 연결"))
 			else:
 				code = command.split(' ')[0]
 				return_message = KIN3_Esi.add_token(app, security, client, code, message.author.id)
@@ -62,7 +62,7 @@ async def on_message(message):
 				if return_message == '':
 					await message.channel.send('등록이 완료되었습니다')
 				else:
-					await message.channel.send(f'에러발생: {return_message}')
+					await message.channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
 
 		return None
 
@@ -131,7 +131,7 @@ async def on_message(message):
 	if prefix in ['x', 'ㅌ']:
 		if not KIN3_Esi.has_auth(message.author.id):
 			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 등록이 필요합니다')
-			await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="이브계정과 KIN3 대기열 봇을 연결"))
+			await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="EVE계정과 KIN3 대기열 봇을 연결"))
 			return None
 
 		if waitlist.xup_channel is None:
@@ -161,7 +161,7 @@ async def on_message(message):
 	if prefix in ['z', 'ㅋ']:
 		if not KIN3_Esi.has_auth(message.author.id):
 			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 등록이 필요합니다')
-			await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="이브계정과 KIN3 대기열 봇을 연결"))
+			await message.channel.send(embed = discord.Embed(title="계정등록", url=auth_url, description="EVE계정과 KIN3 대기열 봇을 연결"))
 			return None
 
 		if waitlist.xup_channel is None:
