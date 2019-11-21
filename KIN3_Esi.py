@@ -15,10 +15,11 @@ def add_token(app, security, client, code, discord_id = -1, file_path = './esi_t
 
 	with open(file_path, 'r') as file:
 		lines = file.readlines()
+
 	with open(file_path, 'w') as file:
 		for line in lines:
-			read_id = int(line.strip().split(":")[2])
-			if read_id < 0 or read_id != discord_id:
+			read_name = line.strip().split(":")[0]
+			if read_name != name:
 				file.write(line)
 		file.write(f'{name}:{refresh_token}:{discord_id}\n')
 
