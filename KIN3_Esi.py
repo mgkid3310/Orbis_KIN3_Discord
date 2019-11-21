@@ -1,3 +1,6 @@
+import asyncio
+import discord
+
 from esipy import EsiApp
 from esipy import EsiClient
 from esipy import EsiSecurity
@@ -38,3 +41,18 @@ def has_auth(discord_id, name = '', file_path = './esi_tokens.txt'):
 			return True
 
 	return False
+
+def get_fleet(app, security, client, discord_id):
+	with open(file_path, 'r') as file:
+		lines = file.readlines()
+
+	for line in lines:
+		if discord_id == int(line.strip().split(":")[3]):
+			security.update_token({
+				'access_token': '',
+				'expires_in': -1,
+				'refresh_token': line.strip().split(":")[2]
+			})
+			operation = app.op['get_characters_character_id_fleet'](character_id = line.strip().split(":")[1])
+			fleet_id = client.request(operation).data
+			return fleet_id

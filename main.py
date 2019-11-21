@@ -206,11 +206,16 @@ async def on_message(message):
 					if request_return is not None:
 						notice_text = waitlist.request_announcement((message.author,) + request_return)
 						await waitlist.xup_channel.send(notice_text)
+						KIN3_Esi.invite_requests(request_return[0], request_return[1] + request_return[2] + request_return[3])
 					else:
 						waitlist.add_request(message.author, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 async def event_periodic():
+	global app
+	global security
+	global client
+
 	while True:
 		for waitlist in server_list.waitlists:
 			# check request list
@@ -218,11 +223,21 @@ async def event_periodic():
 			if request_return is not None:
 				notice_text = waitlist.request_announcement(request_return)
 				await waitlist.xup_channel.send(notice_text)
+				KIN3_Esi.invite_requests(request_return[0], request_return[1] + request_return[2] + request_return[3])
 
 			# update billboard
 			waitlist.update_billboard()
 			if waitlist.billboard_message is not None:
 				await waitlist.billboard_message.edit(content = waitlist.billboard_text)
+
+			# eve esi
+			with open('./esi_tokens.txt', 'r') as file:
+				lines = file.readlines()
+
+			auth_list = []
+			for line in lines:
+				items = line.strip().split(":")
+				auth_list.append(())
 
 		await asyncio.sleep(1)
 
