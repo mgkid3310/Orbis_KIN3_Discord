@@ -41,6 +41,9 @@ async def on_message(message):
 	global client
 	global auth_url
 
+	if message.content == '':
+		return None
+
 	prefix = message.content[0].lower()
 	if len(message.content) > 1:
 		if message.content[1] == ' ':
@@ -52,9 +55,6 @@ async def on_message(message):
 	command = command_cap.lower()
 
 	if prefix not in ['c', 'x', 'z', 'ㅊ', 'ㅌ', 'ㅋ']:
-		return None
-
-	if message.content == '':
 		return None
 
 	if message.guild is None:
