@@ -1,3 +1,6 @@
+import KIN3_Esi
+import KIN3_database
+
 class server_list:
 	class waitlist:
 		def __init__(self, server_id):

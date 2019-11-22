@@ -5,8 +5,9 @@ from esipy import EsiApp
 from esipy import EsiClient
 from esipy import EsiSecurity
 
-import KIN3_waitlist
+import KIN3_Esi
 import KIN3_database
+import KIN3_waitlist
 
 # load bot
 bot = discord.Client()
