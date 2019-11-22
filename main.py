@@ -18,7 +18,8 @@ async def on_ready():
 	print(f'id : {bot.user.id}')
 
 	await bot.change_presence(activity = discord.Game(name = 'KIN3', type = 1))
-	bot.loop.create_task(event_periodic())
+	bot.loop.create_task(event_periodic_1s())
+	bot.loop.create_task(event_periodic_60s())
 
 @bot.event
 async def on_message(message):
@@ -212,7 +213,7 @@ async def on_message(message):
 						waitlist.add_request(message.author, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
-async def event_periodic():
+async def event_periodic_1s():
 	global app
 	global security
 	global client
@@ -241,6 +242,17 @@ async def event_periodic():
 				auth_list.append(())
 
 		await asyncio.sleep(1)
+
+async def event_periodic_60s():
+	global app
+	global security
+	global client
+
+	while True:
+		# check token validities
+		KIN3_Esi.filter_vailid_tokens(app, security, client)
+
+		await asyncio.sleep(60)
 
 # setup main
 app = EsiApp().get_latest_swagger

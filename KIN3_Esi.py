@@ -40,11 +40,7 @@ def get_refresh_token(eve_char_id):
 
 	return None
 
-def is_valid(app, security, client, eve_char_id):
-	refresh_token = get_refresh_token(eve_char_id)
-	if refresh_token is None:
-		return False
-
+def is_token_valid(app, security, client, refresh_token):
 	security.update_token({
 		'access_token': '',
 		'expires_in': -1,
@@ -55,6 +51,25 @@ def is_valid(app, security, client, eve_char_id):
 		return True
 	except:
 		return False
+
+def is_char_valid(app, security, client, eve_char_id):
+	refresh_token = get_refresh_token(eve_char_id)
+	if refresh_token is None:
+		return False
+
+	return is_token_valid(app, security, client, refresh_token)
+
+def filter_vailid_tokens(app, security, client, file_path = './esi_tokens.txt'):
+	with open(file_path, 'r') as file:
+		lines = file.readlines()
+
+	with open(file_path, 'w') as file:
+		for line in lines:
+			refresh_token = line.strip().split(":")[2]
+			if is_token_valid(app, security, client, refresh_token):
+				file.write(line)
+
+	return None
 
 def get_eve_characters(discord_id):
 	return_list = []
