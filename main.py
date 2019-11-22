@@ -30,9 +30,7 @@ async def on_message(message):
 	global keywords_cancel
 	global auth_embed
 	global server_list
-	global app
-	global security
-	global client
+	global esi_objects
 	global auth_url
 
 	if message.content == '':
@@ -56,7 +54,7 @@ async def on_message(message):
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_Esi.add_token(app, security, client, code, message.author.id)
+				return_message = KIN3_Esi.add_token(esi_objects, code, message.author.id)
 
 				if return_message == '':
 					await message.channel.send('등록이 완료되었습니다')
@@ -113,7 +111,7 @@ async def on_message(message):
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_Esi.add_token(app, security, client, code, message.author.id)
+				return_message = KIN3_Esi.add_token(esi_objects, code, message.author.id)
 
 				if return_message == '':
 					await message.channel.send('등록이 완료되었습니다')
@@ -214,9 +212,7 @@ async def on_message(message):
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 async def event_periodic_1s():
-	global app
-	global security
-	global client
+	global esi_objects
 
 	while True:
 		for waitlist in server_list.waitlists:
@@ -244,13 +240,11 @@ async def event_periodic_1s():
 		await asyncio.sleep(1)
 
 async def event_periodic_60s():
-	global app
-	global security
-	global client
+	global esi_objects
 
 	while True:
 		# check token validities
-		KIN3_Esi.filter_vailid_tokens(app, security, client)
+		KIN3_Esi.filter_vailid_tokens(esi_objects)
 
 		await asyncio.sleep(60)
 
@@ -273,6 +267,8 @@ client = EsiClient(
 	security = security
 )
 print('EsiClient loaded')
+
+esi_objects = (app, security, client)
 
 bot_token_file = open('./bot_token.txt', 'r')
 bot_token_lines = bot_token_file.readlines()
