@@ -1,5 +1,5 @@
 class eve_character:
-	def __init__(self, esi_objects, input):
+	def __init__(self, esi_objects, input, member = None):
 		name, char_id, refresh_token, discord_id = input
 
 		self.esi_objects = esi_objects
@@ -7,6 +7,10 @@ class eve_character:
 		self.char_id = char_id
 		self.refresh_token = refresh_token
 		self.discord_id = discord_id
+		self.discord_member = member
+
+	def set_member(member):
+		self.discord_member = member
 
 	def is_valid(self):
 		app, security, client = self.esi_objects
