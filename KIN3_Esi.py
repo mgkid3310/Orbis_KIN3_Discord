@@ -25,6 +25,9 @@ class eve_character:
 	def is_online(self):
 		app, security, client = self.esi_objects
 
+		if not self.is_valid():
+			return None
+
 		security.update_token({
 			'access_token': '',
 			'expires_in': -1,
@@ -38,6 +41,9 @@ class eve_character:
 
 	def get_location(self):
 		app, security, client = self.esi_objects
+
+		if not self.is_valid():
+			return None
 
 		security.update_token({
 			'access_token': '',
@@ -53,6 +59,9 @@ class eve_character:
 	def get_fitting(self):
 		app, security, client = self.esi_objects
 
+		if not self.is_valid():
+			return None
+
 		security.update_token({
 			'access_token': '',
 			'expires_in': -1,
@@ -66,6 +75,9 @@ class eve_character:
 
 	def get_fleet(self):
 		app, security, client = self.esi_objects
+
+		if not self.is_valid():
+			return None
 
 		security.update_token({
 			'access_token': '',
