@@ -36,6 +36,34 @@ class eve_character:
 
 		return is_online
 
+	def get_location(self):
+		app, security, client = self.esi_objects
+
+		security.update_token({
+			'access_token': '',
+			'expires_in': -1,
+			'refresh_token': self.refresh_token
+		})
+		token = security.refresh()
+		operation = app.op['get_characters_character_id_location'](character_id = self.eve_char_id)
+		location = client.request(operation).data
+
+		return location
+
+	def get_fitting(self):
+		app, security, client = self.esi_objects
+
+		security.update_token({
+			'access_token': '',
+			'expires_in': -1,
+			'refresh_token': self.refresh_token
+		})
+		token = security.refresh()
+		operation = app.op['get_characters_character_id_fittings'](character_id = self.eve_char_id)
+		location = client.request(operation).data
+
+		return location
+
 	def get_fleet(self):
 		app, security, client = self.esi_objects
 
