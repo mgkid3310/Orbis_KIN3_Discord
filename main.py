@@ -218,6 +218,7 @@ async def event_periodic_1s():
 		for waitlist in server_list.waitlists:
 			# check token validities
 			KIN3_database.filter_vailid_tokens()
+			waitlist.filter_vailid_members()
 
 			# check request list
 			request_return = waitlist.check_requests()
