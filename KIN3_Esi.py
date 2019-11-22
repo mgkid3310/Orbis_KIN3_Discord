@@ -29,30 +29,71 @@ def add_token(app, security, client, code, discord_id = -1, file_path = './esi_t
 
 	return ''
 
-def has_auth(discord_id, name = '', file_path = './esi_tokens.txt'):
+def get_refresh_token(eve_char_id):
 	with open(file_path, 'r') as file:
 		lines = file.readlines()
 
 	for line in lines:
-		read_name = line.strip().split(":")[0]
-		read_id = line.strip().split(":")[3]
+		if eve_char_id == int(line.strip().split(":")[1]):
+			refresh_token = line.strip().split(":")[2]
+			return refresh_token
 
-		if discord_id == int(read_id) and (name == '' or name == read_name):
-			return True
+	return None
 
-	return False
+def is_valid(app, security, client, eve_char_id):
+	refresh_token = get_refresh_token(eve_char_id)
+	if refresh_token is None:
+		return False
 
-def get_fleet(app, security, client, discord_id):
+	security.update_token({
+		'access_token': '',
+		'expires_in': -1,
+		'refresh_token': refresh_token
+	})
+	try:
+		token = security.refresh()
+		return True
+	except:
+		return False
+
+def get_eve_characters(discord_id):
+	return_list = []
+
 	with open(file_path, 'r') as file:
 		lines = file.readlines()
 
 	for line in lines:
 		if discord_id == int(line.strip().split(":")[3]):
-			security.update_token({
-				'access_token': '',
-				'expires_in': -1,
-				'refresh_token': line.strip().split(":")[2]
-			})
-			operation = app.op['get_characters_character_id_fleet'](character_id = line.strip().split(":")[1])
-			fleet_id = client.request(operation).data
-			return fleet_id
+			return_list.append((line.strip().split(":")[0], int(line.strip().split(":")[1])))
+
+	return return_list
+
+def is_online(app, security, client, eve_char_id):
+	refresh_token = get_refresh_token(eve_char_id)
+	if refresh_token is None:
+		return None
+
+	security.update_token({
+		'access_token': '',
+		'expires_in': -1,
+		'refresh_token': refresh_token
+	})
+	token = security.refresh()
+	operation = app.op['get_characters_character_id_online'](character_id = eve_char_id)
+	is_online = client.request(operation).data['online']
+	return is_online
+
+def get_fleet(app, security, client, eve_char_id):
+	refresh_token = get_refresh_token(eve_char_id)
+	if refresh_token is None:
+		return None
+
+	security.update_token({
+		'access_token': '',
+		'expires_in': -1,
+		'refresh_token': refresh_token
+	})
+	token = security.refresh()
+	operation = app.op['get_characters_character_id_fleet'](character_id = eve_char_id)
+	fleet_id = client.request(operation).data
+	return fleet_id
