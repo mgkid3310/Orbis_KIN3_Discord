@@ -155,7 +155,7 @@ async def on_message(message):
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
-		if not KIN3_database.has_auth(message.author.id):
+		if not KIN3_database.has_auth(message.author):
 			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
 			await message.channel.send(embed = auth_embed)
 			return None
