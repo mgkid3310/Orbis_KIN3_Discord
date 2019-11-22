@@ -74,6 +74,6 @@ class eve_character:
 		})
 		token = security.refresh()
 		operation = app.op['get_characters_character_id_fleet'](character_id = self.eve_char_id)
-		fleet_id = client.request(operation).data
+		fleet_data = client.request(operation).data
 
-		return fleet_id
+		return fleet_data
