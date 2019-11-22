@@ -71,7 +71,7 @@ def filter_vailid_tokens(app, security, client, file_path = './esi_tokens.txt'):
 
 	return None
 
-def get_eve_characters(discord_id):
+def get_eve_characters_name_id(discord_id):
 	return_list = []
 
 	with open(file_path, 'r') as file:
