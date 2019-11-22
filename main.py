@@ -1,11 +1,12 @@
 import asyncio
 import discord
-import KIN3_waitlist
 
 from esipy import EsiApp
 from esipy import EsiClient
 from esipy import EsiSecurity
-import KIN3_Esi
+
+import KIN3_waitlist
+import KIN3_database
 
 # load bot
 bot = discord.Client()
@@ -54,7 +55,7 @@ async def on_message(message):
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_Esi.add_token(esi_objects, code, message.author.id)
+				return_message = KIN3_database.add_token(esi_objects, code, message.author.id)
 
 				if return_message == '':
 					await message.channel.send('등록이 완료되었습니다')
@@ -111,7 +112,7 @@ async def on_message(message):
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_Esi.add_token(esi_objects, code, message.author.id)
+				return_message = KIN3_database.add_token(esi_objects, code, message.author.id)
 
 				if return_message == '':
 					await message.channel.send('등록이 완료되었습니다')
@@ -123,7 +124,7 @@ async def on_message(message):
 
 	# x up
 	if prefix in ['x', 'ㅌ']:
-		characters_list = KIN3_Esi.get_eve_characters_name_id(message.author.id)
+		characters_list = KIN3_database.get_eve_characters(message.author.id)
 		if not len(characters_list) > 0:
 			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
 			await message.channel.send(embed = auth_embed)
@@ -154,7 +155,7 @@ async def on_message(message):
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
-		if not len(KIN3_Esi.get_eve_characters_name_id(message.author.id)) > 0:
+		if not len(KIN3_database.get_eve_characters(message.author.id)) > 0:
 			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
 			await message.channel.send(embed = auth_embed)
 			return None
@@ -206,13 +207,13 @@ async def on_message(message):
 					if request_return is not None:
 						notice_text = waitlist.request_announcement((message.author,) + request_return)
 						await waitlist.xup_channel.send(notice_text)
-						KIN3_Esi.invite_requests(request_return[0], request_return[1] + request_return[2] + request_return[3])
+						# KIN3_database.invite_requests(request_return[0], request_return[1] + request_return[2] + request_return[3])
 					else:
 						waitlist.add_request(message.author, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 async def event_periodic_1s():
-	global esi_objects
+	# global esi_objects
 
 	while True:
 		for waitlist in server_list.waitlists:
@@ -221,7 +222,7 @@ async def event_periodic_1s():
 			if request_return is not None:
 				notice_text = waitlist.request_announcement(request_return)
 				await waitlist.xup_channel.send(notice_text)
-				KIN3_Esi.invite_requests(request_return[0], request_return[1] + request_return[2] + request_return[3])
+				# KIN3_database.invite_requests(request_return[0], request_return[1] + request_return[2] + request_return[3])
 
 			# update billboard
 			waitlist.update_billboard()
@@ -235,7 +236,7 @@ async def event_periodic_60s():
 
 	while True:
 		# check token validities
-		KIN3_Esi.filter_vailid_tokens()
+		KIN3_database.filter_vailid_tokens()
 
 		await asyncio.sleep(60)
 
