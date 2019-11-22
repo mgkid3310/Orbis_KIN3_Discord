@@ -1,14 +1,15 @@
 class eve_character:
-	def __init__(self, input):
+	def __init__(self, esi_objects, input):
 		name, eve_char_id, refresh_token, discord_id = input
 
+		self.esi_objects = esi_objects
 		self.name = name
 		self.eve_char_id = eve_char_id
 		self.refresh_token = refresh_token
 		self.discord_id = discord_id
 
-	def is_valid(self, esi_objects):
-		app, security, client = esi_objects
+	def is_valid(self):
+		app, security, client = self.esi_objects
 
 		security.update_token({
 			'access_token': '',
@@ -21,8 +22,8 @@ class eve_character:
 		except:
 			return False
 
-	def is_online(self, esi_objects):
-		app, security, client = esi_objects
+	def is_online(self):
+		app, security, client = self.esi_objects
 
 		security.update_token({
 			'access_token': '',
@@ -35,8 +36,8 @@ class eve_character:
 
 		return is_online
 
-	def get_fleet(self, esi_objects):
-		app, security, client = esi_objects
+	def get_fleet(self):
+		app, security, client = self.esi_objects
 
 		security.update_token({
 			'access_token': '',

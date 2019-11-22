@@ -26,14 +26,14 @@ def add_token(esi_objects, code, discord_id = -1, file_path = './esi_tokens.txt'
 
 	return ''
 
-def filter_vailid_tokens(esi_objects, file_path = './esi_tokens.txt'):
+def filter_vailid_tokens(file_path = './esi_tokens.txt'):
 	with open(file_path, 'r') as file:
 		lines = file.readlines()
 
 	with open(file_path, 'w') as file:
 		for line in lines:
 			refresh_token = line.strip().split(":")[2]
-			if KIN3_Esi.eve_character(line.strip().split(":")).is_valid(esi_objects):
+			if KIN3_Esi.eve_character(line.strip().split(":")).is_valid():
 				file.write(line)
 
 	return None
@@ -46,6 +46,6 @@ def get_eve_characters(discord_id):
 
 	for line in lines:
 		if discord_id == int(line.strip().split(":")[3]):
-			return_list.append(KIN3_Esi.eve_character(line.strip().split(":")))
+			return_list.append(KIN3_Esi.eve_character(esi_objects, line.strip().split(":")))
 
 	return return_list
