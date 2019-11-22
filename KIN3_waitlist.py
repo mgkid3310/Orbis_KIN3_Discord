@@ -15,16 +15,19 @@ class server_list:
 			self.waitcount_logi = 0
 			self.request_list = []
 
-		def add_dps(self, user):
-			self.waitlist_dps.append(user)
+		def add_dps(self, eve_char_id):
+			character = KIN3_Esi.get_character_object(eve_char_id)
+			self.waitlist_dps.append(character)
 			self.waitcount_dps += 1
 
-		def add_snp(self, user):
-			self.waitlist_snp.append(user)
+		def add_snp(self, eve_char_id):
+			character = KIN3_Esi.get_character_object(eve_char_id)
+			self.waitlist_snp.append(character)
 			self.waitcount_snp += 1
 
-		def add_logi(self, user):
-			self.waitlist_logi.append(user)
+		def add_logi(self, eve_char_id):
+			character = KIN3_Esi.get_character_object(eve_char_id)
+			self.waitlist_logi.append(character)
 			self.waitcount_logi += 1
 
 		def remove_user(self, user):
