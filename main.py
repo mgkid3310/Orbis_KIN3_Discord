@@ -138,15 +138,15 @@ async def on_message(message):
 
 			for role in roles:
 				if role in keywords_dps:
-					waitlist.add_dps(message.author)
+					waitlist.add_dps(KIN3_Esi.eve_character(eve_char_id))
 					await waitlist.xup_channel.send(f'DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
 
 				if role in keywords_snp:
-					waitlist.add_snp(message.author)
+					waitlist.add_snp(KIN3_Esi.eve_character(eve_char_id))
 					await waitlist.xup_channel.send(f'SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
 
 				if role in keywords_logi:
-					waitlist.add_logi(message.author)
+					waitlist.add_logi(KIN3_Esi.eve_character(eve_char_id))
 					await waitlist.xup_channel.send(f'LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
 
 				if role in keywords_cancel:
@@ -210,7 +210,7 @@ async def on_message(message):
 
 						request_return[0].invite_requests(request_return[1] + request_return[2] + request_return[3])
 					else:
-						waitlist.add_request(message.author, request_dps, request_snp, request_logi)
+						waitlist.add_request(KIN3_Esi.eve_character(eve_char_id), request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 async def event_periodic_1s():
