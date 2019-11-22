@@ -30,12 +30,12 @@ class server_list:
 			self.waitlist_logi.append(character)
 			self.waitcount_logi += 1
 
-		def remove_user(self, user):
-			self.waitlist_dps = [x for x in self.waitlist_dps if not x == user]
+		def remove_user(self, member):
+			self.waitlist_dps = [x for x in self.waitlist_dps if not x.discord_id == member.id]
 			self.waitcount_dps = len(self.waitlist_dps)
-			self.waitlist_snp = [x for x in self.waitlist_snp if not x == user]
+			self.waitlist_snp = [x for x in self.waitlist_snp if not x.discord_id == member.id]
 			self.waitcount_snp = len(self.waitlist_snp)
-			self.waitlist_logi = [x for x in self.waitlist_logi if not x == user]
+			self.waitlist_logi = [x for x in self.waitlist_logi if not x.discord_id == member.id]
 			self.waitcount_logi = len(self.waitlist_logi)
 
 		def reset_waitlist(self):
@@ -68,8 +68,8 @@ class server_list:
 		def add_request(self, fc, dps = 0, snp = 0, logi = 0):
 			self.request_list.append((fc, dps, snp, logi))
 
-		def remove_request(self, user):
-			self.request_list = [x for x in self.request_list if x[0] != user]
+		def remove_request(self, member):
+			self.request_list = [x for x in self.request_list if x[0].discord_id != member.id]
 
 		def reset_request(self):
 			self.request_list = []
@@ -84,13 +84,13 @@ class server_list:
 					return request[0], return_users[0], return_users[1], return_users[2]
 
 		def request_announcement(self, announce_list):
-			notice_text = f'{announce_list[0].mention}의 모집이 완료되었습니다:'
+			notice_text = f'@{announce_list[0].discord_id}의 모집이 완료되었습니다:'
 			for user in announce_list[1]:
-				notice_text += f' {user.mention}(DPS),'
+				notice_text += f' @{user.discord_id}(DPS),'
 			for user in announce_list[2]:
-				notice_text += f' {user.mention}(SNP),'
+				notice_text += f' @{user.discord_id}(SNP),'
 			for user in announce_list[3]:
-				notice_text += f' {user.mention}(LOGI),'
+				notice_text += f' @{user.discord_id}(LOGI),'
 			return notice_text[:-1]
 
 		def update_billboard(self):
