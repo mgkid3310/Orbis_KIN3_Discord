@@ -208,22 +208,25 @@ async def on_message(message):
 					if request_return is not None:
 						notice_text = waitlist.request_announcement((message.author,) + request_return)
 						await waitlist.xup_channel.send(notice_text)
-						# KIN3_database.invite_requests(request_return[0], request_return[1] + request_return[2] + request_return[3])
+
+						request_return[0].invite_requests(request_return[1] + request_return[2] + request_return[3])
 					else:
 						waitlist.add_request(message.author, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 async def event_periodic_1s():
-	# global esi_objects
-
 	while True:
 		for waitlist in server_list.waitlists:
+			# check token validities
+			KIN3_database.filter_vailid_tokens()
+
 			# check request list
 			request_return = waitlist.check_requests()
 			if request_return is not None:
 				notice_text = waitlist.request_announcement(request_return)
 				await waitlist.xup_channel.send(notice_text)
-				# KIN3_database.invite_requests(request_return[0], request_return[1] + request_return[2] + request_return[3])
+
+				request_return[0].invite_requests(request_return[1] + request_return[2] + request_return[3])
 
 			# update billboard
 			waitlist.update_billboard()
@@ -233,11 +236,9 @@ async def event_periodic_1s():
 		await asyncio.sleep(1)
 
 async def event_periodic_60s():
-	# global esi_objects
-
 	while True:
 		# check token validities
-		KIN3_database.filter_vailid_tokens()
+		# KIN3_database.filter_vailid_tokens()
 
 		await asyncio.sleep(60)
 
