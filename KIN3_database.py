@@ -32,7 +32,6 @@ def filter_vailid_tokens(file_path = './esi_tokens.txt'):
 
 	with open(file_path, 'w') as file:
 		for line in lines:
-			refresh_token = line.strip().split(":")[2]
 			if KIN3_Esi.eve_character(line.strip().split(":")).is_valid():
 				file.write(line)
 
