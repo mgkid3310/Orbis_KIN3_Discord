@@ -89,3 +89,30 @@ class eve_character:
 		fleet_data = client.request(operation).data
 
 		return fleet_data
+
+	def fleet_invite(self, characters):
+		app, security, client = self.esi_objects
+
+		if not self.is_valid():
+			return None
+
+		fleet_data = self.get_fleet()
+		if 'fleet_id' not in fleet_data:
+			return None
+		else:
+			fleet_id = fleet_data['fleet_id']
+
+		security.update_token({
+			'access_token': '',
+			'expires_in': -1,
+			'refresh_token': self.refresh_token
+		})
+		token = security.refresh()
+
+		for character in characters:
+			invitation = {
+				"character_id": character.char_id,
+				"role": "squad_member"
+			}
+			operation = app.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
+			invite_return = client.request(operation)
