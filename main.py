@@ -228,15 +228,6 @@ async def event_periodic_1s():
 			if waitlist.billboard_message is not None:
 				await waitlist.billboard_message.edit(content = waitlist.billboard_text)
 
-			# eve esi
-			with open('./esi_tokens.txt', 'r') as file:
-				lines = file.readlines()
-
-			auth_list = []
-			for line in lines:
-				items = line.strip().split(":")
-				auth_list.append(())
-
 		await asyncio.sleep(1)
 
 async def event_periodic_60s():
