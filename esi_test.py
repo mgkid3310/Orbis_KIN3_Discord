@@ -54,12 +54,13 @@ security.update_token({
 token = security.refresh()
 
 #%%
-api_info = security.verify()
-eve_char_id = api_info['sub'].split(':')[-1]
-operation = app.op['get_characters_character_id_fleet'](character_id = eve_char_id)
-request_return = client.request(operation)
-request_return.data
+operation = app.op['get_characters_character_id_location'](character_id = '97199391')
+client.request(operation).data
+
+#%%
+operation = app.op['get_characters_character_id_fittings'](character_id = '97199391')
+client.request(operation).data
 
 #%%
 operation = app.op['get_characters_character_id_fleet'](character_id = '97199391')
-client.request(operation).fleet_id
+'fleet_id' in client.request(operation).data
