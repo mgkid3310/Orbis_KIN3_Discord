@@ -19,7 +19,14 @@ client = EsiClient(
 	security = security
 )
 
-esi_scopes = ['esi-fleets.read_fleet.v1', 'esi-fleets.write_fleet.v1', 'esi-characters.read_chat_channels.v1']
+esi_scopes = [
+	'esi-location.read_location.v1',
+	'esi-fleets.read_fleet.v1',
+	'esi-fleets.write_fleet.v1',
+	'esi-fittings.read_fittings.v1',
+	'esi-characters.read_chat_channels.v1',
+	'esi-location.read_online.v1'
+]
 print(security.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_scopes))
 
 #%%
@@ -44,13 +51,13 @@ token = security.refresh()
 security.update_token({
 	'access_token': '',
 	'expires_in': -1,
-	'refresh_token': 'xeRzzaSHAkmPbwjzoAHJ5g=='
+	'refresh_token': '+iZdEcao/UG+6Apx2R5xYA=='
 })
 
 #%%
 api_info = security.verify()
 eve_char_id = api_info['sub'].split(':')[-1]
-operation = app.op['get_characters_character_id'](character_id = eve_char_id)
+operation = app.op['get_characters_character_id_fleet'](character_id = eve_char_id)
 request_return = client.request(operation)
 request_return.data
 
