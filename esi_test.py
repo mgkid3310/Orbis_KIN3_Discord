@@ -35,24 +35,23 @@ token = security.auth(code)
 token
 
 #%%
-token = security.refresh()
 if token['expires_in'] < 1200:
-	token = security.refresh()
 	security.update_token({
 		'access_token': '',
 		'expires_in': -1,
 		'refresh_token': token['refresh_token']
 	})
+	token = security.refresh()
 
 token
 
 #%%
-token = security.refresh()
 security.update_token({
 	'access_token': '',
 	'expires_in': -1,
 	'refresh_token': '+iZdEcao/UG+6Apx2R5xYA=='
 })
+token = security.refresh()
 
 #%%
 api_info = security.verify()
