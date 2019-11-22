@@ -240,11 +240,11 @@ async def event_periodic_1s():
 		await asyncio.sleep(1)
 
 async def event_periodic_60s():
-	global esi_objects
+	# global esi_objects
 
 	while True:
 		# check token validities
-		KIN3_Esi.filter_vailid_tokens(esi_objects)
+		KIN3_Esi.filter_vailid_tokens()
 
 		await asyncio.sleep(60)
 
