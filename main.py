@@ -40,6 +40,7 @@ async def on_message(message):
 
 	if message.author.bot:
 		if message.content == 'init_billboard':
+			waitlist = server_list.get_waitlist(message.guild.id)
 			waitlist.billboard_message = message
 			await message.edit(content = waitlist.billboard_text)
 
