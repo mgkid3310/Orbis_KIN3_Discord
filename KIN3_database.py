@@ -37,24 +37,25 @@ def filter_vailid_tokens(esi_objects, file_path = './esi_tokens.txt'):
 
 	return None
 
-def has_auth(member, file_path = './esi_tokens.txt'):
+def auth_count(member, file_path = './esi_tokens.txt'):
+	count = 0
+
 	with open(file_path, 'r') as file:
 		for line in file.readlines():
 			if member.id == int(line.strip().split(":")[3]):
-				return True
+				count += 1
 
-	return False
+	return count
 
 def get_eve_characters(discord_id, file_path = './esi_tokens.txt'):
 	return_list = []
 
 	with open(file_path, 'r') as file:
-		lines = file.readlines()
+		for line in file.readlines():
+			if discord_id == int(line.strip().split(":")[3]):
+				return_list.append(line.strip().split(":"))
 
-	for line in lines:
-		if discord_id == int(line.strip().split(":")[3]):
-			return_list.append(line.strip().split(":"))
-
+	print(return_list)
 	return return_list
 
 def get_character_object(esi_objects, member, char_index = 0):
@@ -62,7 +63,7 @@ def get_character_object(esi_objects, member, char_index = 0):
 		char_index = 0
 
 	characters_list = get_eve_characters(member.id)
-	if len(characters_list) > 0 and len(characters_list) < char_index:
+	if len(characters_list) > char_index:
 		return KIN3_Esi.eve_character(esi_objects, characters_list[char_index], member)
 
 	return None
