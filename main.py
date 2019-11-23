@@ -174,7 +174,7 @@ async def on_message(message):
 				await waitlist.xup_channel.send(f'LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
 
 			if len(keywords_cancel.intersection(roles)) > 0:
-				waitlist.remove_user(message.author)
+				waitlist.remove_user(eve_char_object)
 				await waitlist.xup_channel.send('대기열에서 퇴장')
 
 	# z pull

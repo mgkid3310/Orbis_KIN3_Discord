@@ -27,12 +27,12 @@ class server_list:
 			self.waitlist_logi.append(eve_char_object)
 			self.waitcount_logi += 1
 
-		def remove_user(self, member):
-			self.waitlist_dps = [x for x in self.waitlist_dps if not x.discord_id == member.id]
+		def remove_user(self, character):
+			self.waitlist_dps = [x for x in self.waitlist_dps if not x.char_id == character.char_id]
 			self.waitcount_dps = len(self.waitlist_dps)
-			self.waitlist_snp = [x for x in self.waitlist_snp if not x.discord_id == member.id]
+			self.waitlist_snp = [x for x in self.waitlist_snp if not x.char_id == character.char_id]
 			self.waitcount_snp = len(self.waitlist_snp)
-			self.waitlist_logi = [x for x in self.waitlist_logi if not x.discord_id == member.id]
+			self.waitlist_logi = [x for x in self.waitlist_logi if not x.char_id == character.char_id]
 			self.waitcount_logi = len(self.waitlist_logi)
 
 		def filter_vailid_members(self):
