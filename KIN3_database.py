@@ -55,7 +55,6 @@ def get_eve_characters(discord_id, file_path = './esi_tokens.txt'):
 			if discord_id == int(line.strip().split(":")[3]):
 				return_list.append(line.strip().split(":"))
 
-	print(return_list)
 	return return_list
 
 def get_character_object(esi_objects, member, char_index = 0):
