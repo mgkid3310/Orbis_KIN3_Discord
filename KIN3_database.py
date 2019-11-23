@@ -62,11 +62,11 @@ def xup_selection_info(member, file_path = './esi_tokens.txt'):
 	eve_characters = get_eve_characters(member.id)
 
 	for index in range(len(eve_characters)):
-		test += f'x{index} : {eve_characters[index].name}\n'
+		text += f'x{index} : {eve_characters[index][0]}\n'
 
-	test += '```'
+	text += '```'
 
-	return test
+	return text
 
 def get_character_object(esi_objects, member, char_index = 0):
 	if char_index is None:
