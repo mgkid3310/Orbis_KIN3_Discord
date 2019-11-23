@@ -61,10 +61,12 @@ async def on_message(message):
 					char_index = int(command_cap[:index])
 					command_cap = command_cap[len(str(char_index)):]
 					break
+
+		if command_cap[0] == ' ':
+			command_cap[1:]
 	else:
 		command_cap = ''
-	if command_cap[0] == ' ':
-		command_cap[1:]
+
 	command = command_cap.lower()
 
 	if prefix not in ['c', 'x', 'z', 'ㅊ', 'ㅌ', 'ㅋ']:
