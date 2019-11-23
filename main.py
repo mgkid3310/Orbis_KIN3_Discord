@@ -131,6 +131,8 @@ async def on_message(message):
 			return None
 		else:
 			eve_char_object = KIN3_database.get_character_object(message.author, char_index)
+			if eve_char_object is None:
+				await waitlist.xup_channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: 101, character object init failed')
 
 		if waitlist.xup_channel is None:
 			waitlist.xup_channel = channel
@@ -163,6 +165,8 @@ async def on_message(message):
 			return None
 		else:
 			eve_char_object = KIN3_database.get_character_object(message.author, char_index)
+			if eve_char_object is None:
+				await waitlist.xup_channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: 101, character object init failed')
 
 		if waitlist.xup_channel is None:
 			waitlist.xup_channel = channel
