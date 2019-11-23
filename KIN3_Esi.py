@@ -114,9 +114,10 @@ class eve_character:
 		token = security.refresh()
 
 		for character in characters:
-			invitation = {
-				"character_id": character.char_id,
-				"role": "squad_member"
-			}
-			operation = app.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
-			invite_return = client.request(operation)
+			if character.is_online():
+				invitation = {
+					"character_id": character.char_id,
+					"role": "squad_member"
+				}
+				operation = app.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
+				invite_return = client.request(operation)
