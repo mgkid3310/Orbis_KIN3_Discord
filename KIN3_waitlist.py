@@ -89,13 +89,13 @@ class server_list:
 					return request[0], return_users[0], return_users[1], return_users[2]
 
 		def request_announcement(self, announce_list):
-			notice_text = f'@{announce_list[0].discord_id}의 모집이 완료되었습니다:'
+			notice_text = f'{announce_list[0].discord_member.mention}의 모집이 완료되었습니다:'
 			for user in announce_list[1]:
-				notice_text += f' @{user.discord_id}(DPS),'
+				notice_text += f' {user.discord_member.mention}(DPS),'
 			for user in announce_list[2]:
-				notice_text += f' @{user.discord_id}(SNP),'
+				notice_text += f' {user.discord_member.mention}(SNP),'
 			for user in announce_list[3]:
-				notice_text += f' @{user.discord_id}(LOGI),'
+				notice_text += f' {user.discord_member.mention}(LOGI),'
 			return notice_text[:-1]
 
 		def update_billboard(self):
