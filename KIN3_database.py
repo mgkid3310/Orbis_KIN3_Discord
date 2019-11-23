@@ -53,6 +53,16 @@ def get_eve_characters(discord_id):
 
 	for line in lines:
 		if discord_id == int(line.strip().split(":")[3]):
-			return_list.append(KIN3_Esi.eve_character(esi_objects, line.strip().split(":")))
+			return_list.append(line.strip().split(":"))
 
 	return return_list
+
+def get_character_object(member, char_index = 0):
+	if char_index is None:
+		char_index = 0
+
+	characters_list = get_eve_characters(member.id)
+	if len(characters_list) > 0 and len(characters_list) < char_index:
+		return KIN3_Esi.eve_character(characters_list[char_index])
+
+	return None
