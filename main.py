@@ -129,6 +129,8 @@ async def on_message(message):
 			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
 			await message.channel.send(embed = auth_embed)
 			return None
+		else:
+			eve_char_object = KIN3_database.get_character_object(message.author, char_index)
 
 		if waitlist.xup_channel is None:
 			waitlist.xup_channel = channel
@@ -138,15 +140,15 @@ async def on_message(message):
 
 			for role in roles:
 				if role in keywords_dps:
-					waitlist.add_dps(KIN3_Esi.eve_character(eve_char_id))
+					waitlist.add_dps(eve_char_object)
 					await waitlist.xup_channel.send(f'DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
 
 				if role in keywords_snp:
-					waitlist.add_snp(KIN3_Esi.eve_character(eve_char_id))
+					waitlist.add_snp(eve_char_object)
 					await waitlist.xup_channel.send(f'SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
 
 				if role in keywords_logi:
-					waitlist.add_logi(KIN3_Esi.eve_character(eve_char_id))
+					waitlist.add_logi(eve_char_object)
 					await waitlist.xup_channel.send(f'LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
 
 				if role in keywords_cancel:
@@ -159,6 +161,8 @@ async def on_message(message):
 			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
 			await message.channel.send(embed = auth_embed)
 			return None
+		else:
+			eve_char_object = KIN3_database.get_character_object(message.author, char_index)
 
 		if waitlist.xup_channel is None:
 			waitlist.xup_channel = channel
@@ -210,7 +214,7 @@ async def on_message(message):
 
 						request_return[0].invite_requests(request_return[1] + request_return[2] + request_return[3])
 					else:
-						waitlist.add_request(KIN3_Esi.eve_character(eve_char_id), request_dps, request_snp, request_logi)
+						waitlist.add_request(eve_char_object, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 async def event_periodic_1s():
