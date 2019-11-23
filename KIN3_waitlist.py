@@ -106,13 +106,13 @@ class server_list:
 			if self.waitcount_dps > 0:
 				width_dps_list = [len(x.discord_member.display_name) for x in self.waitlist_dps]
 				width_dps_list.append(width_dps)
-				width_dps = max(width_dps_list)
+				width_dps = max(width_dps_list) + 3
 			if self.waitcount_snp > 0:
 				width_snp_list = [len(x.discord_member.display_name) for x in self.waitlist_snp]
 				width_snp_list.append(width_snp)
-				width_snp = max(width_snp_list)
-			width_dps += 7
-			width_snp += 7
+				width_snp = max(width_snp_list) + 3
+			width_dps += 4
+			width_snp += 4
 
 			text = '```markdown'
 			text += '\n# KIN3 Waitlist'
