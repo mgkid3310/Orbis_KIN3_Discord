@@ -144,12 +144,12 @@ async def on_message(message):
 			return None
 		else:
 			if auth_count > 1 and char_index is None:
-				await waitlist.xup_channel.send(f'index missing')
+				await waitlist.xup_channel.send('index missing')
 				return None
 
 			eve_char_object = KIN3_database.get_character_object(esi_objects, message.author, char_index)
 			if eve_char_object is None:
-				await waitlist.xup_channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init failed')
+				await waitlist.xup_channel.send('에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init failed')
 				return None
 
 		if waitlist.xup_channel is None:
@@ -184,12 +184,12 @@ async def on_message(message):
 			return None
 		else:
 			if auth_count > 1 and char_index is None:
-				await waitlist.xup_channel.send(f'index missing')
+				await waitlist.xup_channel.send('index missing')
 				return None
 
 			eve_char_object = KIN3_database.get_character_object(esi_objects, message.author, char_index)
 			if eve_char_object is None:
-				await waitlist.xup_channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init failed')
+				await waitlist.xup_channel.send('에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init failed')
 				return None
 
 		if waitlist.xup_channel is None:
