@@ -38,6 +38,13 @@ async def on_message(message):
 	if message.content == '':
 		return None
 
+	if message.author.bot:
+		if message.content == 'init_billboard':
+			waitlist.billboard_message = message
+			await message.edit(content = waitlist.billboard_text)
+
+		return None
+
 	# message breakdown
 	prefix = message.content[0].lower()
 	char_index = None
@@ -80,13 +87,6 @@ async def on_message(message):
 		return None
 
 	waitlist = server_list.get_waitlist(message.guild.id)
-
-	if message.author.bot:
-		if message.content == 'init_billboard':
-			waitlist.billboard_message = message
-			await message.edit(content = waitlist.billboard_text)
-
-		return None
 
 	channel = message.channel
 
