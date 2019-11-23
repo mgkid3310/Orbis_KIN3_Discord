@@ -26,14 +26,6 @@ def add_token(esi_objects, code, discord_member, file_path = './esi_tokens.txt')
 
 	return ''
 
-def has_auth(member):
-	with open(file_path, 'r') as file:
-		for line in file.readlines():
-			if member.id == int(line.strip().split(":")[3]):
-				return True
-
-	return False
-
 def filter_vailid_tokens(file_path = './esi_tokens.txt'):
 	with open(file_path, 'r') as file:
 		lines = file.readlines()
@@ -44,6 +36,14 @@ def filter_vailid_tokens(file_path = './esi_tokens.txt'):
 				file.write(line)
 
 	return None
+
+def has_auth(member):
+	with open(file_path, 'r') as file:
+		for line in file.readlines():
+			if member.id == int(line.strip().split(":")[3]):
+				return True
+
+	return False
 
 def get_eve_characters(discord_id):
 	return_list = []
