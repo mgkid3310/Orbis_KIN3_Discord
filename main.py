@@ -146,7 +146,8 @@ async def on_message(message):
 			return None
 		else:
 			if auth_count > 1 and char_index is None:
-				await waitlist.xup_channel.send('index missing')
+				await waitlist.xup_channel.send('등록된 계정이 두개 이상입니다. 계정을 특정해주세요')
+				await waitlist.xup_channel.send(KIN3_database.xup_selection_info(message.author))
 				return None
 
 			eve_char_object = KIN3_database.get_character_object(esi_objects, message.author, char_index)
@@ -160,22 +161,21 @@ async def on_message(message):
 		if channel == waitlist.xup_channel:
 			roles = command.split(' ')
 
-			for role in roles:
-				if role in keywords_dps:
-					waitlist.add_dps(eve_char_object)
-					await waitlist.xup_channel.send(f'DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
+			if len(keywords_dps.intersection(roles)) > 0:
+				waitlist.add_dps(eve_char_object)
+				await waitlist.xup_channel.send(f'DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
 
-				if role in keywords_snp:
-					waitlist.add_snp(eve_char_object)
-					await waitlist.xup_channel.send(f'SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
+			if len(keywords_snp.intersection(roles)) > 0:
+				waitlist.add_snp(eve_char_object)
+				await waitlist.xup_channel.send(f'SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
 
-				if role in keywords_logi:
-					waitlist.add_logi(eve_char_object)
-					await waitlist.xup_channel.send(f'LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
+			if len(keywords_logi.intersection(roles)) > 0:
+				waitlist.add_logi(eve_char_object)
+				await waitlist.xup_channel.send(f'LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
 
-				if role in keywords_cancel:
-					waitlist.remove_user(message.author)
-					await waitlist.xup_channel.send('대기열에서 퇴장')
+			if len(keywords_cancel.intersection(roles)) > 0:
+				waitlist.remove_user(message.author)
+				await waitlist.xup_channel.send('대기열에서 퇴장')
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
@@ -186,7 +186,8 @@ async def on_message(message):
 			return None
 		else:
 			if auth_count > 1 and char_index is None:
-				await waitlist.xup_channel.send('index missing')
+				await waitlist.xup_channel.send('등록된 계정이 두개 이상입니다. 계정을 특정해주세요')
+				await waitlist.xup_channel.send(KIN3_database.xup_selection_info(message.author))
 				return None
 
 			eve_char_object = KIN3_database.get_character_object(esi_objects, message.author, char_index)
@@ -200,7 +201,7 @@ async def on_message(message):
 		if channel == waitlist.xup_channel:
 			items = command.split(' ')
 
-			if len(set(keywords_cancel).intersection(items)) > 0:
+			if len(keywords_cancel.intersection(items)) > 0:
 				waitlist.remove_request(message.author)
 				await waitlist.xup_channel.send('모집 취소')
 			else:
@@ -239,10 +240,10 @@ async def on_message(message):
 					await waitlist.xup_channel.send(f'{message.author.display_name}이(가) DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명을 모집')
 					request_return = waitlist.request_users(request_dps, request_snp, request_logi)
 					if request_return is not None:
-						notice_text = waitlist.request_announcement((message.author,) + request_return)
+						notice_text = waitlist.request_announcement((eve_char_object,) + request_return)
 						await waitlist.xup_channel.send(notice_text)
 
-						request_return[0].fleet_invite(request_return[1] + request_return[2] + request_return[3])
+						eve_char_object.fleet_invite(request_return[0] + request_return[1] + request_return[2])
 					else:
 						waitlist.add_request(eve_char_object, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
@@ -254,12 +255,12 @@ async def event_periodic_1s():
 			waitlist.filter_vailid_members()
 
 			# check request list
-			request_return = waitlist.check_requests()
-			if request_return is not None:
-				notice_text = waitlist.request_announcement(request_return)
+			check_return = waitlist.check_requests()
+			if check_return is not None:
+				notice_text = waitlist.request_announcement(check_return)
 				await waitlist.xup_channel.send(notice_text)
 
-				request_return[0].fleet_invite(request_return[1] + request_return[2] + request_return[3])
+				check_return[0].fleet_invite(check_return[1] + check_return[2] + check_return[3])
 
 			# update billboard
 			waitlist.update_billboard()
@@ -301,11 +302,11 @@ bot_token_file = open('./bot_token.txt', 'r')
 bot_token_lines = bot_token_file.readlines()
 bot_token = bot_token_lines[0].strip()
 
-keywords_auth = ['auth', '인증', '등록']
-keywords_dps = ['dps', 'vindi', 'vindicator', '디피', '빈디', '빈디케이터']
-keywords_snp = ['snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '나이트메어', '마차', '마차리엘']
-keywords_logi = ['logi', '로지']
-keywords_cancel = ['cancel', '취소']
+keywords_auth = {'auth', '인증', '등록'}
+keywords_dps = {'dps', 'vindi', 'vindicator', '디피', '빈디', '빈디케이터'}
+keywords_snp = {'snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '나이트메어', '마차', '마차리엘'}
+keywords_logi = {'logi', '로지'}
+keywords_cancel = {'cancel', '취소'}
 
 esi_scopes = [
 	'esi-location.read_location.v1',

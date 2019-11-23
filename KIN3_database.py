@@ -57,6 +57,17 @@ def get_eve_characters(discord_id, file_path = './esi_tokens.txt'):
 
 	return return_list
 
+def xup_selection_info(member, file_path = './esi_tokens.txt'):
+	text = '```markdown\n'
+	eve_characters = get_eve_characters(member.id)
+
+	for index in range(len(eve_characters)):
+		test += f'x{index} : {eve_characters[index].name}\n'
+
+	test += '```'
+
+	return test
+
 def get_character_object(esi_objects, member, char_index = 0):
 	if char_index is None:
 		char_index = 0
