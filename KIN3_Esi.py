@@ -9,6 +9,9 @@ class eve_character:
 		self.discord_id = discord_id
 		self.discord_member = member
 
+	def __str__(self):
+		return f'character object, id: {self.char_id}'
+
 	def set_member(member):
 		self.discord_member = member
 
