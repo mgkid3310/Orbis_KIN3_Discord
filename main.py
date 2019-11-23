@@ -130,7 +130,7 @@ async def on_message(message):
 			await message.channel.send(embed = auth_embed)
 			return None
 		else:
-			eve_char_object = KIN3_database.get_character_object(message.author, char_index)
+			eve_char_object = KIN3_database.get_character_object(esi_objects, message.author, char_index)
 			if eve_char_object is None:
 				await waitlist.xup_channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: 101, character object init failed')
 
@@ -164,7 +164,7 @@ async def on_message(message):
 			await message.channel.send(embed = auth_embed)
 			return None
 		else:
-			eve_char_object = KIN3_database.get_character_object(message.author, char_index)
+			eve_char_object = KIN3_database.get_character_object(esi_objects, message.author, char_index)
 			if eve_char_object is None:
 				await waitlist.xup_channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: 101, character object init failed')
 
@@ -225,7 +225,7 @@ async def event_periodic_1s():
 	while True:
 		for waitlist in server_list.waitlists:
 			# check token validities
-			KIN3_database.filter_vailid_tokens()
+			KIN3_database.filter_vailid_tokens(esi_objects)
 			waitlist.filter_vailid_members()
 
 			# check request list

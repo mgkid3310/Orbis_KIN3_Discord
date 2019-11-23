@@ -26,13 +26,13 @@ def add_token(esi_objects, code, discord_member, file_path = './esi_tokens.txt')
 
 	return ''
 
-def filter_vailid_tokens(file_path = './esi_tokens.txt'):
+def filter_vailid_tokens(esi_objects, file_path = './esi_tokens.txt'):
 	with open(file_path, 'r') as file:
 		lines = file.readlines()
 
 	with open(file_path, 'w') as file:
 		for line in lines:
-			if KIN3_Esi.eve_character(line.strip().split(":")).is_valid():
+			if KIN3_Esi.eve_character(esi_objects, line.strip().split(":")).is_valid():
 				file.write(line)
 
 	return None
@@ -57,12 +57,12 @@ def get_eve_characters(discord_id):
 
 	return return_list
 
-def get_character_object(member, char_index = 0):
+def get_character_object(esi_objects, member, char_index = 0):
 	if char_index is None:
 		char_index = 0
 
 	characters_list = get_eve_characters(member.id)
 	if len(characters_list) > 0 and len(characters_list) < char_index:
-		return KIN3_Esi.eve_character(characters_list[char_index])
+		return KIN3_Esi.eve_character(esi_objects, characters_list[char_index], member)
 
 	return None
