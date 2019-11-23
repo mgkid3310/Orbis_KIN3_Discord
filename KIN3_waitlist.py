@@ -119,6 +119,7 @@ class server_list:
 			text += f'\nDPS({self.waitcount_dps})' + ' ' * (width_dps - len(str(self.waitcount_dps)) - 5)
 			text += f'SNP({self.waitcount_snp})' + ' ' * (width_snp - len(str(self.waitcount_snp)) - 5)
 			text += f'LOGI({self.waitcount_logi})'
+
 			for index in range(max((self.waitcount_dps, self.waitcount_snp, self.waitcount_logi))):
 				dps_name, snp_name, logi_name = '', '', ''
 				dps_online, snp_online, logi_online = '', '', ''
@@ -136,6 +137,7 @@ class server_list:
 					logi_online = f'({online_mark[self.waitlist_logi[index].is_online()]})'
 				text += f'\n{dps_name}{dps_online}{dps_white}{snp_name}{snp_online}{snp_space}{logi_name}{logi_online}'
 			text += '\n\n----------------'
+
 			for request in self.request_list:
 				text += f'\n{request[0].discord_member.display_name}이(가)'
 				if request[1] > 0:
@@ -147,6 +149,7 @@ class server_list:
 				text = text[:-1]
 				text += ' 모집중'
 			text += '```'
+
 			self.billboard_text = text
 
 	def __init__(self):
