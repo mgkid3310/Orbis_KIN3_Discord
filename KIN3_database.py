@@ -1,6 +1,6 @@
 import KIN3_Esi
 
-def add_token(esi_objects, code, discord_member, file_path = './esi_tokens.txt'):
+def add_token(esi_objects, code, member_id, file_path = './esi_tokens.txt'):
 	app, security, client = esi_objects
 
 	try:
@@ -22,7 +22,7 @@ def add_token(esi_objects, code, discord_member, file_path = './esi_tokens.txt')
 			read_name = line.strip().split(":")[0]
 			if read_name != eve_char_name:
 				file.write(line)
-		file.write(f'{eve_char_name}:{eve_char_id}:{refresh_token}:{discord_member.id}\n')
+		file.write(f'{eve_char_name}:{eve_char_id}:{refresh_token}:{member_id}\n')
 
 	return ''
 

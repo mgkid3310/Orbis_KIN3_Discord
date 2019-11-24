@@ -77,7 +77,7 @@ async def on_message(message):
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_database.add_token(esi_objects, code, message.author)
+				return_message = KIN3_database.add_token(esi_objects, code, message.author.id)
 
 				if return_message == '':
 					await message.channel.send('등록이 완료되었습니다')
@@ -127,7 +127,7 @@ async def on_message(message):
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_database.add_token(esi_objects, code, message.author)
+				return_message = KIN3_database.add_token(esi_objects, code, message.author.id)
 
 				if return_message == '':
 					await message.channel.send('등록이 완료되었습니다')
