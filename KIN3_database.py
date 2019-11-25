@@ -28,12 +28,17 @@ def add_token(esi_objects, code, member_id, file_path = './esi_tokens.txt'):
 
 def filter_vailid_tokens(esi_objects, file_path = './esi_tokens.txt'):
 	with open(file_path, 'r') as file:
-		lines = file.readlines()
+		readRines = file.readlines()
+
+	writeLines = []
+
+	for line in readRines:
+		if KIN3_Esi.eve_character(esi_objects, line.strip().split(":")).is_valid():
+			writeLines.append(line)
 
 	with open(file_path, 'w') as file:
-		for line in lines:
-			if KIN3_Esi.eve_character(esi_objects, line.strip().split(":")).is_valid():
-				file.write(line)
+		for line in readRines:
+			file.write(line)
 
 	return None
 
