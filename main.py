@@ -280,11 +280,17 @@ async def event_periodic_60s():
 app = EsiApp().get_latest_swagger
 print('EsiApp loaded')
 
+auth_key_file = open('./auth_key.txt', 'r')
+auth_key_lines = auth_key_file.readlines()
+redirect_uri = auth_key_lines[0].strip()
+client_id = auth_key_lines[1].strip()
+secret_key = auth_key_lines[2].strip()
+
 security = EsiSecurity(
 	headers = {'User-Agent':'something'},
-	redirect_uri = 'https://mgkid3310.wixsite.com/kin3/blank/',
-	client_id = 'f5681b8bf37b4454911f42c53af1f22b',
-	secret_key = 'CTJ5dPxofM2Q0uVuDB4Gy43hzsdloK5C3Eriw7wn'
+	redirect_uri = redirect_uri,
+	client_id = client_id,
+	secret_key = secret_key
 )
 print('EsiSecurity loaded')
 
