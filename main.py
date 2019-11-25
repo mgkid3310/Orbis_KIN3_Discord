@@ -117,6 +117,7 @@ async def on_message(message):
 
 		if command in ['xup', '엑스업']:
 			waitlist.xup_channel = channel
+			await waitlist.xup_channel.send('현재 채널을 엑스업 채널로 지정')
 
 		if command in ['reset', '리셋', '초기화']:
 			waitlist.reset_waitlist()
