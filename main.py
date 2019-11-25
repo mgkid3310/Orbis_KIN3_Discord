@@ -317,7 +317,7 @@ esi_scopes = [
 	'esi-location.read_online.v1'
 ]
 auth_url = security.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_scopes)
-auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 (코드)`'
+auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 코드`'
 auth_embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description)
 
 server_list = KIN3_waitlist.server_list()
