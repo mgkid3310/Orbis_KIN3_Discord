@@ -282,7 +282,7 @@ print('EsiApp loaded')
 
 security = EsiSecurity(
 	headers = {'User-Agent':'something'},
-	redirect_uri = 'http://localhost:65432/callback/',
+	redirect_uri = 'https://mgkid3310.wixsite.com/kin3/blank/',
 	client_id = 'f5681b8bf37b4454911f42c53af1f22b',
 	secret_key = 'CTJ5dPxofM2Q0uVuDB4Gy43hzsdloK5C3Eriw7wn'
 )
@@ -317,7 +317,7 @@ esi_scopes = [
 	'esi-location.read_online.v1'
 ]
 auth_url = security.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_scopes)
-auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증코드는 URL에서 code=부터 &까지 부분입니다\n인증명령어: `ㅊ인증 (코드)`'
+auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 (코드)`'
 auth_embed = discord.Embed(title = '계정등록', url = auth_url, description = auth_description)
 
 server_list = KIN3_waitlist.server_list()
