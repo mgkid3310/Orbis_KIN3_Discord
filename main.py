@@ -19,9 +19,13 @@ async def on_ready():
 	print(f'name : {bot.user.name}')
 	print(f'id : {bot.user.id}')
 
+	# start bot loop
 	await bot.change_presence(activity = discord.Game(name = 'KIN3', type = 1))
 	bot.loop.create_task(event_periodic_1s())
 	bot.loop.create_task(event_periodic_60s())
+
+	# start tcp loop
+	bot.loop.create_task(tcp_inbound())
 
 @bot.event
 async def on_message(message):
@@ -286,6 +290,10 @@ async def event_periodic_60s():
 		KIN3_database.filter_vailid_tokens(esi_objects)
 
 		await asyncio.sleep(60)
+
+async def tcp_inbound():
+	while True:
+		asdf
 
 # setup main
 app = EsiApp().get_latest_swagger
