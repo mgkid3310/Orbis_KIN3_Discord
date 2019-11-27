@@ -80,7 +80,7 @@ async def on_message(message):
 				return_message = KIN3_database.add_token(esi_objects, code, message.author.id)
 
 				if return_message == '':
-					await message.channel.send('등록이 완료되었습니다')
+					await message.channel.send(f'{display_name}, 등록이 완료되었습니다')
 				else:
 					await message.channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
 			else:
@@ -92,6 +92,7 @@ async def on_message(message):
 	waitlist = server_list.get_waitlist(message.guild.id)
 
 	channel = message.channel
+	display_name = message.author.display_name
 
 	# channel management
 	if waitlist.xup_channel is None:
@@ -131,7 +132,7 @@ async def on_message(message):
 				return_message = KIN3_database.add_token(esi_objects, code, message.author.id)
 
 				if return_message == '':
-					await message.channel.send('등록이 완료되었습니다')
+					await message.channel.send(f'{display_name}, 등록이 완료되었습니다')
 				else:
 					await message.channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
 			else:
@@ -142,18 +143,18 @@ async def on_message(message):
 	if prefix in ['x', 'ㅌ']:
 		auth_count = KIN3_database.auth_count(message.author)
 		if not auth_count > 0:
-			await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
+			await waitlist.xup_channel.send(f'{display_name}, 계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
 			await message.channel.send(embed = auth_embed)
 			return None
 		else:
 			if auth_count > 1 and char_index is None:
-				await waitlist.xup_channel.send('등록된 계정이 두개 이상입니다. 계정을 특정해주세요')
+				await waitlist.xup_channel.send(f'{display_name}, 등록된 계정이 두개 이상입니다. 계정을 특정해주세요')
 				await waitlist.xup_channel.send(KIN3_database.xup_selection_info(message.author))
 				return None
 
 			eve_char_object = KIN3_database.get_character_object(esi_objects, message.author, char_index)
 			if eve_char_object is None:
-				await waitlist.xup_channel.send('에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init failed')
+				await waitlist.xup_channel.send(f'{display_name}, 에러가 발생했습니다. 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init fail')
 				return None
 
 		if waitlist.xup_channel is None:
@@ -163,20 +164,29 @@ async def on_message(message):
 			roles = command.split(' ')
 
 			if len(keywords_dps.intersection(roles)) > 0:
-				waitlist.add_dps(eve_char_object)
-				await waitlist.xup_channel.send(f'DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
+				result = waitlist.add_dps(eve_char_object)
+				if result > 0:
+					await waitlist.xup_channel.send(f'{display_name} DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
+				else:
+					await waitlist.xup_channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
 
 			if len(keywords_snp.intersection(roles)) > 0:
-				waitlist.add_snp(eve_char_object)
-				await waitlist.xup_channel.send(f'SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
+				result = waitlist.add_snp(eve_char_object)
+				if result > 0:
+					await waitlist.xup_channel.send(f'{display_name} SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
+				else:
+					await waitlist.xup_channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
 
 			if len(keywords_logi.intersection(roles)) > 0:
-				waitlist.add_logi(eve_char_object)
-				await waitlist.xup_channel.send(f'LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
+				result = waitlist.add_logi(eve_char_object)
+				if result > 0:
+					await waitlist.xup_channel.send(f'{display_name} LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
+				else:
+					await waitlist.xup_channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
 
 			if len(keywords_cancel.intersection(roles)) > 0:
 				waitlist.remove_user(eve_char_object)
-				await waitlist.xup_channel.send('대기열에서 퇴장')
+				await waitlist.xup_channel.send(f'{display_name} 대기열에서 퇴장')
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
@@ -186,18 +196,18 @@ async def on_message(message):
 		if channel == waitlist.xup_channel:
 			auth_count = KIN3_database.auth_count(message.author)
 			if not auth_count > 0:
-				await waitlist.xup_channel.send('계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
+				await waitlist.xup_channel.send(f'{display_name}, 계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
 				await message.channel.send(embed = auth_embed)
 				return None
 			else:
 				if auth_count > 1 and char_index is None:
-					await waitlist.xup_channel.send('등록된 계정이 두개 이상입니다. 계정을 특정해주세요')
+					await waitlist.xup_channel.send(f'{display_name}, 등록된 계정이 두개 이상입니다. 계정을 특정해주세요')
 					await waitlist.xup_channel.send(KIN3_database.xup_selection_info(message.author))
 					return None
 
 				eve_char_object = KIN3_database.get_character_object(esi_objects, message.author, char_index)
 				if eve_char_object is None:
-					await waitlist.xup_channel.send('에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init failed')
+					await waitlist.xup_channel.send(f'{display_name}, 에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init fail')
 					return None
 
 			items = command.split(' ')
@@ -238,7 +248,7 @@ async def on_message(message):
 							request_logi += request_number
 
 				if request_dps + request_snp + request_logi > 0:
-					await waitlist.xup_channel.send(f'{message.author.display_name}이(가) DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명을 모집')
+					await waitlist.xup_channel.send(f'{display_name}이(가) DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명을 모집')
 					request_return = waitlist.request_users(request_dps, request_snp, request_logi)
 					if request_return is not None:
 						notice_text = waitlist.request_announcement((eve_char_object,) + request_return)
