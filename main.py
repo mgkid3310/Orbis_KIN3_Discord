@@ -15,17 +15,19 @@ bot = discord.Client()
 # define event & functions
 @bot.event
 async def on_ready():
+	await bot.change_presence(activity = discord.Game(name = 'KIN3', type = 1))
 	print('Bot logged in as')
 	print(f'name : {bot.user.name}')
 	print(f'id : {bot.user.id}')
 
-	# start bot loop
-	await bot.change_presence(activity = discord.Game(name = 'KIN3', type = 1))
-	bot.loop.create_task(event_periodic_1s())
-	bot.loop.create_task(event_periodic_60s())
-
 	# start tcp loop
 	bot.loop.create_task(tcp_inbound())
+	print('tcp loop started')
+
+	# start periodic loop
+	bot.loop.create_task(event_periodic_1s())
+	bot.loop.create_task(event_periodic_60s())
+	print('periodic loop started')
 
 @bot.event
 async def on_message(message):
@@ -263,6 +265,10 @@ async def on_message(message):
 						waitlist.add_request(eve_char_object, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
+async def tcp_inbound():
+	while True:
+		print()
+
 async def event_periodic_1s():
 	while True:
 		for waitlist in server_list.waitlists:
@@ -290,10 +296,6 @@ async def event_periodic_60s():
 		KIN3_database.filter_vailid_tokens(esi_objects)
 
 		await asyncio.sleep(60)
-
-async def tcp_inbound():
-	while True:
-		asdf
 
 # setup main
 app = EsiApp().get_latest_swagger
