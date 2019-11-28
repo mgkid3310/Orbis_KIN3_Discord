@@ -21,13 +21,13 @@ async def on_ready():
 	print(f'id : {bot.user.id}')
 
 	# start tcp loop
-	bot.loop.create_task(tcp_inbound())
+	bot.loop.create_task(tcp_loop())
 	print('tcp loop started')
 
-	# start periodic loop
+	# start periodic bot loop
 	bot.loop.create_task(event_periodic_1s())
 	bot.loop.create_task(event_periodic_60s())
-	print('periodic loop started')
+	print('periodic bot loop started')
 
 @bot.event
 async def on_message(message):
@@ -265,9 +265,9 @@ async def on_message(message):
 						waitlist.add_request(eve_char_object, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
-async def tcp_inbound():
+async def tcp_loop():
 	while True:
-		print()
+		print('tcp loop')
 
 async def event_periodic_1s():
 	while True:
