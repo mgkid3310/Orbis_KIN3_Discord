@@ -277,8 +277,11 @@ async def start_tcp_server():
 		await server.serve_forever()
 
 	# tcp connection test
-	words = 'hello world apple banana'.split()
-	fs = [asyncio.ensure_future(start_tcp_test_client(w)) for w in words]
+	# test_tcp_server()
+
+async def test_tcp_server():
+	message = 'hello world apple banana'
+	fs = [asyncio.ensure_future(start_tcp_test_client(word)) for word in message.split()]
 	await asyncio.wait(fs, timeout = 4)
 
 async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
