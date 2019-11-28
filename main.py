@@ -267,7 +267,7 @@ async def on_message(message):
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 async def start_tcp_server():
-	server = await asyncio.start_server(handle_echo_tcp, '127.0.0.1', 5577)
+	server = await asyncio.start_server(handle_tcp_inbound, '127.0.0.1', 5577)
 	addr = server.sockets[0].getsockname()
 	print(f'Serving on {addr}')
 	print('--------')
@@ -275,7 +275,7 @@ async def start_tcp_server():
 	async with server:
 		await server.serve_forever()
 
-async def handle_echo_tcp(reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
+async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
 	addr = writer.get_extra_info('peername')
 	print(addr)
 	data = await reader.read(100)
