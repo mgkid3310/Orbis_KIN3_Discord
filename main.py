@@ -298,26 +298,21 @@ async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.Strea
 	await writer.wait_closed()
 
 async def start_client(message: str):
-    # 1
-    reader: asyncio.StreamReader
-    writer: asyncio.StreamWriter
-    reader, writer = await asyncio.open_connection(
-            '127.0.0.1', 5577)
+	reader: asyncio.StreamReader
+	writer: asyncio.StreamWriter
+	reader, writer = await asyncio.open_connection('127.0.0.1', 5577)
 
-    # 2
-    print('[C]Connected')
-    writer.write(message.encode())
-    await writer.drain()
-    print(f'[C]Send: {message!r}')
+	print('[C]Connected')
+	writer.write(message.encode())
+	await writer.drain()
+	print(f'[C]Send: {message!r}')
 
-    # 3
-    data = await reader.read(100)
-    print(f'[C]Received: {data.decode()!r}')
+	data = await reader.read(100)
+	print(f'[C]Received: {data.decode()!r}')
 
-    # 4
-    print('[C]Closing...')
-    writer.close()
-    await writer.wait_closed()
+	print('[C]Closing...')
+	writer.close()
+	await writer.wait_closed()
 
 async def event_periodic_1s():
 	while True:
