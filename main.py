@@ -271,6 +271,8 @@ async def tcp_loop():
 	while True:
 		print('tcp loop')
 
+		await asyncio.sleep(1)
+
 async def event_periodic_1s():
 	while True:
 		for waitlist in server_list.waitlists:
