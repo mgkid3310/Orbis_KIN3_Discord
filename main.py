@@ -27,8 +27,8 @@ async def on_ready():
 	print('--------')
 
 	# start tcp loop
-	print('Starting TCP server')
-	bot.loop.create_task(start_tcp_server())
+	# print('Starting TCP server')
+	# bot.loop.create_task(start_tcp_server())
 
 @bot.event
 async def on_message(message):
@@ -261,7 +261,7 @@ async def on_message(message):
 						notice_text = waitlist.request_announcement((eve_char_object,) + request_return)
 						await waitlist.xup_channel.send(notice_text)
 
-						eve_char_object.fleet_invite(request_return[0] + request_return[1] + request_return[2])
+						# eve_char_object.fleet_invite(request_return[0] + request_return[1] + request_return[2])
 					else:
 						waitlist.add_request(eve_char_object, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
@@ -305,7 +305,7 @@ async def event_periodic_1s():
 				notice_text = waitlist.request_announcement(check_return)
 				await waitlist.xup_channel.send(notice_text)
 
-				check_return[0].fleet_invite(check_return[1] + check_return[2] + check_return[3])
+				# check_return[0].fleet_invite(check_return[1] + check_return[2] + check_return[3])
 
 			# update billboard
 			waitlist.update_billboard()
