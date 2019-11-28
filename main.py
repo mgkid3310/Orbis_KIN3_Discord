@@ -30,7 +30,7 @@ async def on_ready():
 	bot.loop.create_task(start_tcp_server())
 
 	# tcp connection test
-	bot.loop.create_task(test_tcp_server())
+	# bot.loop.create_task(test_tcp_server())
 
 @bot.event
 async def on_message(message):
