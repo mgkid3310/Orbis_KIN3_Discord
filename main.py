@@ -269,10 +269,11 @@ async def on_message(message):
 async def start_tcp_server():
 	server = await asyncio.start_server(handle_tcp_inbound, '127.0.0.1', 5577)
 	addr = server.sockets[0].getsockname()
-	print(f'Serving on {addr}')
-	print('--------')
+	print(f'Server started on {addr}')
 
 	async with server:
+		print(f'Request handling started')
+		print('--------')
 		await server.serve_forever()
 
 async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
