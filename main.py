@@ -19,15 +19,17 @@ async def on_ready():
 	print('Bot logged in as')
 	print(f'name : {bot.user.name}')
 	print(f'id : {bot.user.id}')
-
-	# start tcp loop
-	bot.loop.create_task(tcp_loop())
-	print('tcp loop started')
+	print('--------')
 
 	# start periodic bot loop
 	bot.loop.create_task(event_periodic_1s())
 	bot.loop.create_task(event_periodic_60s())
 	print('periodic bot loop started')
+
+	# start tcp loop
+	bot.loop.create_task(tcp_loop())
+	print('tcp loop started')
+	print('--------')
 
 @bot.event
 async def on_message(message):
@@ -322,6 +324,7 @@ client = EsiClient(
 	security = security
 )
 print('EsiClient loaded')
+print('--------')
 
 esi_objects = (app, security, client)
 
