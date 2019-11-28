@@ -30,11 +30,6 @@ async def on_ready():
 	print('Starting TCP server')
 	bot.loop.create_task(start_tcp_server())
 
-	# tcp connection test
-	words = 'hello world apple banana'.split()
-	fs = [asyncio.ensure_future(start_tcp_test_client(w)) for w in words]
-	await asyncio.wait(fs, timeout = 4)
-
 @bot.event
 async def on_message(message):
 	global keywords_auth
@@ -280,6 +275,11 @@ async def start_tcp_server():
 		print(f'Request handling started')
 		print('--------')
 		await server.serve_forever()
+
+	# tcp connection test
+	words = 'hello world apple banana'.split()
+	fs = [asyncio.ensure_future(start_tcp_test_client(w)) for w in words]
+	await asyncio.wait(fs, timeout = 4)
 
 async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
 	addr = writer.get_extra_info('peername')
