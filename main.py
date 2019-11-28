@@ -32,7 +32,7 @@ async def on_ready():
 
 	# tcp connection test
 	words = 'hello world apple banana'.split()
-	fs = [asyncio.ensure_future(start_client(w)) for w in words]
+	fs = [asyncio.ensure_future(start_tcp_test_client(w)) for w in words]
 	await asyncio.wait(fs, timeout = 4)
 
 @bot.event
@@ -297,7 +297,7 @@ async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.Strea
 	writer.close()
 	await writer.wait_closed()
 
-async def start_client(message: str):
+async def start_tcp_test_client(message: str):
 	reader: asyncio.StreamReader
 	writer: asyncio.StreamWriter
 	reader, writer = await asyncio.open_connection('127.0.0.1', 5577)
