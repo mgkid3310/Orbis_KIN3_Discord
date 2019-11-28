@@ -4,9 +4,9 @@ class eve_character:
 
 		self.esi_objects = esi_objects
 		self.name = name
-		self.char_id = char_id
+		self.char_id = int(char_id)
 		self.refresh_token = refresh_token
-		self.discord_id = discord_id
+		self.discord_id = int(discord_id)
 		self.discord_member = member
 
 	def __str__(self):
