@@ -86,7 +86,7 @@ class server_list:
 			self.request_list.append((fc, dps, snp, logi))
 
 		def remove_request(self, member):
-			self.request_list = [x for x in self.request_list if x[0].discord_id != member.id]
+			self.request_list = [x for x in self.request_list if not x[0].discord_id == member.id]
 
 		def reset_request(self):
 			self.request_list = []
