@@ -8,7 +8,7 @@ async def start_tcp_server(tcp_server = None):
 	print('Starting TCP server')
 
 	if tcp_server is not None:
-		return 0
+		return None
 
 	with open('./tcp_setup.txt', 'r') as file:
 		readRines = file.readlines()
