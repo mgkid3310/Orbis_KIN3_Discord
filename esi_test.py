@@ -27,6 +27,8 @@ client = EsiClient(
 	security = security
 )
 print('EsiClient loaded')
+
+esi_objects = (app, security, client)
 print('--------')
 
 #%%
@@ -51,6 +53,10 @@ token = security.refresh()
 #%%
 operation = app.op['get_status']()
 client.request(operation).data
+
+#%%
+server_status = KIN3_Esi.check_server_status(esi_objects)
+'players' in server_status
 
 #%%
 operation = app.op['get_characters_character_id_fittings'](character_id = '97199391')

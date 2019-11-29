@@ -124,3 +124,11 @@ class eve_character:
 				}
 				operation = app.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
 				invite_return = client.request(operation)
+
+def check_server_status(esi_objects):
+	app, security, client = esi_objects
+
+	operation = app.op['get_status']()
+	status_data = client.request(operation).data
+
+	return status_data
