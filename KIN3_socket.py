@@ -7,18 +7,22 @@ import KIN3_waitlist
 async def start_tcp_server():
 	print('Starting TCP server')
 
+	global tcp_server
+	if tcp_server is not None:
+		return 0
+
 	with open('./tcp_setup.txt', 'r') as file:
 		readRines = file.readlines()
 
 	tcp_server_ip = readRines[0].strip().split(':')
-	server = await asyncio.start_server(handle_tcp_inbound, tcp_server_ip[0], tcp_server_ip[1])
-	addr = server.sockets[0].getsockname()
-	print(f'Server started on {addr}')
+	tcp_server = await asyncio.start_server(handle_tcp_inbound, tcp_server_ip[0], tcp_server_ip[1])
+	tcp_addr = tcp_server.sockets[0].getsockname()
+	print(f'Server started on {tcp_addr}')
 
-	async with server:
+	async with tcp_server:
 		print(f'Request handling started')
 		print('--------')
-		await server.serve_forever()
+		await tcp_server.serve_forever()
 
 async def test_tcp_server():
 	print('Testing TCP server')

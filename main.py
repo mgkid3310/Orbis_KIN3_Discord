@@ -349,6 +349,7 @@ auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어:
 auth_embed = discord.Embed(title = '계정등록 링크', url = auth_url, description = auth_description)
 
 server_list = KIN3_waitlist.server_list()
+tcp_server = None
 
 print('Starting bot')
 bot.run(bot_token)
