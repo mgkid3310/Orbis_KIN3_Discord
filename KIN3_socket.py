@@ -31,15 +31,6 @@ async def start_serve(tcp_server):
 	async with tcp_server:
 		await tcp_server.serve_forever()
 
-async def test_tcp_server():
-	print('Testing TCP server')
-
-	message = 'hello world apple banana'
-	fs = [asyncio.ensure_future(start_tcp_test_client(word)) for word in message.split()]
-	await asyncio.wait(fs, timeout = 4)
-	print(f'TCP server test complete')
-	print('--------')
-
 async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
 	addr = writer.get_extra_info('peername')
 	print(addr)
@@ -55,6 +46,15 @@ async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.Strea
 	print("[S]Close the connection")
 	writer.close()
 	await writer.wait_closed()
+
+async def test_tcp_server():
+	print('Testing TCP server')
+
+	message = 'hello world apple banana'
+	fs = [asyncio.ensure_future(start_tcp_test_client(word)) for word in message.split()]
+	await asyncio.wait(fs, timeout = 4)
+	print(f'TCP server test complete')
+	print('--------')
 
 async def start_tcp_test_client(message: str):
 	reader: asyncio.StreamReader
