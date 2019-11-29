@@ -49,7 +49,7 @@ security.update_token({
 token = security.refresh()
 
 #%%
-operation = app.op['get_characters_character_id_location'](character_id = '97199391')
+operation = app.op['get_status']()
 client.request(operation).data
 
 #%%
