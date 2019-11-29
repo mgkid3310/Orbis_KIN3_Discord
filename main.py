@@ -312,7 +312,12 @@ async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.Strea
 async def start_tcp_test_client(message: str):
 	reader: asyncio.StreamReader
 	writer: asyncio.StreamWriter
-	reader, writer = await asyncio.open_connection('127.0.0.1', 5577)
+
+	with open('./tcp_setup.txt', 'r') as file:
+		readRines = file.readlines()
+
+	tcp_server_ip = readRines[0].strip().split(':')
+	reader, writer = await asyncio.open_connection(tcp_server_ip[0], tcp_server_ip[1])
 
 	print('[C]Connected')
 	writer.write(message.encode())
