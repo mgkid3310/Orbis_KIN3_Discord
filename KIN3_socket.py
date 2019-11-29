@@ -4,10 +4,9 @@ import KIN3_Esi
 import KIN3_database
 import KIN3_waitlist
 
-async def start_tcp_server():
+async def start_tcp_server(tcp_server = None):
 	print('Starting TCP server')
 
-	global tcp_server
 	if tcp_server is not None:
 		return 0
 

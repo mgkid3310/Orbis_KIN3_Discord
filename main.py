@@ -16,6 +16,8 @@ bot = discord.Client()
 # define event & functions
 @bot.event
 async def on_ready():
+	global tcp_server
+
 	await bot.change_presence(activity = discord.Game(name = 'KIN3', type = 1))
 	print('Bot logged in as')
 	print(f'name : {bot.user.name}')
@@ -28,7 +30,7 @@ async def on_ready():
 	print('--------')
 
 	# start tcp server
-	bot.loop.create_task(KIN3_socket.start_tcp_server())
+	bot.loop.create_task(KIN3_socket.start_tcp_server(tcp_server))
 
 	# tcp connection test
 	# bot.loop.create_task(KIN3_socket.test_tcp_server())
