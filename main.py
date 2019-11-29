@@ -30,10 +30,10 @@ async def on_ready():
 	print('--------')
 
 	# start tcp server
-	bot.loop.create_task(KIN3_socket.start_tcp_server(tcp_server))
+	tcp_server = await KIN3_socket.start_tcp_server(bot, tcp_server)
 
 	# tcp connection test
-	# bot.loop.create_task(KIN3_socket.test_tcp_server())
+	# await KIN3_socket.test_tcp_server()
 
 @bot.event
 async def on_message(message):
@@ -293,10 +293,13 @@ async def event_periodic_1s():
 		await asyncio.sleep(1)
 
 async def event_periodic_60s():
+	global bot
+	global tcp_server
 	while True:
 		# check token validities
 		KIN3_database.filter_vailid_tokens(esi_objects)
 
+		# tcp_server = await KIN3_socket.start_tcp_server(bot, tcp_server)
 		await asyncio.sleep(60)
 
 # setup main

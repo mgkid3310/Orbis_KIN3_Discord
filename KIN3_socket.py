@@ -4,12 +4,15 @@ import KIN3_Esi
 import KIN3_database
 import KIN3_waitlist
 
-async def start_tcp_server(tcp_server = None):
+async def start_tcp_server(bot, tcp_server = None):
 	print('Starting TCP server')
 
 	if tcp_server is not None:
-		return None
+		print('Server already existing')
+		print('--------')
+		return tcp_server
 
+	print('No server existing')
 	with open('./tcp_setup.txt', 'r') as file:
 		readRines = file.readlines()
 
@@ -17,10 +20,15 @@ async def start_tcp_server(tcp_server = None):
 	tcp_server = await asyncio.start_server(handle_tcp_inbound, tcp_server_ip[0], tcp_server_ip[1])
 	tcp_addr = tcp_server.sockets[0].getsockname()
 	print(f'Server started on {tcp_addr}')
+	print(f'Request handling started')
+	print('--------')
 
+	bot.loop.create_task(start_serve(tcp_server))
+
+	return tcp_server
+
+async def start_serve(tcp_server):
 	async with tcp_server:
-		print(f'Request handling started')
-		print('--------')
 		await tcp_server.serve_forever()
 
 async def test_tcp_server():
