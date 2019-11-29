@@ -4,13 +4,21 @@ from esipy import EsiSecurity
 import KIN3_Esi
 
 app = EsiApp().get_latest_swagger
+print('EsiApp loaded')
+
+auth_key_file = open('./esi_auth_key.txt', 'r')
+auth_key_lines = auth_key_file.readlines()
+redirect_uri = auth_key_lines[0].strip()
+client_id = auth_key_lines[1].strip()
+secret_key = auth_key_lines[2].strip()
 
 security = EsiSecurity(
 	headers = {'User-Agent':'something'},
-	redirect_uri = 'http://localhost:65432/callback/',
-	client_id = 'f5681b8bf37b4454911f42c53af1f22b',
-	secret_key = 'CTJ5dPxofM2Q0uVuDB4Gy43hzsdloK5C3Eriw7wn'
+	redirect_uri = redirect_uri,
+	client_id = client_id,
+	secret_key = secret_key
 )
+print('EsiSecurity loaded')
 
 client = EsiClient(
 	headers = {'User-Agent':'something'},
@@ -18,21 +26,8 @@ client = EsiClient(
 	header = {'User-Agent': 'Something CCP can use to contact you and that define your app'},
 	security = security
 )
-
-esi_scopes = [
-	'esi-location.read_location.v1',
-	'esi-fleets.read_fleet.v1',
-	'esi-fleets.write_fleet.v1',
-	'esi-fittings.read_fittings.v1',
-	'esi-characters.read_chat_channels.v1',
-	'esi-location.read_online.v1'
-]
-print(security.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_scopes))
-
-#%%
-code = input()
-token = security.auth(code)
-token
+print('EsiClient loaded')
+print('--------')
 
 #%%
 if token['expires_in'] < 1200:
