@@ -271,7 +271,11 @@ async def on_message(message):
 async def start_tcp_server():
 	print('Starting TCP server')
 
-	server = await asyncio.start_server(handle_tcp_inbound, '127.0.0.1', 5577)
+	with open('./tcp_setup.txt', 'r') as file:
+		readRines = file.readlines()
+
+	tcp_server_ip = readRines[0].strip().split(':')
+	server = await asyncio.start_server(handle_tcp_inbound, tcp_server_ip[0], tcp_server_ip[1])
 	addr = server.sockets[0].getsockname()
 	print(f'Server started on {addr}')
 
@@ -354,7 +358,7 @@ async def event_periodic_60s():
 app = EsiApp().get_latest_swagger
 print('EsiApp loaded')
 
-auth_key_file = open('./auth_key.txt', 'r')
+auth_key_file = open('./esi_auth_key.txt', 'r')
 auth_key_lines = auth_key_file.readlines()
 redirect_uri = auth_key_lines[0].strip()
 client_id = auth_key_lines[1].strip()
