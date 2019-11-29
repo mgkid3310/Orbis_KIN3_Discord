@@ -1,5 +1,9 @@
 import asyncio
 
+import KIN3_Esi
+import KIN3_database
+import KIN3_waitlist
+
 async def start_tcp_server():
 	print('Starting TCP server')
 
