@@ -6,7 +6,7 @@ import KIN3_Esi
 import KIN3_database
 import KIN3_waitlist
 
-async def start_tcp_server(bot, tcp_server = None):
+async def start_tcp_server(loop, tcp_server = None):
 	print(f'{KIN3_common.timestamp()} : Starting TCP server')
 
 	if tcp_server is not None:
@@ -25,7 +25,7 @@ async def start_tcp_server(bot, tcp_server = None):
 	print(f'{KIN3_common.timestamp()} : Request handling started')
 	print(f'{KIN3_common.timestamp()} : --------')
 
-	bot.loop.create_task(start_serve(tcp_server))
+	loop.create_task(start_serve(tcp_server))
 
 	return tcp_server
 
