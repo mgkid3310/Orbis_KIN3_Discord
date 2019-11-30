@@ -272,6 +272,8 @@ async def on_message(message):
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 async def event_periodic_5s():
+	global server_list
+
 	while True:
 		for waitlist in server_list.waitlists:
 			# check token validities
@@ -293,6 +295,8 @@ async def event_periodic_5s():
 		await asyncio.sleep(5)
 
 async def event_periodic_60s():
+	global esi_objects
+
 	while True:
 		# check token validities
 		KIN3_database.filter_vailid_tokens(esi_objects)
