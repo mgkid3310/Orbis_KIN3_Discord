@@ -6,6 +6,7 @@ from esipy import EsiApp
 from esipy import EsiClient
 from esipy import EsiSecurity
 
+import KIN3_common
 import KIN3_Esi
 import KIN3_database
 import KIN3_waitlist
@@ -20,15 +21,15 @@ async def on_ready():
 	global tcp_server
 
 	await bot.change_presence(activity = discord.Game(name = 'KIN3', type = 1))
-	print(f'{round(time.time(), 4)} : Bot logged in as')
-	print(f'{round(time.time(), 4)} : name : {bot.user.name}')
-	print(f'{round(time.time(), 4)} : id : {bot.user.id}')
+	print(f'{KIN3_common.timestamp()} : Bot logged in as')
+	print(f'{KIN3_common.timestamp()} : name : {bot.user.name}')
+	print(f'{KIN3_common.timestamp()} : id : {bot.user.id}')
 
 	# start periodic bot loop
 	bot.loop.create_task(event_periodic_1s())
 	bot.loop.create_task(event_periodic_60s())
-	print(f'{round(time.time(), 4)} : Periodic bot loop started')
-	print(f'{round(time.time(), 4)} : --------')
+	print(f'{KIN3_common.timestamp()} : Periodic bot event added')
+	print(f'{KIN3_common.timestamp()} : --------')
 
 	# start tcp server
 	tcp_server = await KIN3_socket.start_tcp_server(bot, tcp_server)
@@ -306,7 +307,7 @@ async def event_periodic_60s():
 
 # setup main
 app = EsiApp().get_latest_swagger
-print(f'{round(time.time(), 4)} : EsiApp loaded')
+print(f'{KIN3_common.timestamp()} : EsiApp loaded')
 
 auth_key_file = open('./esi_auth_key.txt', 'r')
 auth_key_lines = auth_key_file.readlines()
@@ -320,7 +321,7 @@ security = EsiSecurity(
 	client_id = client_id,
 	secret_key = secret_key
 )
-print(f'{round(time.time(), 4)} : EsiSecurity loaded')
+print(f'{KIN3_common.timestamp()} : EsiSecurity loaded')
 
 client = EsiClient(
 	headers = {'User-Agent':'something'},
@@ -328,8 +329,8 @@ client = EsiClient(
 	header = {'User-Agent': 'Something CCP can use to contact you and that define your app'},
 	security = security
 )
-print(f'{round(time.time(), 4)} : EsiClient loaded')
-print(f'{round(time.time(), 4)} : --------')
+print(f'{KIN3_common.timestamp()} : EsiClient loaded')
+print(f'{KIN3_common.timestamp()} : --------')
 
 esi_objects = (app, security, client)
 
@@ -358,5 +359,5 @@ auth_embed = discord.Embed(title = '계정등록 링크', url = auth_url, descri
 server_list = KIN3_waitlist.server_list()
 tcp_server = None
 
-print(f'{round(time.time(), 4)} : Starting bot')
+print(f'{KIN3_common.timestamp()} : Starting bot')
 bot.run(bot_token)
