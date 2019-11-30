@@ -1,3 +1,4 @@
+import time
 import asyncio
 import discord
 
@@ -19,15 +20,15 @@ async def on_ready():
 	global tcp_server
 
 	await bot.change_presence(activity = discord.Game(name = 'KIN3', type = 1))
-	print('Bot logged in as')
-	print(f'name : {bot.user.name}')
-	print(f'id : {bot.user.id}')
+	print(f'{time.time()} : Bot logged in as')
+	print(f'{time.time()} : name : {bot.user.name}')
+	print(f'{time.time()} : id : {bot.user.id}')
 
 	# start periodic bot loop
 	bot.loop.create_task(event_periodic_1s())
 	bot.loop.create_task(event_periodic_60s())
-	print('Periodic bot loop started')
-	print('--------')
+	print(f'{time.time()} : Periodic bot loop started')
+	print(f'{time.time()} : --------')
 
 	# start tcp server
 	tcp_server = await KIN3_socket.start_tcp_server(bot, tcp_server)
@@ -305,7 +306,7 @@ async def event_periodic_60s():
 
 # setup main
 app = EsiApp().get_latest_swagger
-print('EsiApp loaded')
+print(f'{time.time()} : EsiApp loaded')
 
 auth_key_file = open('./esi_auth_key.txt', 'r')
 auth_key_lines = auth_key_file.readlines()
@@ -319,7 +320,7 @@ security = EsiSecurity(
 	client_id = client_id,
 	secret_key = secret_key
 )
-print('EsiSecurity loaded')
+print(f'{time.time()} : EsiSecurity loaded')
 
 client = EsiClient(
 	headers = {'User-Agent':'something'},
@@ -327,8 +328,8 @@ client = EsiClient(
 	header = {'User-Agent': 'Something CCP can use to contact you and that define your app'},
 	security = security
 )
-print('EsiClient loaded')
-print('--------')
+print(f'{time.time()} : EsiClient loaded')
+print(f'{time.time()} : --------')
 
 esi_objects = (app, security, client)
 
@@ -357,5 +358,5 @@ auth_embed = discord.Embed(title = '계정등록 링크', url = auth_url, descri
 server_list = KIN3_waitlist.server_list()
 tcp_server = None
 
-print('Starting bot')
+print(f'{time.time()} : Starting bot')
 bot.run(bot_token)
