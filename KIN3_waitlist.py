@@ -24,7 +24,7 @@ class server_list:
 				return -1
 
 		def add_snp(self, eve_char_object):
-			if eve_char_object.char_id not in [x.char_id for x in self.waitlist_dps]:
+			if eve_char_object.char_id not in [x.char_id for x in self.waitlist_snp]:
 				self.waitlist_snp.append(eve_char_object)
 				self.waitcount_snp += 1
 				return 1
@@ -32,7 +32,7 @@ class server_list:
 				return -1
 
 		def add_logi(self, eve_char_object):
-			if eve_char_object.char_id not in [x.char_id for x in self.waitlist_dps]:
+			if eve_char_object.char_id not in [x.char_id for x in self.waitlist_logi]:
 				self.waitlist_logi.append(eve_char_object)
 				self.waitcount_logi += 1
 				return 1
