@@ -24,7 +24,7 @@ async def on_ready():
 	print(f'id : {bot.user.id}')
 
 	# start periodic bot loop
-	bot.loop.create_task(event_periodic_5s())
+	bot.loop.create_task(event_periodic_1s())
 	bot.loop.create_task(event_periodic_60s())
 	print('Periodic bot loop started')
 	print('--------')
@@ -271,7 +271,7 @@ async def on_message(message):
 						waitlist.add_request(eve_char_object, request_dps, request_snp, request_logi)
 						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
-async def event_periodic_5s():
+async def event_periodic_1s():
 	global server_list
 
 	while True:
@@ -292,7 +292,7 @@ async def event_periodic_5s():
 			if waitlist.billboard_message is not None:
 				await waitlist.billboard_message.edit(content = waitlist.billboard_text)
 
-		await asyncio.sleep(5)
+		await asyncio.sleep(1)
 
 async def event_periodic_60s():
 	global esi_objects
