@@ -118,11 +118,13 @@ class server_list:
 			if self.waitcount_dps > 0:
 				width_dps_list = [len(x.name) for x in self.waitlist_dps]
 				width_dps_list.append(width_dps)
-				width_dps = max(width_dps_list) + 3
+				width_dps = max(width_dps_list)
+				# width_dps += 3
 			if self.waitcount_snp > 0:
 				width_snp_list = [len(x.name) for x in self.waitlist_snp]
 				width_snp_list.append(width_snp)
-				width_snp = max(width_snp_list) + 3
+				width_snp = max(width_snp_list)
+				# width_snp += 3
 			width_dps += 4
 			width_snp += 4
 
@@ -138,15 +140,15 @@ class server_list:
 				dps_white, snp_space = ' ' * width_dps, ' ' * width_snp
 				if index < self.waitcount_dps:
 					dps_name = self.waitlist_dps[index].name
-					dps_online = f'({online_mark[self.waitlist_dps[index].is_online()]})'
+					# dps_online = f'({online_mark[self.waitlist_dps[index].is_online()]})'
 					dps_white = ' ' * (width_dps - len(dps_name) - 3)
 				if index < self.waitcount_snp:
 					snp_name = self.waitlist_snp[index].name
-					snp_online = f'({online_mark[self.waitlist_snp[index].is_online()]})'
+					# snp_online = f'({online_mark[self.waitlist_snp[index].is_online()]})'
 					snp_space = ' ' * (width_snp - len(snp_name) - 3)
 				if index < self.waitcount_logi:
 					logi_name = self.waitlist_logi[index].name
-					logi_online = f'({online_mark[self.waitlist_logi[index].is_online()]})'
+					# logi_online = f'({online_mark[self.waitlist_logi[index].is_online()]})'
 				text += f'\n{dps_name}{dps_online}{dps_white}{snp_name}{snp_online}{snp_space}{logi_name}{logi_online}'
 			text += '\n\n----------------'
 
