@@ -292,7 +292,10 @@ async def event_periodic_1s():
 			# update billboard
 			waitlist.update_billboard()
 			if waitlist.billboard_message is not None:
-				await waitlist.billboard_message.edit(content = waitlist.billboard_text)
+				try:
+					await waitlist.billboard_message.edit(content = waitlist.billboard_text)
+				except:
+					pass
 
 		await asyncio.sleep(1)
 
