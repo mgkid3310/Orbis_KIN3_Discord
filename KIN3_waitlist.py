@@ -141,11 +141,11 @@ class server_list:
 				if index < self.waitcount_dps:
 					dps_name = self.waitlist_dps[index].name
 					# dps_online = f'({online_mark[self.waitlist_dps[index].is_online()]})'
-					dps_white = ' ' * (width_dps - len(dps_name) - 3)
+					dps_white = ' ' * (width_dps - len(dps_name) - len(dps_online))
 				if index < self.waitcount_snp:
 					snp_name = self.waitlist_snp[index].name
 					# snp_online = f'({online_mark[self.waitlist_snp[index].is_online()]})'
-					snp_space = ' ' * (width_snp - len(snp_name) - 3)
+					snp_space = ' ' * (width_snp - len(snp_name) - len(snp_online))
 				if index < self.waitcount_logi:
 					logi_name = self.waitlist_logi[index].name
 					# logi_online = f'({online_mark[self.waitlist_logi[index].is_online()]})'
