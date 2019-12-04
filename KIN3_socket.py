@@ -36,7 +36,7 @@ async def start_serve(tcp_server):
 async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
 	addr = writer.get_extra_info('peername')
 	print(addr)
-	data = await reader.read(100)
+	data = await reader.read()
 	message = data.decode()
 	# sock.getpeername()
 
@@ -73,7 +73,7 @@ async def start_tcp_test_client(message: str):
 	await writer.drain()
 	print(f'{KIN3_common.timestamp()} : [C]Send: {message!r}')
 
-	data = await reader.read(100)
+	data = await reader.read()
 	print(f'{KIN3_common.timestamp()} : [C]Received: {data.decode()!r}')
 
 	print(f'{KIN3_common.timestamp()} : [C]Closing...')
