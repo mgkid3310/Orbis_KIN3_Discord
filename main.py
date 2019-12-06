@@ -357,7 +357,7 @@ bot_token = bot_token_lines[0].strip()
 keywords_auth = {'auth', '인증', '등록'}
 keywords_dps = {'dps', 'vindi', 'vindicator', '디피', '빈디', '빈디케이터'}
 keywords_snp = {'snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '나이트메어', '마차', '마차리엘'}
-keywords_logi = {'logi', '로지'}
+keywords_logi = {'logi', 'scimitar', 'basilisk', '로지', '시미타', '바실리스크', '바실'}
 keywords_cancel = {'cancel', '취소'}
 
 esi_scopes = [
