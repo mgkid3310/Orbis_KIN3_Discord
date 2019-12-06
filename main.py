@@ -35,7 +35,7 @@ async def on_ready():
 	tcp_server = await KIN3_socket.start_tcp_server(bot.loop, tcp_server)
 
 	# tcp connection test
-	# await KIN3_socket.test_tcp_server()
+	await KIN3_socket.test_tcp_server()
 
 @bot.event
 async def on_message(message):
