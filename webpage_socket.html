@@ -1,0 +1,63 @@
+<!DOCTYPE>
+<html>
+<head>
+	<style>
+		#container {
+			width: 400px;
+		border: 1px dotted #000;
+		padding: 10px;
+		height: 328px;
+		}
+		#chatBox {
+			border: 1px solid #000;
+		width: 400px;
+		height: 300px;
+			margin-bottom: 5px;
+		}
+		#chat li {
+			padding: 5px 0px;
+		}
+		#name {
+		width: 78px;
+		}
+		#msg {
+		width: 256px;
+		}
+	</style>
+	<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			var socket = io.connect('http://118.33.133.53:2306/', {transports: ['websocket']});
+			if(socket != null && socket != undefined){
+				var welcome = document.createElement('li');
+				welcome.innerHTML = '<system> 채팅을 시작합니다.';
+				document.getElementById('chat').appendChild(welcome);
+
+				socket.on('rMsg', function(data){
+					var li = document.createElement('li');
+					li.innerHTML = data.name + ' : ' + data.msg;
+					document.getElementById('chat').appendChild(li);
+				});
+
+				document.getElementById('submit').onclick = function(){
+					var val = document.getElementById('msg').value;
+					var name = document.getElementById('name').value;
+					socket.emit('sMsg', name + ' : ' + val);
+					document.getElementById('msg').value = '';
+				};
+
+			}
+		};
+	</script>
+</head>
+<body>
+<div id="container">
+	<div id="chatBox">
+		<ul id="chat"></ul>
+	</div>
+	<input type="text" id="name"/>
+	<input type="text" id="msg"/>
+	<button id="submit">보내기</button>
+</div>
+</body>
+</html>
