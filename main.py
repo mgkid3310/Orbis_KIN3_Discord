@@ -225,7 +225,7 @@ async def on_message(message):
 
 			if len(keywords_cancel.intersection(roles)) > 0:
 				waitlist.remove_request(author)
-				await channel.send('모집 취소')
+				await channel.send(f'{display_name}({eve_char_object.name}) 모집 취소')
 			else:
 				request_dps, request_snp, request_logi = 0, 0, 0
 
