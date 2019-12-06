@@ -211,7 +211,8 @@ async def on_message(message):
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
-		roles = command.split(' ')
+		items = command.split(' ')
+		roles = [''.join([x for x in item if not x.isdigit()]) for item in items]
 		if not len((keywords_dps | keywords_snp | keywords_logi | keywords_cancel).intersection(roles)) > 0:
 			return None
 
@@ -223,14 +224,14 @@ async def on_message(message):
 			if eve_char_object is None:
 				return None
 
-			if len(keywords_cancel.intersection(roles)) > 0:
+			if len(keywords_cancel.intersection(items)) > 0:
 				waitlist.remove_request(author)
 				await channel.send(f'{display_name}({eve_char_object.name}) 모집 취소')
 			else:
 				request_dps, request_snp, request_logi = 0, 0, 0
 
-				for index in range(len(roles)):
-					item = roles[index]
+				for index in range(len(items)):
+					item = items[index]
 					request_number = -1
 					pure_command = ''.join([x for x in item if not x.isdigit()])
 					command_number = ''.join([x for x in item if x.isdigit()])
@@ -239,9 +240,9 @@ async def on_message(message):
 						if command_number != '':
 							request_number = int(command_number)
 						else:
-							if index < len(roles) - 1:
-								command_number_next = ''.join([x for x in roles[index + 1] if x.isdigit()])
-								if command_number_next == roles[index + 1]:
+							if index < len(items) - 1:
+								command_number_next = ''.join([x for x in items[index + 1] if x.isdigit()])
+								if command_number_next == items[index + 1]:
 									request_number = int(command_number_next)
 								else:
 									request_number = 1
