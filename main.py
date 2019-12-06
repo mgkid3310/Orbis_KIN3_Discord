@@ -49,6 +49,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
 	global keywords_auth
+	global keywords_auth_cancel
 	global keywords_dps
 	global keywords_snp
 	global keywords_logi
@@ -162,6 +163,12 @@ async def on_message(message):
 			else:
 				await channel.send(embed = auth_embed)
 				return None
+
+		if len(keywords_auth_cancel.intersection(words)) > 0:
+			eve_char_object = await KIN3_database.process_char_index(esi_objects, author, char_index, channel, display_name, auth_embed)
+			if eve_char_object is not None:
+				KIN3_database.remove_auth(eve_char_object)
+				await channel.send(f'{display_name}, 등록내역({eve_char_object.name})이 삭제되었습니다')
 
 	# x up
 	if prefix in ['x', 'ㅌ']:
@@ -332,6 +339,7 @@ bot_token_lines = bot_token_file.readlines()
 bot_token = bot_token_lines[0].strip()
 
 keywords_auth = {'auth', '인증', '등록'}
+keywords_auth_cancel = {'auth_cancel', '인증취소', '등록취소'}
 keywords_dps = {'dps', 'vindi', 'vindicator', '디피', '빈디', '빈디케이터'}
 keywords_snp = {'snp', 'sniper', 'nightmare', 'machariel', '스나', '나메', '나이트메어', '마차', '마차리엘'}
 keywords_logi = {'logi', 'scimitar', 'basilisk', '로지', '시미타', '바실리스크', '바실'}

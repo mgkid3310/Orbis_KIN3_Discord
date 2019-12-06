@@ -26,6 +26,22 @@ def add_token(esi_objects, code, member_id, file_path = './esi_tokens.txt'):
 
 	return ''
 
+def remove_auth(eve_char_object, file_path = './esi_tokens.txt'):
+	with open(file_path, 'r') as file:
+		readRines = file.readlines()
+
+	writeLines = []
+
+	for line in readRines:
+		if int(line.strip().split(":")[1]) != eve_char_object.char_id:
+			writeLines.append(line)
+
+	with open(file_path, 'w') as file:
+		for line in writeLines:
+			file.write(line)
+
+	return None
+
 def filter_vailid_tokens(esi_objects, file_path = './esi_tokens.txt'):
 	with open(file_path, 'r') as file:
 		readRines = file.readlines()
