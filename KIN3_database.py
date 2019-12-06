@@ -94,10 +94,10 @@ async def process_char_index(esi_objects, member, char_index, channel, display_n
 	else:
 		if auth_count > 1 and char_index is None:
 			await channel.send(f'{display_name}, 등록된 계정이 두개 이상입니다. 계정을 특정해주세요')
-			await channel.send(KIN3_database.xup_selection_info(member))
+			await channel.send(xup_selection_info(member))
 			return None
 
-		eve_char_object = KIN3_database.get_character_object(esi_objects, member, char_index)
+		eve_char_object = get_character_object(esi_objects, member, char_index)
 		if eve_char_object is None:
 			await channel.send(f'{display_name}, 에러가 발생했습니다. 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init fail')
 			return None
