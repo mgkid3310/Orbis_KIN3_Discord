@@ -37,7 +37,7 @@ class eve_character:
 		app, security, client = self.esi_objects
 
 		if not self.is_valid():
-			return None
+			return False
 
 		security.update_token({
 			'access_token': '',
@@ -46,15 +46,18 @@ class eve_character:
 		})
 		token = security.refresh()
 		operation = app.op['get_characters_character_id_online'](character_id = self.char_id)
-		is_online = client.request(operation).data['online']
 
-		return is_online
+		try:
+			is_online = client.request(operation).data['online']
+			return is_online
+		except:
+			return False
 
 	def get_location(self):
 		app, security, client = self.esi_objects
 
 		if not self.is_valid():
-			return None
+			return {'error' : 'Character is not valid'}
 
 		security.update_token({
 			'access_token': '',
@@ -63,15 +66,18 @@ class eve_character:
 		})
 		token = security.refresh()
 		operation = app.op['get_characters_character_id_location'](character_id = self.char_id)
-		location = client.request(operation).data
 
-		return location
+		try:
+			location_data = client.request(operation).data
+			return location_data
+		except:
+			return {'error' : 'Esi operation failed'}
 
 	def get_fitting(self):
 		app, security, client = self.esi_objects
 
 		if not self.is_valid():
-			return None
+			return {'error' : 'Character is not valid'}
 
 		security.update_token({
 			'access_token': '',
@@ -80,15 +86,18 @@ class eve_character:
 		})
 		token = security.refresh()
 		operation = app.op['get_characters_character_id_fittings'](character_id = self.char_id)
-		location = client.request(operation).data
 
-		return location
+		try:
+			location = client.request(operation).data
+			return location
+		except:
+			return {'error' : 'Esi operation failed'}
 
 	def get_fleet(self):
 		app, security, client = self.esi_objects
 
 		if not self.is_valid():
-			return None
+			return {'error' : 'Character is not valid'}
 
 		security.update_token({
 			'access_token': '',
@@ -97,19 +106,22 @@ class eve_character:
 		})
 		token = security.refresh()
 		operation = app.op['get_characters_character_id_fleet'](character_id = self.char_id)
-		fleet_data = client.request(operation).data
 
-		return fleet_data
+		try:
+			fleet_data = client.request(operation).data
+			return fleet_data
+		except:
+			return {'error' : 'Esi operation failed'}
 
 	def fleet_invite(self, characters):
 		app, security, client = self.esi_objects
 
 		if not self.is_valid():
-			return None
+			return {'error' : 'Character is not valid'}
 
 		fleet_data = self.get_fleet()
 		if 'fleet_id' not in fleet_data:
-			return None
+			return {'error' : 'Character is not in fleet'}
 		else:
 			fleet_id = fleet_data['fleet_id']
 
