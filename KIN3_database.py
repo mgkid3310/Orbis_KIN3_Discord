@@ -42,7 +42,7 @@ def filter_vailid_tokens(esi_objects, file_path = './esi_tokens.txt'):
 
 	return None
 
-def auth_count(member, file_path = './esi_tokens.txt'):
+def get_auth_count(member, file_path = './esi_tokens.txt'):
 	count = 0
 
 	with open(file_path, 'r') as file:
@@ -86,7 +86,7 @@ def get_character_object(esi_objects, member, char_index = 0):
 async def process_char_index(esi_objects, member, char_index, channel, display_name, auth_embed):
 	eve_char_object = None
 
-	auth_count = auth_count(member)
+	auth_count = get_auth_count(member)
 	if not auth_count > 0:
 		await channel.send(f'{display_name}, 계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
 		await channel.send(embed = auth_embed)
