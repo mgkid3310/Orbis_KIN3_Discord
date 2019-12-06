@@ -18,7 +18,7 @@ class eve_character:
 	def is_valid(self):
 		app, security, client = self.esi_objects
 
-		if not is_server_online(esi_objects):
+		if not is_server_online(self.esi_objects):
 			return True
 
 		security.update_token({
