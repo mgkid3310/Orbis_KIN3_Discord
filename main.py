@@ -18,6 +18,8 @@ bot = discord.Client()
 # define event & functions
 @bot.event
 async def on_ready():
+	global periodic_1s_running
+	global periodic_60s_running
 	global tcp_server
 
 	await bot.change_presence(activity = discord.Game(name = 'KIN3', type = 1))
@@ -26,9 +28,16 @@ async def on_ready():
 	print(f'{KIN3_common.timestamp()} : id : {bot.user.id}')
 
 	# start periodic bot loop
-	bot.loop.create_task(event_periodic_1s())
-	bot.loop.create_task(event_periodic_60s())
-	print(f'{KIN3_common.timestamp()} : Periodic bot event added')
+	if not periodic_1s_running:
+		periodic_1s_running = True
+		bot.loop.create_task(event_periodic_1s())
+		print(f'{KIN3_common.timestamp()} : 1s periodic bot event added')
+
+	if not periodic_60s_running:
+		periodic_60s_running = True
+		bot.loop.create_task(event_periodic_60s())
+		print(f'{KIN3_common.timestamp()} : 60s periodic bot event added')
+
 	print(f'{KIN3_common.timestamp()} : --------')
 
 	# start tcp server
@@ -360,6 +369,8 @@ auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어:
 auth_embed = discord.Embed(title = '계정등록 링크', url = auth_url, description = auth_description)
 
 server_list = KIN3_waitlist.server_list()
+periodic_1s_running = False
+periodic_60s_running = False
 tcp_server = None
 
 print(f'{KIN3_common.timestamp()} : Starting bot')
