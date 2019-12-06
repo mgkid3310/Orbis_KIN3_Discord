@@ -118,7 +118,6 @@ async def on_message(message):
 
 	waitlist = server_list.get_waitlist(message.guild.id)
 
-
 	# channel management
 	if waitlist.xup_channel is None:
 		waitlist.xup_channel = channel
