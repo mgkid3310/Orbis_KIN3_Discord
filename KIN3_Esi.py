@@ -26,6 +26,7 @@ class eve_character:
 			'expires_in': -1,
 			'refresh_token': self.refresh_token
 		})
+
 		try:
 			token = security.refresh()
 			return True
