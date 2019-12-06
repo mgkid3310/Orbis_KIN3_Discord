@@ -18,6 +18,9 @@ class eve_character:
 	def is_valid(self):
 		app, security, client = self.esi_objects
 
+		if not is_server_online(esi_objects):
+			return True
+
 		security.update_token({
 			'access_token': '',
 			'expires_in': -1,
@@ -129,6 +132,15 @@ def check_server_status(esi_objects):
 	app, security, client = esi_objects
 
 	operation = app.op['get_status']()
-	status_data = client.request(operation).data
 
-	return status_data
+	try:
+		status_data = client.request(operation).data
+		return status_data
+	except:
+		return {'error' : 'Esi operation failed'}
+
+def is_server_online(esi_objects):
+	status_data = check_server_status(esi_objects)
+	online_status = 'players' in status_data
+
+	return online_status
