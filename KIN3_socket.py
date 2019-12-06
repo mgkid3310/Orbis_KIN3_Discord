@@ -35,7 +35,7 @@ async def start_serve(tcp_server):
 
 async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
 	addr = writer.get_extra_info('peername')
-	print(addr)
+	print(f'{KIN3_common.timestamp()} : {addr}')
 	data = await reader.read()
 	message = data.decode()
 	# sock.getpeername()
