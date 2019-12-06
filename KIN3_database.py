@@ -83,7 +83,7 @@ def get_character_object(esi_objects, member, char_index = 0):
 
 	return None
 
-def process_char_index(esi_objects, member, char_index, channel, display_name, auth_embed):
+async def process_char_index(esi_objects, member, char_index, channel, display_name, auth_embed):
 	eve_char_object = None
 
 	auth_count = auth_count(member)
