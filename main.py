@@ -166,7 +166,7 @@ async def on_message(message):
 	# x up
 	if prefix in ['x', 'ㅌ']:
 		roles = command.split(' ')
-		if not len((keywords_dps + keywords_snp + keywords_logi + keywords_cancel).intersection(roles)) > 0:
+		if not len((keywords_dps | keywords_snp | keywords_logi | keywords_cancel).intersection(roles)) > 0:
 			return None
 
 		if waitlist.xup_channel is None:
@@ -205,7 +205,7 @@ async def on_message(message):
 	# z pull
 	if prefix in ['z', 'ㅋ']:
 		roles = command.split(' ')
-		if not len((keywords_dps + keywords_snp + keywords_logi + keywords_cancel).intersection(roles)) > 0:
+		if not len((keywords_dps | keywords_snp | keywords_logi | keywords_cancel).intersection(roles)) > 0:
 			return None
 
 		if waitlist.xup_channel is None:
