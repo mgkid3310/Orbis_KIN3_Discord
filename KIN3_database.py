@@ -37,7 +37,7 @@ def filter_vailid_tokens(esi_objects, file_path = './esi_tokens.txt'):
 			writeLines.append(line)
 
 	with open(file_path, 'w') as file:
-		for line in readRines:
+		for line in writeLines:
 			file.write(line)
 
 	return None
