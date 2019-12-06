@@ -164,6 +164,10 @@ async def on_message(message):
 
 	# x up
 	if prefix in ['x', 'ㅌ']:
+		roles = command.split(' ')
+		if not len((keywords_dps + keywords_snp + keywords_logi + keywords_cancel).intersection(roles)) > 0:
+			return None
+
 		if waitlist.xup_channel is None:
 			waitlist.xup_channel = channel
 
@@ -183,8 +187,6 @@ async def on_message(message):
 				if eve_char_object is None:
 					await waitlist.xup_channel.send(f'{display_name}, 에러가 발생했습니다. 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init fail')
 					return None
-
-			roles = command.split(' ')
 
 			if len(keywords_dps.intersection(roles)) > 0:
 				result = waitlist.add_dps(eve_char_object)
@@ -213,6 +215,10 @@ async def on_message(message):
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
+		roles = command.split(' ')
+		if not len((keywords_dps + keywords_snp + keywords_logi + keywords_cancel).intersection(roles)) > 0:
+			return None
+
 		if waitlist.xup_channel is None:
 			waitlist.xup_channel = channel
 
@@ -232,8 +238,6 @@ async def on_message(message):
 				if eve_char_object is None:
 					await waitlist.xup_channel.send(f'{display_name}, 에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init fail')
 					return None
-
-			items = command.split(' ')
 
 			if len(keywords_cancel.intersection(items)) > 0:
 				waitlist.remove_request(message.author)
