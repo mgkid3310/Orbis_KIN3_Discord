@@ -95,27 +95,29 @@ async def on_message(message):
 	if prefix not in ['c', 'x', 'z', 'ㅊ', 'ㅌ', 'ㅋ']:
 		return None
 
+	author = message.author
+	channel = message.channel
+	display_name = author.display_name
+
 	if message.guild is None:
 		words = command.split(' ')
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_database.add_token(esi_objects, code, message.author.id)
+				return_message = KIN3_database.add_token(esi_objects, code, author.id)
 
 				if return_message == '':
-					await message.channel.send(f'{display_name}, 등록이 완료되었습니다')
+					await channel.send(f'{display_name}, 등록이 완료되었습니다')
 				else:
-					await message.channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
+					await channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
 			else:
-				await message.channel.send(embed = auth_embed)
+				await channel.send(embed = auth_embed)
 				return None
 
 		return None
 
 	waitlist = server_list.get_waitlist(message.guild.id)
 
-	channel = message.channel
-	display_name = message.author.display_name
 
 	# channel management
 	if waitlist.xup_channel is None:
@@ -141,25 +143,25 @@ async def on_message(message):
 
 		if command in ['xup', '엑스업']:
 			waitlist.xup_channel = channel
-			await waitlist.xup_channel.send('현재 채널을 엑스업 채널로 지정')
+			await channel.send('현재 채널을 엑스업 채널로 지정')
 
 		if command in ['reset', '리셋', '초기화']:
 			waitlist.reset_waitlist()
 			waitlist.reset_request()
-			await waitlist.xup_channel.send('대기열 초기화')
+			await channel.send('대기열 초기화')
 
 		words = command.split(' ')
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_database.add_token(esi_objects, code, message.author.id)
+				return_message = KIN3_database.add_token(esi_objects, code, author.id)
 
 				if return_message == '':
-					await message.channel.send(f'{display_name}, 등록이 완료되었습니다')
+					await channel.send(f'{display_name}, 등록이 완료되었습니다')
 				else:
-					await message.channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
+					await channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
 			else:
-				await message.channel.send(embed = auth_embed)
+				await channel.send(embed = auth_embed)
 				return None
 
 	# x up
@@ -172,7 +174,6 @@ async def on_message(message):
 			waitlist.xup_channel = channel
 
 		if channel == waitlist.xup_channel:
-			auth_count = KIN3_database.auth_count(message.author)
 			if not auth_count > 0:
 				await waitlist.xup_channel.send(f'{display_name}, 계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
 				await waitlist.xup_channel.send(embed = auth_embed)
@@ -191,27 +192,27 @@ async def on_message(message):
 			if len(keywords_dps.intersection(roles)) > 0:
 				result = waitlist.add_dps(eve_char_object)
 				if result > 0:
-					await waitlist.xup_channel.send(f'{display_name} DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
+					await channel.send(f'{display_name} DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
 				else:
-					await waitlist.xup_channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
+					await channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
 
 			if len(keywords_snp.intersection(roles)) > 0:
 				result = waitlist.add_snp(eve_char_object)
 				if result > 0:
-					await waitlist.xup_channel.send(f'{display_name} SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
+					await channel.send(f'{display_name} SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
 				else:
-					await waitlist.xup_channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
+					await channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
 
 			if len(keywords_logi.intersection(roles)) > 0:
 				result = waitlist.add_logi(eve_char_object)
 				if result > 0:
-					await waitlist.xup_channel.send(f'{display_name} LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
+					await channel.send(f'{display_name} LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
 				else:
-					await waitlist.xup_channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
+					await channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
 
 			if len(keywords_cancel.intersection(roles)) > 0:
 				waitlist.remove_user(eve_char_object)
-				await waitlist.xup_channel.send(f'{display_name} 대기열에서 퇴장')
+				await channel.send(f'{display_name} 대기열에서 퇴장')
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
@@ -223,25 +224,24 @@ async def on_message(message):
 			waitlist.xup_channel = channel
 
 		if channel == waitlist.xup_channel:
-			auth_count = KIN3_database.auth_count(message.author)
 			if not auth_count > 0:
-				await waitlist.xup_channel.send(f'{display_name}, 계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
-				await waitlist.xup_channel.send(embed = auth_embed)
+				await channel.send(f'{display_name}, 계정이 등록되지 않은 유저입니다, 계정 인증이 필요합니다')
+				await channel.send(embed = auth_embed)
 				return None
 			else:
 				if auth_count > 1 and char_index is None:
-					await waitlist.xup_channel.send(f'{display_name}, 등록된 계정이 두개 이상입니다. 계정을 특정해주세요')
-					await waitlist.xup_channel.send(KIN3_database.xup_selection_info(message.author))
+					await channel.send(f'{display_name}, 등록된 계정이 두개 이상입니다. 계정을 특정해주세요')
+					await channel.send(KIN3_database.xup_selection_info(author))
 					return None
 
-				eve_char_object = KIN3_database.get_character_object(esi_objects, message.author, char_index)
+				eve_char_object = KIN3_database.get_character_object(esi_objects, author, char_index)
 				if eve_char_object is None:
-					await waitlist.xup_channel.send(f'{display_name}, 에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init fail')
+					await channel.send(f'{display_name}, 에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init fail')
 					return None
 
 			if len(keywords_cancel.intersection(items)) > 0:
-				waitlist.remove_request(message.author)
-				await waitlist.xup_channel.send('모집 취소')
+				waitlist.remove_request(author)
+				await channel.send('모집 취소')
 			else:
 				request_dps, request_snp, request_logi = 0, 0, 0
 
@@ -275,16 +275,16 @@ async def on_message(message):
 							request_logi += request_number
 
 				if request_dps + request_snp + request_logi > 0:
-					await waitlist.xup_channel.send(f'{display_name}이(가) DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명을 모집')
+					await channel.send(f'{display_name}이(가) DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명을 모집')
 					request_return = waitlist.request_users(request_dps, request_snp, request_logi)
 					if request_return is not None:
 						notice_text = waitlist.request_announcement((eve_char_object,) + request_return)
-						await waitlist.xup_channel.send(notice_text)
+						await channel.send(notice_text)
 
 						# eve_char_object.fleet_invite(request_return[0] + request_return[1] + request_return[2])
 					else:
 						waitlist.add_request(eve_char_object, request_dps, request_snp, request_logi)
-						await waitlist.xup_channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
+						await channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
 async def event_periodic_1s():
 	global server_list
