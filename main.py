@@ -173,7 +173,7 @@ async def on_message(message):
 			waitlist.xup_channel = channel
 
 		if channel == waitlist.xup_channel:
-			eve_char_object = process_char_index(esi_objects, author, channel)
+			eve_char_object = process_char_index(esi_objects, author, char_index, channel, display_name, auth_embed)
 			if eve_char_object is None:
 				return None
 
@@ -212,7 +212,7 @@ async def on_message(message):
 			waitlist.xup_channel = channel
 
 		if channel == waitlist.xup_channel:
-			eve_char_object = process_char_index(esi_objects, author, channel)
+			eve_char_object = process_char_index(esi_objects, author, char_index, channel, display_name, auth_embed)
 			if eve_char_object is None:
 				return None
 
