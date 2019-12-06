@@ -180,27 +180,27 @@ async def on_message(message):
 			if len(keywords_dps.intersection(roles)) > 0:
 				result = waitlist.add_dps(eve_char_object)
 				if result > 0:
-					await channel.send(f'{display_name} DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
+					await channel.send(f'{display_name}({eve_char_object.name}) DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
 				else:
 					await channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
 
 			if len(keywords_snp.intersection(roles)) > 0:
 				result = waitlist.add_snp(eve_char_object)
 				if result > 0:
-					await channel.send(f'{display_name} SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
+					await channel.send(f'{display_name}({eve_char_object.name}) SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
 				else:
 					await channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
 
 			if len(keywords_logi.intersection(roles)) > 0:
 				result = waitlist.add_logi(eve_char_object)
 				if result > 0:
-					await channel.send(f'{display_name} LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
+					await channel.send(f'{display_name}({eve_char_object.name}) LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
 				else:
 					await channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
 
 			if len(keywords_cancel.intersection(roles)) > 0:
 				waitlist.remove_user(eve_char_object)
-				await channel.send(f'{display_name} 대기열에서 퇴장')
+				await channel.send(f'{display_name}({eve_char_object.name}) 대기열에서 퇴장')
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
@@ -252,7 +252,7 @@ async def on_message(message):
 							request_logi += request_number
 
 				if request_dps + request_snp + request_logi > 0:
-					await channel.send(f'{display_name}이(가) DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명을 모집')
+					await channel.send(f'{display_name}({eve_char_object.name})이(가) DPS {request_dps}명, SNP {request_snp}명, LOGI {request_logi}명을 모집')
 					request_return = waitlist.request_users(request_dps, request_snp, request_logi)
 					if request_return is not None:
 						notice_text = waitlist.request_announcement((eve_char_object,) + request_return)
