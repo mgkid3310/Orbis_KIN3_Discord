@@ -11,7 +11,7 @@ function useSocket(callback, parameter) {
 }
 
 var send_tcp = function() {
-	var socket = io.connect('https://118.33.133.53:2306/', {transports: ['websocket']});
+	var socket = io.connect('https://118.33.133.53:2401/', {transports: ['websocket']});
 	if(socket !== null && socket !== undefined){
 		socket.emit('sMsg', this.parameter);
 	}
