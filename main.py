@@ -285,7 +285,10 @@ async def event_periodic_1s():
 	while True:
 		for waitlist in server_list.waitlists:
 			# check token validities
-			waitlist.filter_vailid_members()
+			try:
+				waitlist.filter_vailid_members()
+			except:
+				pass
 
 			# check request list
 			check_return = waitlist.check_requests()
@@ -296,7 +299,11 @@ async def event_periodic_1s():
 				# check_return[0].fleet_invite(check_return[1] + check_return[2] + check_return[3])
 
 			# update billboard
-			waitlist.update_billboard()
+			try:
+				waitlist.update_billboard()
+			except:
+				pass
+
 			if waitlist.billboard_message is not None:
 				try:
 					await waitlist.billboard_message.edit(content = waitlist.billboard_text)
