@@ -1,3 +1,5 @@
+import KIN3_common
+
 class eve_character:
 	def __init__(self, input, member = None):
 		name, char_id, refresh_token, discord_id = input
@@ -170,6 +172,11 @@ def is_server_online(force_check = False):
 
 	status_data = check_server_status()
 	online_status = 'players' in status_data
+
+	if is_tranquility_online and not online_status:
+		print(f'{KIN3_common.timestamp()} : Tranquility server went offline')
+	if online_status and not is_tranquility_online:
+		print(f'{KIN3_common.timestamp()} : Tranquility server is now online')
 
 	is_tranquility_online = online_status
 	return online_status
