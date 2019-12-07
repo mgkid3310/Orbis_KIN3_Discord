@@ -17,11 +17,11 @@ import KIN3_socket
 bot = discord.Client()
 
 # load logger
-logger = logging.getLogger('discord')
+'''logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='discord_kin3.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter(f'{KIN3_common.timestamp()} : %(levelname)s : %(name)s : %(message)s'))
-logger.addHandler(handler)
+logger.addHandler(handler)'''
 
 # define event & functions
 @bot.event
