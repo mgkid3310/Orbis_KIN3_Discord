@@ -25,13 +25,12 @@ class eve_character:
 		if not is_server_online(self.esi_latest):
 			return True
 
-		security.update_token({
-			'access_token': '',
-			'expires_in': -1,
-			'refresh_token': self.refresh_token
-		})
-
 		try:
+			security.update_token({
+				'access_token': '',
+				'expires_in': -1,
+				'refresh_token': self.refresh_token
+			})
 			token = security.refresh()
 			return True
 		except:
@@ -40,18 +39,21 @@ class eve_character:
 	def is_online(self):
 		app, security, client = self.esi_latest
 
-		if not self.is_valid():
+		if not is_server_online(self.esi_latest):
 			return False
 
-		security.update_token({
-			'access_token': '',
-			'expires_in': -1,
-			'refresh_token': self.refresh_token
-		})
-		token = security.refresh()
-		operation = app.op['get_characters_character_id_online'](character_id = self.char_id)
+		try:
+			security.update_token({
+				'access_token': '',
+				'expires_in': -1,
+				'refresh_token': self.refresh_token
+			})
+			token = security.refresh()
+		except:
+			return False
 
 		try:
+			operation = app.op['get_characters_character_id_online'](character_id = self.char_id)
 			is_online = client.request(operation).data['online']
 			return is_online
 		except:
@@ -69,9 +71,9 @@ class eve_character:
 			'refresh_token': self.refresh_token
 		})
 		token = security.refresh()
-		operation = app.op['get_characters_character_id_location'](character_id = self.char_id)
 
 		try:
+			operation = app.op['get_characters_character_id_location'](character_id = self.char_id)
 			location_data = client.request(operation).data
 			return location_data
 		except:
@@ -89,9 +91,9 @@ class eve_character:
 			'refresh_token': self.refresh_token
 		})
 		token = security.refresh()
-		operation = app.op['get_characters_character_id_fittings'](character_id = self.char_id)
 
 		try:
+			operation = app.op['get_characters_character_id_fittings'](character_id = self.char_id)
 			location = client.request(operation).data
 			return location
 		except:
@@ -109,9 +111,9 @@ class eve_character:
 			'refresh_token': self.refresh_token
 		})
 		token = security.refresh()
-		operation = app.op['get_characters_character_id_fleet'](character_id = self.char_id)
 
 		try:
+			operation = app.op['get_characters_character_id_fleet'](character_id = self.char_id)
 			fleet_data = client.request(operation).data
 			return fleet_data
 		except:
@@ -138,19 +140,21 @@ class eve_character:
 
 		for character in characters:
 			if character.is_online():
-				invitation = {
-					"character_id": character.char_id,
-					"role": "squad_member"
-				}
-				operation = app.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
-				invite_return = client.request(operation)
+				try:
+					invitation = {
+						"character_id": character.char_id,
+						"role": "squad_member"
+					}
+					operation = app.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
+					invite_return = client.request(operation)
+				except:
+					pass
 
 def check_server_status(esi):
 	app, security, client = esi
 
-	operation = app.op['get_status']()
-
 	try:
+		operation = app.op['get_status']()
 		status_data = client.request(operation).data
 		return status_data
 	except:
