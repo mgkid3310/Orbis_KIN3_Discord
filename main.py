@@ -351,48 +351,39 @@ redirect_uri = auth_key_lines[0].strip()
 client_id = auth_key_lines[1].strip()
 secret_key = auth_key_lines[2].strip()
 
-# load esi latest
+# load esi objects
 app_latest = EsiApp().get_latest_swagger
 print(f'{KIN3_common.timestamp()} : EsiApp latest loaded')
 
-security_latest = EsiSecurity(
+app_v2 = EsiApp().get_v2_swagger
+print(f'{KIN3_common.timestamp()} : EsiApp v2 loaded')
+
+security = EsiSecurity(
 	redirect_uri = redirect_uri,
 	client_id = client_id,
 	secret_key = secret_key,
 	headers = {'User-Agent' : 'something'}
 )
-print(f'{KIN3_common.timestamp()} : EsiSecurity latest loaded')
+print(f'{KIN3_common.timestamp()} : EsiSecurity loaded')
 
 client_latest = EsiClient(
-	security = security_latest,
+	security = security,
 	retry_requests = True,
 	headers = {'User-Agent' : 'something'},
 	header = {'User-Agent' : 'something'}
 )
 print(f'{KIN3_common.timestamp()} : EsiClient latest loaded')
 
-# load esi v2
-app_v2 = EsiApp().get_v2_swagger
-print(f'{KIN3_common.timestamp()} : EsiApp v2 loaded')
-
-security_v2 = EsiSecurity(
-	redirect_uri = redirect_uri,
-	client_id = client_id,
-	secret_key = secret_key,
-	headers = {'User-Agent' : 'something'}
-)
-print(f'{KIN3_common.timestamp()} : EsiSecurity v2 loaded')
-
 client_v2 = EsiClient(
-	security = security_v2,
+	security = security,
 	retry_requests = True,
 	headers = {'User-Agent' : 'something'},
 	header = {'User-Agent' : 'something'}
 )
 print(f'{KIN3_common.timestamp()} : EsiClient v2 loaded')
 
-KIN3_Esi.esi_latest = (app_latest, security_latest, client_latest)
-KIN3_Esi.esi_v2 = (app_v2, security_v2, client_v2)
+KIN3_Esi.esi_latest = (app_latest, security, client_latest)
+KIN3_Esi.esi_v2 = (app_v2, security, client_v2)
 print(f'{KIN3_common.timestamp()} : --------')
 
 bot_token_file = open('./bot_token.txt', 'r')
