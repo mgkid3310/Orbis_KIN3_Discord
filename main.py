@@ -64,7 +64,8 @@ async def on_message(message):
 	global keywords_cancel
 	global auth_embed
 	global server_list
-	global esi_objects
+	global esi_latest
+	global esi_v2
 	global auth_url
 
 	if message.content == '':
@@ -113,7 +114,7 @@ async def on_message(message):
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_database.add_token(esi_objects, code, author.id)
+				return_message = KIN3_database.add_token(esi_latest, code, author.id)
 
 				if return_message == '':
 					await channel.send(f'{display_name}, 등록이 완료되었습니다')
@@ -162,7 +163,7 @@ async def on_message(message):
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_database.add_token(esi_objects, code, author.id)
+				return_message = KIN3_database.add_token(esi_latest, code, author.id)
 
 				if return_message == '':
 					await channel.send(f'{display_name}, 등록이 완료되었습니다')
@@ -173,7 +174,7 @@ async def on_message(message):
 				return None
 
 		if len(keywords_auth_cancel.intersection(words)) > 0:
-			eve_char_object = await KIN3_database.process_char_index(esi_objects, author, char_index, channel, display_name, auth_embed)
+			eve_char_object = await KIN3_database.process_char_index(esi_latest, esi_v2, author, char_index, channel, display_name, auth_embed)
 			if eve_char_object is not None:
 				KIN3_database.remove_auth(eve_char_object)
 				await channel.send(f'{display_name}, 등록내역({eve_char_object.name})이 삭제되었습니다')
@@ -188,7 +189,7 @@ async def on_message(message):
 			waitlist.xup_channel = channel
 
 		if channel == waitlist.xup_channel:
-			eve_char_object = await KIN3_database.process_char_index(esi_objects, author, char_index, channel, display_name, auth_embed)
+			eve_char_object = await KIN3_database.process_char_index(esi_latest, esi_v2, author, char_index, channel, display_name, auth_embed)
 			if eve_char_object is None:
 				return None
 
@@ -234,7 +235,7 @@ async def on_message(message):
 			waitlist.xup_channel = channel
 
 		if channel == waitlist.xup_channel:
-			eve_char_object = await KIN3_database.process_char_index(esi_objects, author, char_index, channel, display_name, auth_embed)
+			eve_char_object = await KIN3_database.process_char_index(esi_latest, esi_v2, author, char_index, channel, display_name, auth_embed)
 			if eve_char_object is None:
 				return None
 
@@ -327,45 +328,67 @@ async def event_periodic_1s():
 		await asyncio.sleep(1)
 
 async def event_periodic_60s():
-	global esi_objects
+	global esi_latest
 
 	while True:
 		# check token validities
 		try:
-			KIN3_database.filter_vailid_tokens(esi_objects)
+			KIN3_database.filter_vailid_tokens(esi_latest)
 		except:
 			pass
 
 		await asyncio.sleep(60)
 
 # setup main
-app = EsiApp().get_latest_swagger
-print(f'{KIN3_common.timestamp()} : EsiApp loaded')
-
 auth_key_file = open('./esi_auth_key.txt', 'r')
 auth_key_lines = auth_key_file.readlines()
 redirect_uri = auth_key_lines[0].strip()
 client_id = auth_key_lines[1].strip()
 secret_key = auth_key_lines[2].strip()
 
-security = EsiSecurity(
+# load esi latest
+app_latest = EsiApp().get_latest_swagger
+print(f'{KIN3_common.timestamp()} : EsiApp latest loaded')
+
+security_latest = EsiSecurity(
 	headers = {'User-Agent':'something'},
 	redirect_uri = redirect_uri,
 	client_id = client_id,
 	secret_key = secret_key
 )
-print(f'{KIN3_common.timestamp()} : EsiSecurity loaded')
+print(f'{KIN3_common.timestamp()} : EsiSecurity latest loaded')
 
-client = EsiClient(
+client_latest = EsiClient(
 	headers = {'User-Agent':'something'},
 	retry_requests = True,
 	header = {'User-Agent': 'Something CCP can use to contact you and that define your app'},
-	security = security
+	security = security_latest
 )
-print(f'{KIN3_common.timestamp()} : EsiClient loaded')
-print(f'{KIN3_common.timestamp()} : --------')
+print(f'{KIN3_common.timestamp()} : EsiClient latest loaded')
 
-esi_objects = (app, security, client)
+# load esi v2
+app_v2 = EsiApp().get_v2_swagger
+print(f'{KIN3_common.timestamp()} : EsiApp v2 loaded')
+
+security_v2 = EsiSecurity(
+	headers = {'User-Agent':'something'},
+	redirect_uri = redirect_uri,
+	client_id = client_id,
+	secret_key = secret_key
+)
+print(f'{KIN3_common.timestamp()} : EsiSecurity v2 loaded')
+
+client_v2 = EsiClient(
+	headers = {'User-Agent':'something'},
+	retry_requests = True,
+	header = {'User-Agent': 'Something CCP can use to contact you and that define your app'},
+	security = security_v2
+)
+print(f'{KIN3_common.timestamp()} : EsiClient v2 loaded')
+
+esi_latest = (app_latest, security_latest, client_latest)
+esi_v2 = (app_v2, security_v2, client_v2)
+print(f'{KIN3_common.timestamp()} : --------')
 
 bot_token_file = open('./bot_token.txt', 'r')
 bot_token_lines = bot_token_file.readlines()

@@ -1,7 +1,7 @@
 import KIN3_Esi
 
-def add_token(esi_objects, code, member_id, file_path = './esi_tokens.txt'):
-	app, security, client = esi_objects
+def add_token(esi, code, member_id, file_path = './esi_tokens.txt'):
+	app, security, client = esi
 
 	try:
 		token = security.auth(code)
@@ -42,14 +42,14 @@ def remove_auth(eve_char_object, file_path = './esi_tokens.txt'):
 
 	return None
 
-def filter_vailid_tokens(esi_objects, file_path = './esi_tokens.txt'):
+def filter_vailid_tokens(esi, file_path = './esi_tokens.txt'):
 	with open(file_path, 'r') as file:
 		readRines = file.readlines()
 
 	writeLines = []
 
 	for line in readRines:
-		if KIN3_Esi.eve_character(esi_objects, line.strip().split(":")).is_valid():
+		if KIN3_Esi.eve_character(esi, line.strip().split(":")).is_valid():
 			writeLines.append(line)
 
 	with open(file_path, 'w') as file:
@@ -89,17 +89,17 @@ def xup_selection_info(member, file_path = './esi_tokens.txt'):
 
 	return text
 
-def get_character_object(esi_objects, member, char_index = 0):
+def get_character_object(esi_latest, esi_v2, member, char_index = 0):
 	if char_index is None:
 		char_index = 0
 
 	characters_list = get_eve_characters(member.id)
 	if len(characters_list) > char_index:
-		return KIN3_Esi.eve_character(esi_objects, characters_list[char_index], member)
+		return KIN3_Esi.eve_character(esi_latest, characters_list[char_index], esi_v2, member)
 
 	return None
 
-async def process_char_index(esi_objects, member, char_index, channel, display_name, auth_embed):
+async def process_char_index(esi_latest, esi_v2, member, char_index, channel, display_name, auth_embed):
 	eve_char_object = None
 
 	auth_count = get_auth_count(member)
@@ -113,7 +113,7 @@ async def process_char_index(esi_objects, member, char_index, channel, display_n
 			await channel.send(xup_selection_info(member))
 			return None
 
-		eve_char_object = get_character_object(esi_objects, member, char_index)
+		eve_char_object = get_character_object(esi_latest, esi_v2, member, char_index)
 		if eve_char_object is None:
 			await channel.send(f'{display_name}, 에러가 발생했습니다. 관리자에게 문의해주세요\n에러코드: KIN3_database 101, character object init fail')
 			return None

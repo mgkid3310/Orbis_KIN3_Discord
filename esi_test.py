@@ -46,7 +46,7 @@ token
 security.update_token({
 	'access_token': '',
 	'expires_in': -1,
-	'refresh_token': '+iZdEcao/UG+6Apx2R5xYA=='
+	'refresh_token': 'Pc4C1iK6p0evpU3dBSkSwg=='
 })
 token = security.refresh()
 
