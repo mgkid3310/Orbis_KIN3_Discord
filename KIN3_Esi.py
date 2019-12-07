@@ -160,8 +160,14 @@ def check_server_status(esi):
 	except:
 		return {'error' : 'Esi operation failed'}
 
-def is_server_online(esi):
+def is_server_online(esi, force_check = False):
+	global is_tranquility_online
+	print(f'{log}, {is_tranquility_online}')
+	if (not is_tranquility_online) and (not force_check):
+		return False
+
 	status_data = check_server_status(esi)
 	online_status = 'players' in status_data
 
+	is_tranquility_online = online_status
 	return online_status

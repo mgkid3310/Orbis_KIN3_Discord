@@ -58,17 +58,18 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+	global server_list
+	global esi_latest
+	global esi_v2
+	global auth_embed
+	global auth_url
+
 	global keywords_auth
 	global keywords_auth_cancel
 	global keywords_dps
 	global keywords_snp
 	global keywords_logi
 	global keywords_cancel
-	global auth_embed
-	global server_list
-	global esi_latest
-	global esi_v2
-	global auth_url
 
 	if message.content == '':
 		return None
@@ -333,6 +334,12 @@ async def event_periodic_60s():
 	global esi_latest
 
 	while True:
+		# check server status
+		try:
+			KIN3_Esi.is_server_online(esi_latest, True)
+		except:
+			pass
+
 		# check token validities
 		try:
 			KIN3_database.filter_vailid_tokens(esi_latest)
@@ -415,6 +422,7 @@ auth_url = security_latest.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_sco
 auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 코드`'
 auth_embed = discord.Embed(title = '계정등록 링크', url = auth_url, description = auth_description)
 
+KIN3_Esi.is_tranquility_online = True
 server_list = KIN3_waitlist.server_list()
 periodic_1s_running = False
 periodic_60s_running = False
