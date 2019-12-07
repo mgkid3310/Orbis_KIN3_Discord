@@ -1,3 +1,4 @@
+import KIN3_common
 import KIN3_Esi
 import KIN3_database
 
@@ -169,6 +170,7 @@ class server_list:
 
 			text = '```markdown'
 			text += '\n# KIN3 Waitlist'
+			text += f'\nLast updated at {KIN3_common.timestamp_short()}'
 			text += f'\nDPS({self.waitcount_dps})' + ' ' * (width_dps - len(str(self.waitcount_dps)) - 5)
 			text += f'SNP({self.waitcount_snp})' + ' ' * (width_snp - len(str(self.waitcount_snp)) - 5)
 			text += f'LOGI({self.waitcount_logi})'

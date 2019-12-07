@@ -1,5 +1,11 @@
 import time
 
+def timestamp_short():
+	time_now = time.time()
+	timestamp = time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(time_now))
+
+	return timestamp
+
 def timestamp():
 	time_now = time.time()
 	timestamp = time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(time_now))
