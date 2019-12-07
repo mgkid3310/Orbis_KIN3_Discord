@@ -196,22 +196,28 @@ async def on_message(message):
 				result = waitlist.add_dps(eve_char_object)
 				if result > 0:
 					await channel.send(f'{display_name}({eve_char_object.name}) DPS로 x up, 대기번호 {waitlist.waitcount_dps}번')
-				else:
+				elif result == -1:
 					await channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
+				elif result == -2:
+					await channel.send(f'{eve_char_object.name}은 이미 플릿에 소속된 캐릭터입니다')
 
 			if len(keywords_snp.intersection(roles)) > 0:
 				result = waitlist.add_snp(eve_char_object)
 				if result > 0:
 					await channel.send(f'{display_name}({eve_char_object.name}) SNP로 x up, 대기번호 {waitlist.waitcount_snp}번')
-				else:
+				elif result == -1:
 					await channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
+				elif result == -2:
+					await channel.send(f'{eve_char_object.name}은 이미 플릿에 소속된 캐릭터입니다')
 
 			if len(keywords_logi.intersection(roles)) > 0:
 				result = waitlist.add_logi(eve_char_object)
 				if result > 0:
 					await channel.send(f'{display_name}({eve_char_object.name}) LOGI로 x up, 대기번호 {waitlist.waitcount_logi}번')
-				else:
+				elif result == -1:
 					await channel.send(f'{eve_char_object.name}은 이미 대기열에 있는 캐릭터입니다')
+				elif result == -2:
+					await channel.send(f'{eve_char_object.name}은 이미 플릿에 소속된 캐릭터입니다')
 
 			if len(keywords_cancel.intersection(roles)) > 0:
 				waitlist.remove_user(eve_char_object)

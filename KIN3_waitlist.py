@@ -16,28 +16,34 @@ class server_list:
 			self.request_list = []
 
 		def add_dps(self, eve_char_object):
-			if eve_char_object.char_id not in [x.char_id for x in self.waitlist_dps]:
+			if eve_char_object.char_id in [x.char_id for x in self.waitlist_dps]:
+				return -1
+ 			elif 'fleet_id' in eve_char_object.get_fleet():
+				return -2
+			else:
 				self.waitlist_dps.append(eve_char_object)
 				self.waitcount_dps += 1
 				return 1
-			else:
-				return -1
 
 		def add_snp(self, eve_char_object):
-			if eve_char_object.char_id not in [x.char_id for x in self.waitlist_snp]:
+			if eve_char_object.char_id in [x.char_id for x in self.waitlist_snp]:
+				return -1
+ 			elif 'fleet_id' in eve_char_object.get_fleet():
+				return -2
+			else:
 				self.waitlist_snp.append(eve_char_object)
 				self.waitcount_snp += 1
 				return 1
-			else:
-				return -1
 
 		def add_logi(self, eve_char_object):
-			if eve_char_object.char_id not in [x.char_id for x in self.waitlist_logi]:
+			if eve_char_object.char_id in [x.char_id for x in self.waitlist_logi]:
+				return -1
+ 			elif 'fleet_id' in eve_char_object.get_fleet():
+				return -2
+			else:
 				self.waitlist_logi.append(eve_char_object)
 				self.waitcount_logi += 1
 				return 1
-			else:
-				return -1
 
 		def remove_user(self, character):
 			self.waitlist_dps = [x for x in self.waitlist_dps if x.char_id != character.char_id]
