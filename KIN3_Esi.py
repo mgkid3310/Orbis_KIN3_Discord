@@ -1,12 +1,7 @@
 class eve_character:
-	def __init__(self, esi_latest, input, esi_v2 = None, member = None):
+	def __init__(self, input, member = None):
 		name, char_id, refresh_token, discord_id = input
 
-		if esi_v2 is None:
-			esi_v2 = esi_latest
-
-		self.esi_latest = esi_latest
-		self.esi_v2 = esi_v2
 		self.name = name
 		self.char_id = int(char_id)
 		self.refresh_token = refresh_token
@@ -20,9 +15,10 @@ class eve_character:
 		self.discord_member = member
 
 	def is_valid(self):
-		app, security, client = self.esi_latest
+		global esi_latest
+		app, security, client = esi_latest
 
-		if not is_server_online(self.esi_latest):
+		if not is_server_online(esi_latest):
 			return True
 
 		try:
@@ -37,9 +33,10 @@ class eve_character:
 			return False
 
 	def is_online(self):
-		app, security, client = self.esi_latest
+		global esi_latest
+		app, security, client = esi_latest
 
-		if not is_server_online(self.esi_latest):
+		if not is_server_online(esi_latest):
 			return False
 
 		try:
@@ -60,7 +57,8 @@ class eve_character:
 			return False
 
 	def get_location(self):
-		app, security, client = self.esi_latest
+		global esi_latest
+		app, security, client = esi_latest
 
 		if not self.is_online():
 			return {'error' : 'Character is not online'}
@@ -80,7 +78,8 @@ class eve_character:
 			return {'error' : 'Esi operation failed'}
 
 	def get_fitting(self):
-		app, security, client = self.esi_latest
+		global esi_latest
+		app, security, client = esi_latest
 
 		if not self.is_online():
 			return {'error' : 'Character is not online'}
@@ -100,7 +99,8 @@ class eve_character:
 			return {'error' : 'Esi operation failed'}
 
 	def get_fleet(self):
-		app, security, client = self.esi_v2
+		global esi_v2
+		app, security, client = esi_v2
 
 		if not self.is_online():
 			return {'error' : 'Character is not online'}
@@ -120,7 +120,8 @@ class eve_character:
 			return {'error' : 'Esi operation failed'}
 
 	def fleet_invite(self, characters):
-		app, security, client = self.esi_latest
+		global esi_latest
+		app, security, client = esi_latest
 
 		if not self.is_online():
 			return {'error' : 'Character is not online'}

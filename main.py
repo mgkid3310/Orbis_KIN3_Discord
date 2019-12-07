@@ -59,8 +59,6 @@ async def on_ready():
 @bot.event
 async def on_message(message):
 	global server_list
-	global esi_latest
-	global esi_v2
 	global auth_embed
 	global auth_url
 
@@ -117,7 +115,7 @@ async def on_message(message):
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_database.add_token(esi_latest, code, author.id)
+				return_message = KIN3_database.add_token(code, author.id)
 
 				if return_message == '':
 					await channel.send(f'{display_name}, 등록이 완료되었습니다')
@@ -166,7 +164,7 @@ async def on_message(message):
 		if words[0] in keywords_auth:
 			if len(words) > 1:
 				code = command_cap.split(' ')[1]
-				return_message = KIN3_database.add_token(esi_latest, code, author.id)
+				return_message = KIN3_database.add_token(code, author.id)
 
 				if return_message == '':
 					await channel.send(f'{display_name}, 등록이 완료되었습니다')
@@ -177,7 +175,7 @@ async def on_message(message):
 				return None
 
 		if len(keywords_auth_cancel.intersection(words)) > 0:
-			eve_char_object = await KIN3_database.process_char_index(esi_latest, esi_v2, author, char_index, channel, display_name, auth_embed)
+			eve_char_object = await KIN3_database.process_char_index(author, char_index, channel, display_name, auth_embed)
 			if eve_char_object is not None:
 				KIN3_database.remove_auth(eve_char_object)
 				await channel.send(f'{display_name}, 등록내역({eve_char_object.name})이 삭제되었습니다')
@@ -192,7 +190,7 @@ async def on_message(message):
 			waitlist.xup_channel = channel
 
 		if channel == waitlist.xup_channel:
-			eve_char_object = await KIN3_database.process_char_index(esi_latest, esi_v2, author, char_index, channel, display_name, auth_embed)
+			eve_char_object = await KIN3_database.process_char_index(author, char_index, channel, display_name, auth_embed)
 			if eve_char_object is None:
 				return None
 
@@ -238,7 +236,7 @@ async def on_message(message):
 			waitlist.xup_channel = channel
 
 		if channel == waitlist.xup_channel:
-			eve_char_object = await KIN3_database.process_char_index(esi_latest, esi_v2, author, char_index, channel, display_name, auth_embed)
+			eve_char_object = await KIN3_database.process_char_index(author, char_index, channel, display_name, auth_embed)
 			if eve_char_object is None:
 				return None
 
@@ -331,12 +329,10 @@ async def event_periodic_1s():
 		await asyncio.sleep(1)
 
 async def event_periodic_60s():
-	global esi_latest
-
 	while True:
 		# check server status
 		try:
-			KIN3_Esi.is_server_online(esi_latest, True)
+			KIN3_Esi.is_server_online(True)
 		except:
 			pass
 
@@ -395,8 +391,8 @@ client_v2 = EsiClient(
 )
 print(f'{KIN3_common.timestamp()} : EsiClient v2 loaded')
 
-esi_latest = (app_latest, security_latest, client_latest)
-esi_v2 = (app_v2, security_v2, client_v2)
+KIN3_Esi.esi_latest = (app_latest, security_latest, client_latest)
+KIN3_Esi.esi_v2 = (app_v2, security_v2, client_v2)
 print(f'{KIN3_common.timestamp()} : --------')
 
 bot_token_file = open('./bot_token.txt', 'r')
