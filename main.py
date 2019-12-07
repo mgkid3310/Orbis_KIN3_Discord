@@ -4,8 +4,8 @@ import discord
 import logging
 
 from esipy import EsiApp
-from esipy import EsiClient
 from esipy import EsiSecurity
+from esipy import EsiClient
 
 import KIN3_common
 import KIN3_Esi
