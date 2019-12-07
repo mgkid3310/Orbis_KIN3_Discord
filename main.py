@@ -356,18 +356,18 @@ app_latest = EsiApp().get_latest_swagger
 print(f'{KIN3_common.timestamp()} : EsiApp latest loaded')
 
 security_latest = EsiSecurity(
-	headers = {'User-Agent':'something'},
 	redirect_uri = redirect_uri,
 	client_id = client_id,
-	secret_key = secret_key
+	secret_key = secret_key,
+	headers = {'User-Agent' : 'something'}
 )
 print(f'{KIN3_common.timestamp()} : EsiSecurity latest loaded')
 
 client_latest = EsiClient(
-	headers = {'User-Agent':'something'},
+	security = security_latest,
 	retry_requests = True,
-	header = {'User-Agent': 'Something CCP can use to contact you and that define your app'},
-	security = security_latest
+	headers = {'User-Agent' : 'something'},
+	header = {'User-Agent' : 'something'}
 )
 print(f'{KIN3_common.timestamp()} : EsiClient latest loaded')
 
@@ -376,18 +376,18 @@ app_v2 = EsiApp().get_v2_swagger
 print(f'{KIN3_common.timestamp()} : EsiApp v2 loaded')
 
 security_v2 = EsiSecurity(
-	headers = {'User-Agent':'something'},
 	redirect_uri = redirect_uri,
 	client_id = client_id,
-	secret_key = secret_key
+	secret_key = secret_key,
+	headers = {'User-Agent' : 'something'}
 )
 print(f'{KIN3_common.timestamp()} : EsiSecurity v2 loaded')
 
 client_v2 = EsiClient(
-	headers = {'User-Agent':'something'},
+	security = security_v2,
 	retry_requests = True,
-	header = {'User-Agent': 'Something CCP can use to contact you and that define your app'},
-	security = security_v2
+	headers = {'User-Agent' : 'something'},
+	header = {'User-Agent' : 'something'}
 )
 print(f'{KIN3_common.timestamp()} : EsiClient v2 loaded')
 
