@@ -162,7 +162,7 @@ def check_server_status(esi):
 
 def is_server_online(esi, force_check = False):
 	global is_tranquility_online
-	print(f'{log}, {is_tranquility_online}')
+
 	if (not is_tranquility_online) and (not force_check):
 		return False
 
