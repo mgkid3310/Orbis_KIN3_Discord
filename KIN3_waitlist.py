@@ -61,13 +61,38 @@ class server_list:
 			self.waitlist_logi = [x for x in self.waitlist_logi if x.is_valid()]
 			self.waitcount_logi = len(self.waitlist_logi)
 
-		def filter_infleet_members(self):
-			self.waitlist_dps = [x for x in self.waitlist_dps if 'fleet_id' not in x.get_fleet()]
+		def filter_infleet_characters(self):
+			waitlist_dps_new = []
+			waitlist_snp_new = []
+			waitlist_logi_new = []
+			infleet_members = []
+
+			for character in self.waitlist_dps:
+				if 'fleet_id' in character.get_fleet():
+					infleet_members.append(character)
+				else:
+					waitlist_dps_new.append(character)
+
+			for character in self.waitlist_snp:
+				if 'fleet_id' in character.get_fleet():
+					infleet_members.append(character)
+				else:
+					waitlist_snp_new.append(character)
+
+			for character in self.waitlist_logi:
+				if 'fleet_id' in character.get_fleet():
+					infleet_members.append(character)
+				else:
+					waitlist_logi_new.append(character)
+
+			self.waitlist_dps = waitlist_dps_new
 			self.waitcount_dps = len(self.waitlist_dps)
-			self.waitlist_snp = [x for x in self.waitlist_snp if 'fleet_id' not in x.get_fleet()]
+			self.waitlist_snp = waitlist_snp_new
 			self.waitcount_snp = len(self.waitlist_snp)
-			self.waitlist_logi = [x for x in self.waitlist_logi if 'fleet_id' not in x.get_fleet()]
+			self.waitlist_logi = waitlist_logi_new
 			self.waitcount_logi = len(self.waitlist_logi)
+
+			return infleet_members
 
 		def reset_waitlist(self):
 			self.waitlist_dps = []

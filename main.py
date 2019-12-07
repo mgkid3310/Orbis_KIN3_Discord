@@ -298,7 +298,9 @@ async def event_periodic_1s():
 
 			# check fleet status
 			try:
-				waitlist.filter_infleet_members()
+				infleet_characters = waitlist.filter_infleet_characters()
+				for character in infleet_characters:
+					await waitlist.xup_channel.send(f'{character.name}이(가) 플릿에 소속되어 대기열에서 제외되었습니다')
 			except:
 				pass
 
