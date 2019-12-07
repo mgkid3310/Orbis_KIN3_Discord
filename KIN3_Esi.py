@@ -18,7 +18,7 @@ class eve_character:
 		global esi_latest
 		app, security, client = esi_latest
 
-		if not is_server_online(esi_latest):
+		if not is_server_online():
 			return True
 
 		try:
@@ -36,7 +36,7 @@ class eve_character:
 		global esi_latest
 		app, security, client = esi_latest
 
-		if not is_server_online(esi_latest):
+		if not is_server_online():
 			return False
 
 		try:
@@ -151,8 +151,9 @@ class eve_character:
 				except:
 					pass
 
-def check_server_status(esi):
-	app, security, client = esi
+def check_server_status():
+	global esi_latest
+	app, security, client = esi_latest
 
 	try:
 		operation = app.op['get_status']()
@@ -161,13 +162,13 @@ def check_server_status(esi):
 	except:
 		return {'error' : 'Esi operation failed'}
 
-def is_server_online(esi, force_check = False):
+def is_server_online(force_check = False):
 	global is_tranquility_online
 
 	if (not is_tranquility_online) and (not force_check):
 		return False
 
-	status_data = check_server_status(esi)
+	status_data = check_server_status()
 	online_status = 'players' in status_data
 
 	is_tranquility_online = online_status

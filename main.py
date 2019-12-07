@@ -338,7 +338,7 @@ async def event_periodic_60s():
 
 		# check token validities
 		try:
-			KIN3_database.filter_vailid_tokens(esi_latest)
+			KIN3_database.filter_vailid_tokens()
 		except:
 			pass
 
