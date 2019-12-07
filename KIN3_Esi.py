@@ -60,8 +60,8 @@ class eve_character:
 	def get_location(self):
 		app, security, client = self.esi_latest
 
-		if not self.is_valid():
-			return {'error' : 'Character is not valid'}
+		if not self.is_online():
+			return {'error' : 'Character is not online'}
 
 		security.update_token({
 			'access_token': '',
@@ -80,8 +80,8 @@ class eve_character:
 	def get_fitting(self):
 		app, security, client = self.esi_latest
 
-		if not self.is_valid():
-			return {'error' : 'Character is not valid'}
+		if not self.is_online():
+			return {'error' : 'Character is not online'}
 
 		security.update_token({
 			'access_token': '',
@@ -100,8 +100,8 @@ class eve_character:
 	def get_fleet(self):
 		app, security, client = self.esi_v2
 
-		if not self.is_valid():
-			return {'error' : 'Character is not valid'}
+		if not self.is_online():
+			return {'error' : 'Character is not online'}
 
 		security.update_token({
 			'access_token': '',
@@ -120,8 +120,8 @@ class eve_character:
 	def fleet_invite(self, characters):
 		app, security, client = self.esi_latest
 
-		if not self.is_valid():
-			return {'error' : 'Character is not valid'}
+		if not self.is_online():
+			return {'error' : 'Character is not online'}
 
 		fleet_data = self.get_fleet()
 		if 'fleet_id' not in fleet_data:
