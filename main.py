@@ -15,6 +15,8 @@ import KIN3_socket
 
 # load bot
 bot = discord.Client()
+print(f'{KIN3_common.timestamp()} : Bot client loaded')
+print(f'{KIN3_common.timestamp()} : --------')
 
 # load logger
 '''logger = logging.getLogger('discord')
