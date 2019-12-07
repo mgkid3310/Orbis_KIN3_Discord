@@ -290,6 +290,12 @@ async def event_periodic_1s():
 			except:
 				pass
 
+			# check fleet status
+			try:
+				waitlist.filter_infleet_members()
+			except:
+				pass
+
 			# check request list
 			check_return = waitlist.check_requests()
 			if check_return is not None:

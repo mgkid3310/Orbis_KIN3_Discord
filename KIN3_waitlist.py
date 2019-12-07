@@ -55,6 +55,14 @@ class server_list:
 			self.waitlist_logi = [x for x in self.waitlist_logi if x.is_valid()]
 			self.waitcount_logi = len(self.waitlist_logi)
 
+		def filter_infleet_members(self):
+			self.waitlist_dps = [x for x in self.waitlist_dps if 'fleet_id' not in x.get_fleet()]
+			self.waitcount_dps = len(self.waitlist_dps)
+			self.waitlist_snp = [x for x in self.waitlist_snp if 'fleet_id' not in x.get_fleet()]
+			self.waitcount_snp = len(self.waitlist_snp)
+			self.waitlist_logi = [x for x in self.waitlist_logi if 'fleet_id' not in x.get_fleet()]
+			self.waitcount_logi = len(self.waitlist_logi)
+
 		def reset_waitlist(self):
 			self.waitlist_dps = []
 			self.waitcount_dps = 0
