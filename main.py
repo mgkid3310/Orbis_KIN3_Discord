@@ -323,7 +323,10 @@ async def event_periodic_60s():
 
 	while True:
 		# check token validities
-		KIN3_database.filter_vailid_tokens(esi_objects)
+		try:
+			KIN3_database.filter_vailid_tokens(esi_objects)
+		except:
+			pass
 
 		await asyncio.sleep(60)
 
