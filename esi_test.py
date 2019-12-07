@@ -1,6 +1,6 @@
 from esipy import EsiApp
-from esipy import EsiClient
 from esipy import EsiSecurity
+from esipy import EsiClient
 import KIN3_Esi
 
 app = EsiApp().get_latest_swagger
