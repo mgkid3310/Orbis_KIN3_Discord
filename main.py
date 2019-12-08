@@ -20,7 +20,7 @@ print(f'{KIN3_common.timestamp()} : Bot client loaded')
 print(f'{KIN3_common.timestamp()} : --------')
 
 # set logger
-esipy.client.LOGGER.setLevel(logger.CRITICAL)
+esipy.client.LOGGER.setLevel(logging.CRITICAL)
 
 '''logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
