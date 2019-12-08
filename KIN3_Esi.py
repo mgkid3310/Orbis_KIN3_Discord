@@ -177,6 +177,8 @@ def is_server_online(force_check = False):
 		print(f'{KIN3_common.timestamp()} : Tranquility server went offline')
 	if online_status and not is_tranquility_online:
 		print(f'{KIN3_common.timestamp()} : Tranquility server is now online')
+	if force_check and not is_tranquility_online:
+		print(f'{KIN3_common.timestamp()} : Tranquility server is yet offline')
 
 	is_tranquility_online = online_status
 	return online_status
