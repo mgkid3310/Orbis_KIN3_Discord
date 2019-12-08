@@ -183,6 +183,29 @@ async def on_message(message):
 				KIN3_database.remove_auth(eve_char_object)
 				await channel.send(f'{display_name}, 등록내역({eve_char_object.name})이 삭제되었습니다')
 
+		# if words[0] == 'hotcode':
+		# 	if author.id == admin_id:
+		# 		lines = command_cap.split('\n')
+		# 		if len(lines) > 1:
+		# 			if lines[1][:3] == '```':
+		# 				lines[1] = lines[1][3:]
+		# 			if lines[-1][-3:] == '```':
+		# 				lines[-1] = lines[-1][:-3]
+
+		# 			lines[0] = 'def hotfunc():'
+		# 			for index in range(1, len(lines)):
+		# 				lines[index] = '\t' + lines[index]
+
+		# 		try:
+		# 			hotcode = '\n'.join(lines)
+		# 			hotcode += '\nhotcode_return = hotfunc()'
+		# 			exec(hotcode)
+		# 			await channel.send(f'Code run complete, return: {hotcode_return}')
+		# 		except Exception as error:
+		# 			await channel.send(f'Code run fail, error: {error}')
+		# 	else:
+		# 		await channel.send(f'Hotcode can only be run by admin')
+
 	# x up
 	if prefix in ['x', 'ㅌ']:
 		roles = command.split()
@@ -392,6 +415,7 @@ print(f'{KIN3_common.timestamp()} : --------')
 bot_token_file = open('./bot_token.txt', 'r')
 bot_token_lines = bot_token_file.readlines()
 bot_token = bot_token_lines[0].strip()
+admin_id = int(bot_token_lines[1].strip())
 
 keywords_auth = {'auth', '인증', '등록'}
 keywords_auth_cancel = {'auth_cancel', '인증취소', '등록취소'}
