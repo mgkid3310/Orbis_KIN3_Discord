@@ -111,10 +111,10 @@ async def on_message(message):
 	display_name = author.display_name
 
 	if message.guild is None:
-		words = command.split(' ')
+		words = command.split()
 		if words[0] in keywords_auth:
 			if len(words) > 1:
-				code = command_cap.split(' ')[1]
+				code = command_cap.split()[1]
 				return_message = KIN3_database.add_token(code, author.id)
 
 				if return_message == '':
@@ -160,10 +160,10 @@ async def on_message(message):
 			waitlist.reset_request()
 			await channel.send('대기열 초기화')
 
-		words = command.split(' ')
+		words = command.split()
 		if words[0] in keywords_auth:
 			if len(words) > 1:
-				code = command_cap.split(' ')[1]
+				code = command_cap.split()[1]
 				return_message = KIN3_database.add_token(code, author.id)
 
 				if return_message == '':
@@ -182,7 +182,7 @@ async def on_message(message):
 
 	# x up
 	if prefix in ['x', 'ㅌ']:
-		roles = command.split(' ')
+		roles = command.split()
 		if not len((keywords_dps | keywords_snp | keywords_logi | keywords_cancel).intersection(roles)) > 0:
 			return None
 
@@ -227,7 +227,7 @@ async def on_message(message):
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
-		items = command.split(' ')
+		items = command.split()
 		roles = [''.join([x for x in item if not x.isdigit()]) for item in items]
 		if not len((keywords_dps | keywords_snp | keywords_logi | keywords_cancel).intersection(roles)) > 0:
 			return None
