@@ -140,12 +140,9 @@ async def on_message(message):
 	# c command
 	if prefix in ['c', 'ㅊ']:
 		if command in ['bot_exit', '봇_종료']:
-			#for server in server_list.waitlists:
-			#	if server.billboard_message is not None:
-			#		await server.billboard_message.delete()
-
-			await bot.logout()
-			await bot.close()
+			if author.id == admin_id:
+				await bot.logout()
+				await bot.close()
 
 		if command in ['billboard', '빌보드', '전광판']:
 			if waitlist.billboard_message is not None:
