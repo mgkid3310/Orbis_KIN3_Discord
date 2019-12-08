@@ -18,7 +18,9 @@ bot = discord.Client()
 print(f'{KIN3_common.timestamp()} : Bot client loaded')
 print(f'{KIN3_common.timestamp()} : --------')
 
-# load logger
+# set logger
+logging.getLogger('EsiClient').setLevel(logging.ERROR)
+
 '''logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
 handler = logging.FileHandler(filename='discord_kin3.log', encoding='utf-8', mode='w')
