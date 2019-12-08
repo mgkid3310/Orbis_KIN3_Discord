@@ -19,7 +19,7 @@ print(f'{KIN3_common.timestamp()} : Bot client loaded')
 print(f'{KIN3_common.timestamp()} : --------')
 
 # set logger
-logging.getLogger('EsiClient').setLevel(logging.ERROR)
+logging.getLogger('EsiClient').setLevel(logging.CRITICAL)
 
 '''logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
