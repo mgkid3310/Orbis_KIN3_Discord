@@ -3,6 +3,7 @@ import asyncio
 import discord
 import logging
 
+import esipy
 from esipy import EsiApp
 from esipy import EsiSecurity
 from esipy import EsiClient
@@ -19,7 +20,7 @@ print(f'{KIN3_common.timestamp()} : Bot client loaded')
 print(f'{KIN3_common.timestamp()} : --------')
 
 # set logger
-logging.getLogger('EsiClient').setLevel(logging.CRITICAL)
+esipy.client.LOGGER.setLevel(logger.CRITICAL)
 
 '''logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
