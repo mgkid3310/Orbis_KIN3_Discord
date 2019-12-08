@@ -62,6 +62,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
 	global server_list
+	global admin_id
 	global auth_embed
 	global auth_url
 
@@ -183,28 +184,47 @@ async def on_message(message):
 				KIN3_database.remove_auth(eve_char_object)
 				await channel.send(f'{display_name}, 등록내역({eve_char_object.name})이 삭제되었습니다')
 
-		# if words[0] == 'hotcode':
-		# 	if author.id == admin_id:
-		# 		lines = command_cap.split('\n')
-		# 		if len(lines) > 1:
-		# 			if lines[1][:3] == '```':
-		# 				lines[1] = lines[1][3:]
-		# 			if lines[-1][-3:] == '```':
-		# 				lines[-1] = lines[-1][:-3]
+		if words[0] == 'hotcode':
+			if author.id == admin_id:
+				lines = command_cap.split('\n')
+				if len(lines) == 1:
+					lines = [' '.join(command_cap.split(' ')[1:])]
 
-		# 			lines[0] = 'def hotfunc():'
-		# 			for index in range(1, len(lines)):
-		# 				lines[index] = '\t' + lines[index]
+					if lines[0][:3] == '```':
+						lines[0] = lines[0][3:]
+					elif lines[0][:1] == '`':
+						lines[0] = lines[0][1:]
 
-		# 		try:
-		# 			hotcode = '\n'.join(lines)
-		# 			hotcode += '\nhotcode_return = hotfunc()'
-		# 			exec(hotcode)
-		# 			await channel.send(f'Code run complete, return: {hotcode_return}')
-		# 		except Exception as error:
-		# 			await channel.send(f'Code run fail, error: {error}')
-		# 	else:
-		# 		await channel.send(f'Hotcode can only be run by admin')
+					if lines[0][-3:] == '```':
+						lines[0] = lines[0][:-3]
+					elif lines[0][-1:] == '`':
+						lines[0] = lines[0][:-1]
+				else:
+					lines = lines[1:]
+
+					if lines[0][:3] == '```':
+						lines[0] = lines[0][3:]
+					elif lines[0][:1] == '`':
+						lines[0] = lines[0][1:]
+
+					if lines[-1][-3:] == '```':
+						lines[-1] = lines[-1][:-3]
+					elif lines[-1][-1:] == '`':
+						lines[-1] = lines[-1][:-1]
+
+				hotcode = 'def hotfunc():'
+				for line in lines:
+					hotcode += '\n\t' + line
+				hotcode += '\nKIN3_common.hotcode_return = hotfunc()'
+
+				try:
+					KIN3_common.hotcode_return = None
+					exec(hotcode)
+					await channel.send(f'Code run complete, return: {KIN3_common.hotcode_return}')
+				except Exception as error:
+					await channel.send(f'Code run fail, error: {error}')
+			else:
+				await channel.send(f'Hotcode can only be run by admin')
 
 	# x up
 	if prefix in ['x', 'ㅌ']:
