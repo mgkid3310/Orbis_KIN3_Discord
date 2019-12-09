@@ -31,7 +31,7 @@ logger.addHandler(handler)'''
 # define event & functions
 @bot.event
 async def on_ready():
-	global periodic_1s_running
+	global periodic_5s_running
 	global periodic_60s_running
 	global tcp_server
 
@@ -41,10 +41,10 @@ async def on_ready():
 	print(f'{KIN3_common.timestamp()} : id : {bot.user.id}')
 
 	# start periodic bot loop
-	if not periodic_1s_running:
-		periodic_1s_running = True
-		bot.loop.create_task(event_periodic_1s())
-		print(f'{KIN3_common.timestamp()} : 1s periodic bot event added')
+	if not periodic_5s_running:
+		periodic_5s_running = True
+		bot.loop.create_task(event_periodic_5s())
+		print(f'{KIN3_common.timestamp()} : 5s periodic bot event added')
 
 	if not periodic_60s_running:
 		periodic_60s_running = True
@@ -330,10 +330,16 @@ async def on_message(message):
 						waitlist.add_request(eve_char_object, request_dps, request_snp, request_logi)
 						await channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
 
-async def event_periodic_1s():
+async def event_periodic_5s():
 	global server_list
 
 	while True:
+		# check server status
+		try:
+			KIN3_Esi.is_server_online(True)
+		except:
+			pass
+
 		for waitlist in server_list.waitlists:
 			# check token validities
 			try:
@@ -373,12 +379,6 @@ async def event_periodic_1s():
 
 async def event_periodic_60s():
 	while True:
-		# check server status
-		try:
-			KIN3_Esi.is_server_online(True)
-		except:
-			pass
-
 		# check token validities
 		try:
 			KIN3_database.filter_vailid_tokens()
@@ -455,7 +455,7 @@ auth_embed = discord.Embed(title = '계정등록 링크', url = auth_url, descri
 
 KIN3_Esi.is_tranquility_online = True
 server_list = KIN3_waitlist.server_list()
-periodic_1s_running = False
+periodic_5s_running = False
 periodic_60s_running = False
 tcp_server = None
 
