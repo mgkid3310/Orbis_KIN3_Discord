@@ -375,7 +375,7 @@ async def event_periodic_5s():
 				except:
 					pass
 
-		await asyncio.sleep(1)
+		await asyncio.sleep(5)
 
 async def event_periodic_60s():
 	while True:
