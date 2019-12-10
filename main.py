@@ -427,6 +427,11 @@ print(f'{KIN3_common.timestamp()} : EsiClient v2 loaded')
 
 KIN3_Esi.esi_latest = (app_latest, security, client_latest)
 KIN3_Esi.esi_v2 = (app_v2, security, client_v2)
+KIN3_Esi.is_tranquility_online = 'players' in KIN3_Esi.check_server_status()
+if KIN3_Esi.is_tranquility_online:
+	print(f'{KIN3_common.timestamp()} : Tranquility server is online')
+else:
+	print(f'{KIN3_common.timestamp()} : Tranquility server is offline')
 print(f'{KIN3_common.timestamp()} : --------')
 
 bot_token_file = open('./bot_token.txt', 'r')
@@ -453,7 +458,6 @@ auth_url = security.get_auth_uri(state = 'KIN3_FC_Auth', scopes = esi_scopes)
 auth_description = 'EVE 계정과 KIN3 대기열 봇을 연결\n인증명령어: `ㅊ인증 코드`'
 auth_embed = discord.Embed(title = '계정등록 링크', url = auth_url, description = auth_description)
 
-KIN3_Esi.is_tranquility_online = True
 server_list = KIN3_waitlist.server_list()
 periodic_5s_running = False
 periodic_60s_running = False
