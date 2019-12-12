@@ -33,7 +33,7 @@ logger.addHandler(handler)'''
 async def on_ready():
 	global periodic_5s_running
 	global periodic_60s_running
-	global tcp_server
+	global tcp_server_online
 
 	await bot.change_presence(activity = discord.Game(name = 'KIN3', type = 1))
 	print(f'{KIN3_common.timestamp()} : Bot logged in as')
@@ -54,7 +54,7 @@ async def on_ready():
 	print(f'{KIN3_common.timestamp()} : --------')
 
 	# start tcp server
-	tcp_server = await KIN3_socket.start_tcp_server(bot.loop, tcp_server)
+	tcp_server_online = await KIN3_socket.start_tcp_server(bot.loop, tcp_server_online)
 
 	# tcp connection test
 	# await KIN3_socket.test_tcp_server()
@@ -461,7 +461,7 @@ auth_embed = discord.Embed(title = '계정등록 링크', url = auth_url, descri
 server_list = KIN3_waitlist.server_list()
 periodic_5s_running = False
 periodic_60s_running = False
-tcp_server = None
+tcp_server_online = False
 
 print(f'{KIN3_common.timestamp()} : Starting bot')
 bot.run(bot_token)
