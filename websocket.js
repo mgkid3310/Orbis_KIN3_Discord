@@ -1,20 +1,23 @@
-function useModule(url, callback, parameter) {
-	var script = $w.Document.createElement('script');
-	script.src = url;
-	script.onload = callback;
-	script.parameter = parameter;
-	$w.Document.getElementsByTagName('head')[0].appendChild(script);
+$w.onReady(function () {
+	$w('#html1').onMessage((event) => {
+		$w('#text6').text = event.data
+	});
+
+	$w('#html1').postMessage('req_update');
+});
+
+export function button2_click(event) {
+	//Add your code for this event here:
 }
 
-function useSocket(callback, parameter) {
-	useModule('https://cdn.socket.io/socket.io-1.0.0.js', callback, parameter);
+export function button5_click(event) {
+	//Add your code for this event here:
 }
 
-var send_tcp = function() {
-	var socket = io.connect('https://118.33.133.53:2401/', {transports: ['websocket']});
-	if(socket !== null && socket !== undefined){
-		socket.emit('sMsg', this.parameter);
-	}
+export function button6_click(event) {
+	$w('#html1').postMessage('req_update');
 }
 
-useSocket(send_tcp, 'test send message');
+export function button7_click(event) {
+	//Add your code for this event here:
+}
