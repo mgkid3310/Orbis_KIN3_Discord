@@ -139,10 +139,13 @@ async def on_message(message):
 
 	# c command
 	if prefix in ['c', 'ㅊ']:
-		if command in ['bot_exit', '봇_종료']:
+		if command == 'shutdown':
 			if author.id == admin_id:
+				await channel.send(f'Bot is now shutting down')
 				await bot.logout()
 				await bot.close()
+			else:
+				await channel.send(f'Shutdown can only be done by admin')
 
 		if command in ['billboard', '빌보드', '전광판']:
 			if waitlist.billboard_message is not None:
