@@ -1,35 +1,38 @@
 from esipy import EsiApp
 from esipy import EsiSecurity
 from esipy import EsiClient
+import KIN3_common
 import KIN3_Esi
 
-app = EsiApp().get_latest_swagger
-print('EsiApp loaded')
+app_latest = EsiApp().get_latest_swagger
+print(f'{KIN3_common.timestamp()} : EsiApp latest loaded')
 
-auth_key_file = open('./esi_auth_key.txt', 'r')
-auth_key_lines = auth_key_file.readlines()
-redirect_uri = auth_key_lines[0].strip()
-client_id = auth_key_lines[1].strip()
-secret_key = auth_key_lines[2].strip()
+app_v1 = EsiApp().get_v1_swagger
+print(f'{KIN3_common.timestamp()} : EsiApp v1 loaded')
+
+app_v2 = EsiApp().get_v2_swagger
+print(f'{KIN3_common.timestamp()} : EsiApp v2 loaded')
 
 security = EsiSecurity(
-	headers = {'User-Agent':'something'},
 	redirect_uri = redirect_uri,
 	client_id = client_id,
-	secret_key = secret_key
+	secret_key = secret_key,
+	headers = {'User-Agent' : 'something'}
 )
-print('EsiSecurity loaded')
+print(f'{KIN3_common.timestamp()} : EsiSecurity loaded')
 
 client = EsiClient(
-	headers = {'User-Agent':'something'},
+	security = security,
 	retry_requests = True,
-	header = {'User-Agent': 'Something CCP can use to contact you and that define your app'},
-	security = security
+	headers = {'User-Agent' : 'something'},
+	header = {'User-Agent' : 'something'}
 )
-print('EsiClient loaded')
+print(f'{KIN3_common.timestamp()} : EsiClient loaded')
 
-esi_objects = (app, security, client)
-print('--------')
+esi_latest = (app_latest, security, client)
+esi_v1 = (app_v1, security, client)
+esi_v2 = (app_v2, security, client)
+print(f'{KIN3_common.timestamp()} : --------')
 
 #%%
 if token['expires_in'] < 1200:
@@ -51,7 +54,7 @@ security.update_token({
 token = security.refresh()
 
 #%%
-operation = app.op['get_status']()
+operation = app_latest.op['get_status']()
 client.request(operation).data
 
 #%%
@@ -59,9 +62,17 @@ server_status = KIN3_Esi.check_server_status(esi_objects)
 'players' in server_status
 
 #%%
-operation = app.op['get_characters_character_id_fittings'](character_id = '97199391')
+operation = app_latest.op['get_characters_character_id_fittings'](character_id = '97199391')
 client.request(operation).data
 
 #%%
-operation = app.op['get_characters_character_id_fleet'](character_id = '97199391')
-'fleet_id' in client.request(operation).data
+operation = app_v2.op['get_characters_character_id_fleet'](character_id = '97199391')
+fleet_id = client.request(operation).data['fleet_id']
+fleet_id
+
+#%%
+invitation = {
+	"character_id": 93661777,
+	"role": "squad_member"
+}
+operation = app_v1.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
