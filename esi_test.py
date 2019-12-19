@@ -13,6 +13,12 @@ print(f'{KIN3_common.timestamp()} : EsiApp v1 loaded')
 app_v2 = EsiApp().get_v2_swagger
 print(f'{KIN3_common.timestamp()} : EsiApp v2 loaded')
 
+auth_key_file = open('./esi_auth_key.txt', 'r')
+auth_key_lines = auth_key_file.readlines()
+redirect_uri = auth_key_lines[0].strip()
+client_id = auth_key_lines[1].strip()
+secret_key = auth_key_lines[2].strip()
+
 security = EsiSecurity(
 	redirect_uri = redirect_uri,
 	client_id = client_id,
