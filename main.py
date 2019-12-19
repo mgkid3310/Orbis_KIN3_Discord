@@ -150,6 +150,8 @@ async def on_message(message):
 			else:
 				await channel.send(f'Shutdown can only be done by admin')
 
+			return None
+
 		if command in ['billboard', '빌보드', '전광판']:
 			if waitlist.billboard_message is not None:
 			#	await waitlist.billboard_message.delete()
@@ -157,15 +159,18 @@ async def on_message(message):
 
 			#await message.delete()
 			await channel.send('init_billboard')
+			return None
 
 		if command in ['xup', '엑스업']:
 			waitlist.xup_channel = channel
 			await channel.send('현재 채널을 엑스업 채널로 지정')
+			return None
 
 		if command in ['reset', '리셋', '초기화']:
 			waitlist.reset_waitlist()
 			waitlist.reset_request()
 			await channel.send('대기열 초기화')
+			return None
 
 		words = command.split()
 		if words[0] in keywords_auth:
@@ -179,13 +184,16 @@ async def on_message(message):
 					await channel.send(f'에러가 발생했습니다, 관리자에게 문의해주세요\n에러코드: {return_message}')
 			else:
 				await channel.send(embed = auth_embed)
-				return None
+
+			return None
 
 		if len(keywords_auth_cancel.intersection(words)) > 0:
 			eve_char_object = await KIN3_database.process_char_index(author, char_index, channel, display_name, auth_embed)
 			if eve_char_object is not None:
 				KIN3_database.remove_auth(eve_char_object)
 				await channel.send(f'{display_name}, 등록내역({eve_char_object.name})이 삭제되었습니다')
+
+			return None
 
 		if words[0] == 'hotcode':
 			if author.id == admin_id:
@@ -228,6 +236,10 @@ async def on_message(message):
 					await channel.send(f'Code run fail, error: {error}')
 			else:
 				await channel.send(f'Hotcode can only be run by admin')
+
+			return None
+
+		return None
 
 	# x up
 	if prefix in ['x', 'ㅌ']:
@@ -273,6 +285,8 @@ async def on_message(message):
 			if len(keywords_cancel.intersection(roles)) > 0:
 				waitlist.remove_user(eve_char_object)
 				await channel.send(f'{display_name}({eve_char_object.name}) 대기열에서 퇴장')
+
+		return None
 
 	# z pull
 	if prefix in ['z', 'ㅋ']:
@@ -335,6 +349,8 @@ async def on_message(message):
 					else:
 						waitlist.add_request(eve_char_object, request_dps, request_snp, request_logi)
 						await channel.send('대기중인 인원 부족, 인원이 차면 알림이 갑니다')
+
+		return None
 
 async def event_periodic_5s():
 	global server_list
