@@ -110,6 +110,9 @@ async def on_message(message):
 	if prefix not in ['c', 'x', 'z', 'ㅊ', 'ㅌ', 'ㅋ']:
 		return None
 
+	if command_cap == '':
+		return None
+
 	author = message.author
 	channel = message.channel
 	display_name = author.display_name
