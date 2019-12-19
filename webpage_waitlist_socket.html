@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<style>
+		</style>
+		<script type='text/javascript' src='//cdn.socket.io/socket.io-1.0.0.js'></script>
+		<script type='text/javascript'>
+			window.onload = function(){
+				var socket = io.connect('https://118.33.133.53:2401/', {transports: ['websocket']});
+				if(socket != null && socket != undefined){
+					socket.on('rMsg', function(data){
+						window.parent.postMessage(data, '*');
+					});
+				}
+			};
+			window.onmessage = (event) => {
+				if (event.data) {
+					window.parent.postMessage(String(Date.now()), '*');
+					socket.emit(event.data);
+				}
+			};
+		</script>
+	</head>
+</html>
