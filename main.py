@@ -420,6 +420,9 @@ secret_key = auth_key_lines[2].strip()
 app_latest = EsiApp().get_latest_swagger
 print(f'{KIN3_common.timestamp()} : EsiApp latest loaded')
 
+app_v1 = EsiApp().get_v1_swagger
+print(f'{KIN3_common.timestamp()} : EsiApp v1 loaded')
+
 app_v2 = EsiApp().get_v2_swagger
 print(f'{KIN3_common.timestamp()} : EsiApp v2 loaded')
 
@@ -431,24 +434,17 @@ security = EsiSecurity(
 )
 print(f'{KIN3_common.timestamp()} : EsiSecurity loaded')
 
-client_latest = EsiClient(
+client = EsiClient(
 	security = security,
 	retry_requests = True,
 	headers = {'User-Agent' : 'something'},
 	header = {'User-Agent' : 'something'}
 )
-print(f'{KIN3_common.timestamp()} : EsiClient latest loaded')
+print(f'{KIN3_common.timestamp()} : EsiClient loaded')
 
-client_v2 = EsiClient(
-	security = security,
-	retry_requests = True,
-	headers = {'User-Agent' : 'something'},
-	header = {'User-Agent' : 'something'}
-)
-print(f'{KIN3_common.timestamp()} : EsiClient v2 loaded')
-
-KIN3_Esi.esi_latest = (app_latest, security, client_latest)
-KIN3_Esi.esi_v2 = (app_v2, security, client_v2)
+KIN3_Esi.esi_latest = (app_latest, security, client)
+KIN3_Esi.esi_v1 = (app_v1, security, client)
+KIN3_Esi.esi_v2 = (app_v2, security, client)
 KIN3_Esi.is_tranquility_online = 'players' in KIN3_Esi.check_server_status()
 if KIN3_Esi.is_tranquility_online:
 	print(f'{KIN3_common.timestamp()} : Tranquility server is online')
