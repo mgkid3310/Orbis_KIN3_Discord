@@ -1,81 +1,47 @@
 import time
-import asyncio
+import socket
 
 import KIN3_common
 import KIN3_Esi
 import KIN3_database
 import KIN3_waitlist
 
-async def start_tcp_server(loop, tcp_server = None):
+def start_tcp_server(loop, tcp_server_online = False):
 	print(f'{KIN3_common.timestamp()} : Starting TCP server')
 
-	if tcp_server is not None:
+	if tcp_server_online:
 		print(f'{KIN3_common.timestamp()} : Server already existing')
 		print(f'{KIN3_common.timestamp()} : --------')
-		return tcp_server
+		return tcp_server_online
 
 	print(f'{KIN3_common.timestamp()} : No server existing')
 	with open('./tcp_setup.txt', 'r') as file:
 		readRines = file.readlines()
 
-	tcp_server_ip = readRines[0].strip().split(':')
-	tcp_server = await asyncio.start_server(handle_tcp_inbound, tcp_server_ip[0], tcp_server_ip[1])
-	tcp_addr = tcp_server.sockets[0].getsockname()
-	print(f'{KIN3_common.timestamp()} : Server started on {tcp_addr}')
+	server_ip = readRines[0].strip().split(':')
+	server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+	server_socket.bind((server_ip[0], int(server_ip[1])))
+	server_socket.listen()
+
+	print(f'{KIN3_common.timestamp()} : Server started on {server_ip[0]}:{server_ip[1]}')
 	print(f'{KIN3_common.timestamp()} : Request handling started')
 	print(f'{KIN3_common.timestamp()} : --------')
 
-	loop.create_task(start_serve(tcp_server))
+	loop.create_task(tcp_server_loop(loop, server_socket))
 
-	return tcp_server
+	tcp_server_online = True
+	return tcp_server_online
 
-async def start_serve(tcp_server):
-	async with tcp_server:
-		await tcp_server.serve_forever()
+def tcp_server_loop(loop, server_socket):
+	while True:
+		client_socket, client_addr = server_socket.accept()
+		loop.create_task(tcp_handle_inbound(client_socket, client_addr))
 
-async def handle_tcp_inbound(reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
-	addr = writer.get_extra_info('peername')
-	print(f'{KIN3_common.timestamp()} : {addr}')
-	data = await reader.read()
-	message = data.decode()
-	# sock.getpeername()
+def tcp_handle_inbound(client_socket, client_addr):
+	while True:
+		message = client_socket.recv(1024).decode('ascii')
+		print(f'{client_addr} >> {message}')
+		client_socket.send(f'{KIN3_common.timestamp()} : message inbound check'.encode('ascii'))
 
-	print(f'{KIN3_common.timestamp()} : [S]Received {message!r} from {addr!r}')
-	print(f'{KIN3_common.timestamp()} : [S]Echoing: {message!r}')
-	writer.write(data)
-	await writer.drain()
-
-	print(f'{KIN3_common.timestamp()} : [S]Close the connection')
-	writer.close()
-	await writer.wait_closed()
-
-async def test_tcp_server():
-	print(f'{KIN3_common.timestamp()} : Testing TCP server')
-
-	message = 'hello world apple banana'
-	fs = [asyncio.ensure_future(start_tcp_test_client(word)) for word in message.split()]
-	await asyncio.wait(fs, timeout = 4)
-	print(f'{KIN3_common.timestamp()} : TCP server test complete')
-	print(f'{KIN3_common.timestamp()} : --------')
-
-async def start_tcp_test_client(message: str):
-	reader: asyncio.StreamReader
-	writer: asyncio.StreamWriter
-
-	with open('./tcp_setup.txt', 'r') as file:
-		readRines = file.readlines()
-
-	tcp_server_ip = readRines[0].strip().split(':')
-	reader, writer = await asyncio.open_connection(tcp_server_ip[0], tcp_server_ip[1])
-
-	print(f'{KIN3_common.timestamp()} : [C]Connected')
-	writer.write(message.encode())
-	await writer.drain()
-	print(f'{KIN3_common.timestamp()} : [C]Send: {message!r}')
-
-	data = await reader.read()
-	print(f'{KIN3_common.timestamp()} : [C]Received: {data.decode()!r}')
-
-	print(f'{KIN3_common.timestamp()} : [C]Closing...')
-	writer.close()
-	await writer.wait_closed()
+	client_socket.close()
