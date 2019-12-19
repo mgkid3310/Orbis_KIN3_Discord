@@ -122,8 +122,8 @@ class eve_character:
 			return {'error' : 'Esi operation failed'}
 
 	def fleet_invite(self, characters):
-		global esi_latest
-		app, security, client = esi_latest
+		global esi_v1
+		app, security, client = esi_v1
 
 		if not self.is_online():
 			return {'error' : 'Character is not online'}
