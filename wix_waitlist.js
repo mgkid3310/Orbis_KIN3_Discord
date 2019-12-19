@@ -1,8 +1,7 @@
 import wixLocation from 'wix-location';
 import { fetch, getJSON } from 'wix-fetch';
+import { session } from 'wix-storage';
 import FormData from 'form-data';
-
-var discord_id = ''
 
 $w.onReady(function () {
 	$w('#html1').onMessage((event) => {
@@ -32,17 +31,24 @@ $w.onReady(function () {
 						authorization: `${info.token_type} ${info.access_token}`,
 					},
 				})
-				.then(data => discord_id = String(data.id))
+				.then(data => {
+					session.setItem('discord_id', String(data.id));
+					if (session.getItem('auth_code')) {
+						$w('#text8').text = session.getItem('auth_code') + ':' + String(data.id)
+						session.removeItem('auth_code')
+					}
+				})
 			)
+	}
+
+	if (session.getItem('auth_code') && session.getItem('discord_id')) {
+		$w('#text8').text = session.getItem('auth_code') + ':' + session.getItem('discord_id');
+		session.removeItem('auth_code');
 	}
 });
 
 export function button2_click(event) {
-	$w('#text8').text = discord_id;
-}
-
-export function button5_click(event) {
-	//Add your code for this event here:
+	$w('#text8').text = session.getItem('auth_code') + ':' + session.getItem('discord_id');
 }
 
 export function button6_click(event) {
