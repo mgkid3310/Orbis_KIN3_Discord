@@ -56,9 +56,6 @@ async def on_ready():
 	# start tcp server
 	tcp_server_online = await KIN3_socket.start_tcp_server(bot.loop, tcp_server_online)
 
-	# tcp connection test
-	# await KIN3_socket.test_tcp_server()
-
 @bot.event
 async def on_message(message):
 	global server_list
