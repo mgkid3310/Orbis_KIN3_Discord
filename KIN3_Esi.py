@@ -159,7 +159,7 @@ class eve_character:
 				}
 				operation = app.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
 				client.request(operation)
-			except :
+			except:
 				pass
 
 def check_server_status():
