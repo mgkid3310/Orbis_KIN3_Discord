@@ -127,8 +127,8 @@ class eve_character:
 		return in_fleet
 
 	def fleet_invite(self, characters):
-		global app_latest
-		app, security, client = app_latest
+		global esi_latest
+		app, security, client = esi_latest
 
 		if not self.is_online():
 			return {'error' : 'Character is not online'}
