@@ -121,9 +121,14 @@ class eve_character:
 		except:
 			return {'error' : 'Esi operation failed'}
 
+	def in_fleet(self):
+		in_fleet = 'fleet_id' in self.get_fleet()
+
+		return in_fleet
+
 	def fleet_invite(self, characters):
-		global esi_v1
-		app, security, client = esi_v1
+		global app_latest
+		app, security, client = app_latest
 
 		if not self.is_online():
 			return {'error' : 'Character is not online'}
@@ -142,14 +147,15 @@ class eve_character:
 		token = security.refresh()
 
 		for character in characters:
-			if character.is_online():
+			if character.is_online() and not character.in_fleet():
+				print(character.name)
 				try:
 					invitation = {
 						"character_id": character.char_id,
 						"role": "squad_member"
 					}
 					operation = app.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
-					invite_return = client.request(operation)
+					client.request(operation)
 				except:
 					pass
 

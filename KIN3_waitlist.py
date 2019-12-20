@@ -19,7 +19,7 @@ class server_list:
 		def add_dps(self, eve_char_object):
 			if eve_char_object.char_id in [x.char_id for x in self.waitlist_dps]:
 				return -1
-			elif 'fleet_id' in eve_char_object.get_fleet():
+			elif eve_char_object.in_fleet():
 				return -2
 			else:
 				self.waitlist_dps.append(eve_char_object)
@@ -29,7 +29,7 @@ class server_list:
 		def add_snp(self, eve_char_object):
 			if eve_char_object.char_id in [x.char_id for x in self.waitlist_snp]:
 				return -1
-			elif 'fleet_id' in eve_char_object.get_fleet():
+			elif eve_char_object.in_fleet():
 				return -2
 			else:
 				self.waitlist_snp.append(eve_char_object)
@@ -39,7 +39,7 @@ class server_list:
 		def add_logi(self, eve_char_object):
 			if eve_char_object.char_id in [x.char_id for x in self.waitlist_logi]:
 				return -1
-			elif 'fleet_id' in eve_char_object.get_fleet():
+			elif eve_char_object.in_fleet():
 				return -2
 			else:
 				self.waitlist_logi.append(eve_char_object)
@@ -69,19 +69,19 @@ class server_list:
 			infleet_members = []
 
 			for character in self.waitlist_dps:
-				if 'fleet_id' in character.get_fleet():
+				if character.in_fleet():
 					infleet_members.append(character)
 				else:
 					waitlist_dps_new.append(character)
 
 			for character in self.waitlist_snp:
-				if 'fleet_id' in character.get_fleet():
+				if character.in_fleet():
 					infleet_members.append(character)
 				else:
 					waitlist_snp_new.append(character)
 
 			for character in self.waitlist_logi:
-				if 'fleet_id' in character.get_fleet():
+				if character.in_fleet():
 					infleet_members.append(character)
 				else:
 					waitlist_logi_new.append(character)
