@@ -13,8 +13,8 @@ secret_key = auth_key_lines[2].strip()
 app_latest = EsiApp().get_latest_swagger
 print(f'{KIN3_common.timestamp()} : EsiApp latest loaded')
 
-app_v1 = EsiApp().get_v1_swagger
-print(f'{KIN3_common.timestamp()} : EsiApp v1 loaded')
+# app_v1 = EsiApp().get_v1_swagger
+# print(f'{KIN3_common.timestamp()} : EsiApp v1 loaded')
 
 app_v2 = EsiApp().get_v2_swagger
 print(f'{KIN3_common.timestamp()} : EsiApp v2 loaded')
@@ -36,7 +36,7 @@ client = EsiClient(
 print(f'{KIN3_common.timestamp()} : EsiClient loaded')
 
 esi_latest = (app_latest, security, client)
-esi_v1 = (app_v1, security, client)
+# esi_v1 = (app_v1, security, client)
 esi_v2 = (app_v2, security, client)
 print(f'{KIN3_common.timestamp()} : --------')
 
