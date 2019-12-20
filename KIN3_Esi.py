@@ -126,7 +126,7 @@ class eve_character:
 
 		return in_fleet
 
-	def fleet_invite(self, characters):
+	def fleet_invite(self, request_list):
 		global esi_latest
 		app, security, client = esi_latest
 
@@ -139,6 +139,11 @@ class eve_character:
 		else:
 			fleet_id = fleet_data['fleet_id']
 
+		invite_list = []
+		for character in request_list:
+			if character.is_online() and not character.in_fleet():
+				invite_list.append(character)
+
 		security.update_token({
 			'access_token': '',
 			'expires_in': -1,
@@ -146,18 +151,16 @@ class eve_character:
 		})
 		token = security.refresh()
 
-		for character in characters:
-			if character.is_online() and not character.in_fleet():
-				print(character.name)
-				try:
-					invitation = {
-						"character_id": character.char_id,
-						"role": "squad_member"
-					}
-					operation = app.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
-					client.request(operation)
-				except:
-					pass
+		for character in invite_list:
+			try:
+				invitation = {
+					'character_id': character.char_id,
+					'role': 'squad_member'
+				}
+				operation = app.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
+				client.request(operation)
+			except :
+				pass
 
 def check_server_status():
 	global esi_latest
