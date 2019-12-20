@@ -78,7 +78,8 @@ fleet_id
 
 #%%
 invitation = {
-	"character_id": 93661777,
-	"role": "squad_member"
+	'character_id': 2112354154,
+	'role': 'squad_member'
 }
-operation = app_v1.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
+operation = app_latest.op['post_fleets_fleet_id_members'](fleet_id = fleet_id, invitation = invitation)
+client.request(operation)
