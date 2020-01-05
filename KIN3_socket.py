@@ -1,4 +1,3 @@
-import time
 import socket
 
 import KIN3_common
