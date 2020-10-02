@@ -28,11 +28,11 @@ def add_token(code, member_id, file_path = './esi_tokens.txt'):
 
 def remove_auth(eve_char_object, file_path = './esi_tokens.txt'):
 	with open(file_path, 'r') as file:
-		readRines = file.readlines()
+		readLines = file.readlines()
 
 	writeLines = []
 
-	for line in readRines:
+	for line in readLines:
 		if int(line.strip().split(":")[1]) != eve_char_object.char_id:
 			writeLines.append(line)
 
@@ -44,11 +44,11 @@ def remove_auth(eve_char_object, file_path = './esi_tokens.txt'):
 
 def filter_vailid_tokens(file_path = './esi_tokens.txt'):
 	with open(file_path, 'r') as file:
-		readRines = file.readlines()
+		readLines = file.readlines()
 
 	writeLines = []
 
-	for line in readRines:
+	for line in readLines:
 		if KIN3_Esi.eve_character(KIN3_Esi.esi_latest, line.strip().split(":")).is_valid():
 			writeLines.append(line)
 
